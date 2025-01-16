@@ -9,7 +9,7 @@ import { PasswordChange } from "./components/forms/user/changePassword";
 import Category from "./components/pages/category";
 import About from "./components/pages/about";
 import { Toaster } from "react-hot-toast";
-import ChatComponent from "./components/pages/user/chat";
+// import ChatComponent from "./components/pages/user/chat";
 import ScrollToTop from "./ScrollToTop";
 import { Profile } from "./components/forms/user/userProfile";
 import EmailVerification from "./components/forms/user/emailVerification";
@@ -41,7 +41,7 @@ export const App: React.FC = React.memo(() => {
         <Route path="/user/changePassword" element={<PasswordChange />} />
         <Route path="/user/Category" element={<Category />} />
         <Route path="/about" element={<About />} />
-        <Route path="/chat" element={<ChatComponent/>} />
+        {/* <Route path="/chat" element={<ChatComponent/>} /> */}
         <Route path="/profile" element={<Profile/>} />
         <Route path="/user/emailVerification" element={<EmailVerification/>} />
         <Route path="/user/changepassword" element={<PasswordChange/>} />
