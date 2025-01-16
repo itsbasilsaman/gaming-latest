@@ -13,7 +13,7 @@ import { Toaster } from "react-hot-toast";
 import ScrollToTop from "./ScrollToTop";
 import { Profile } from "./components/forms/user/userProfile";
 import EmailVerification from "./components/forms/user/emailVerification";
-import { MainVerification } from "./components/forms/user/phoneVerification";
+// import { MainVerification } from "./components/forms/user/phoneVerification";
 import TopUpSection from "./components/pages/Topup/topupSection";
 import SellerPage from "./components/pages/Seller/sellerPage";
 import { MainDetails } from "./components/forms/user/mainDetails";
@@ -35,7 +35,7 @@ export const App: React.FC = React.memo(() => {
       <Route path='/' element={<WelcomePage/>} />
         <Route path="/user/login" element={<UserLogin />} />
         <Route path="/user/signup" element={<UserRegister/>} />
-        <Route path="/user/mainVerification" element={<MainVerification/>} />
+        {/* <Route path="/user/mainVerification" element={<MainVerification/>} /> */}
  
         <Route path="/user/register" element={<UserRegister />} />
         <Route path="/user/changePassword" element={<PasswordChange />} />
