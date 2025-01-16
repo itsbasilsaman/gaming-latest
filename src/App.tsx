@@ -16,7 +16,7 @@ import EmailVerification from "./components/forms/user/emailVerification";
 // import { MainVerification } from "./components/forms/user/phoneVerification";
 import TopUpSection from "./components/pages/Topup/topupSection";
 import SellerPage from "./components/pages/Seller/sellerPage";
-import { MainDetails } from "./components/forms/user/mainDetails";
+// import { MainDetails } from "./components/forms/user/mainDetails";
 import { Loading } from "./Loading";
  
  
@@ -47,7 +47,7 @@ export const App: React.FC = React.memo(() => {
         <Route path="/user/changepassword" element={<PasswordChange/>} />
         <Route path="/user/topup" element={<TopUpSection/>} />
         <Route path="/user/seller" element={<SellerPage/>} />
-        <Route path="/mainDetails" element={<MainDetails/>} />
+        {/* <Route path="/mainDetails" element={<MainDetails/>} /> */}
         {/* <Route path="/loading" element={<Loading/>} /> */}
         <Route path="/error" element={<Loading/>} />
       </Routes>
