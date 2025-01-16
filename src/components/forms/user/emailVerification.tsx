@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import BgImg from "../../../assets/Images/logo.png";
+// import BgImg from "../../../assets/Images/logo.png";
 
 const EmailVerification: React.FC = () => {
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
@@ -73,7 +73,7 @@ const EmailVerification: React.FC = () => {
       {/* Semi-transparent Overlay */}
       <div className="absolute inset-0 adminlogin-background">
         <div className="background-one relative inset-0 flex justify-center items-start pt-[60px]">
-          <img src={BgImg} alt="" className="w-[110px]" />
+          {/* <img src={BgImg} alt="" className="w-[110px]" /> */}
         </div>
         <div className="background-two bg-white"></div>
       </div>
