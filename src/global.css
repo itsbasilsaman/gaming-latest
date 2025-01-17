@@ -31,9 +31,12 @@ body {
 
 
 .header-inputbox {
-  
+  outline: none;
   background-color: transparent;
   border: none;
+}
+.header-inputbox:focus {
+  outline: none;
 }
 .header-input-section {
   border: 1px solid  rgba(255, 255, 255, 0.28);

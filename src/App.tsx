@@ -20,10 +20,6 @@ import SellerPage from "./components/pages/Seller/sellerPage";
 import { Loading } from "./Loading";
  
  
- 
- 
- 
-
 export const App: React.FC = React.memo(() => {
 
   return (
