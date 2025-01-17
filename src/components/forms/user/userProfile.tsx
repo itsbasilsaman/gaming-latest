@@ -57,6 +57,8 @@ export const Profile: React.FC = () => {
         View my profile as a Public
       </button>
 
+      
+
       {/* Membership Info */}
       <div className="text-center mb-4 text-sm text-gray-500">
         <p>Member since</p>
