@@ -2,7 +2,7 @@ import { FC, memo } from 'react';
 import HomeImg from '../../../assets/Images/homebg.png';
 
 import One from "../../../assets/Images/two.svg"
-import Two from '../../../assets/Images/two.svg';
+// import Two from '../../../assets/Images/two.svg';
 import Three from '../../../assets/Images/three.svg';
 import Four from '../../../assets/MainCardImages/payment.png';
 import Five from '../../../assets/MainCardImages/tabular-coin1.png';
@@ -24,7 +24,7 @@ export const Main: FC = memo(() => {
       name: 'Gift Cards',
     },
     {
-      img: Two,
+      img: Six,
       name: 'Games',
     },
     {
