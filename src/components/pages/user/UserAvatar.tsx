@@ -194,9 +194,11 @@ export const UserAvatar: React.FC = () => {
                       </div>
                     </li>
                     <li>
-                      <button className="w-full text-left text-sm primary-color hover:bg-gray-100 py-2 rounded-lg flex justifu-center items-center gap-[6px] px-4">
-                        <MdLogout className="text-[19px]" /> Log Out
-                      </button>
+                    <Link to={'/'}>
+                        <button className="w-full text-left text-sm primary-color hover:bg-gray-100 py-2 rounded-lg flex justifu-center items-center gap-[6px] px-4">
+                          <MdLogout className="text-[19px]" /> Log Out
+                        </button>
+                    </Link>
                     </li>
                   </ul>
                 </div>
