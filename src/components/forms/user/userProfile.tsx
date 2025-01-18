@@ -7,6 +7,7 @@ import LanguageSwitcher from '../../Header/LanguageSwitcher';
 import { SellerHeader } from '../../pages/Seller/sellerHeader';
 import { IoCameraOutline } from "react-icons/io5";
 import ProfileResponsive from './ProfileResponsive';
+import { Link } from 'react-router-dom';
 
 
 interface Country {
@@ -146,7 +147,7 @@ interface ApiCountry {
             <div className='absolute top-[120px] right-[450px] flex flex-col gap-[10px] justify-center items-center'>
               <img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-2130356-1800917.png" alt="" className='w-[200px]' />
               <h1 style={{ fontFamily: 'Unbounded' }} className='text-[22px]'>No Offers yet</h1>
-              <button className='text-white bg-blue-950 px-[18px] py-[10px] text-[18px] rounded-[8px]'>Start Selling</button>
+             <Link to={'/'}> <button className='text-white bg-blue-950 px-[18px] py-[10px] text-[18px] rounded-[8px]'>Start Selling</button></Link>
             </div>
         </div>
         <section className="absolute w-[380px] h-auto profile-section rounded-[14px] left-[140px] top-[60px] py-[25px] px-[26px] flex flex-col justify-start items-center gap-[30px]">

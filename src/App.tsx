@@ -9,6 +9,7 @@ const UserLogin = lazy(()=> import('./components/forms/user/userLogin'))
 const UserRegister = lazy(()=> import('./components/forms/user/userSignup'))
 const PasswordChange = lazy(()=> import('./components/forms/user/changePassword'))
 const Category = lazy(()=> import('./components/pages/category'))
+const ChatComponent = lazy(()=> import('./components/pages/user/chat'))
 const About = lazy(()=> import('./components/pages/about'))
 const Profile = lazy(()=> import('./components/forms/user/userProfile'))
 const EmailVerification = lazy(()=> import('./components/forms/user/emailVerification'))
@@ -16,7 +17,7 @@ const TopUpSection = lazy(()=> import('./components/pages/Topup/topupSection'))
 const SellerPage = lazy(()=> import('./components/pages/Seller/sellerPage'))
 
 
-// import ChatComponent from "./components/pages/user/chat";
+ 
 // import { MainVerification } from "./components/forms/user/phoneVerification";
 // import { MainDetails } from "./components/forms/user/mainDetails";
 // import UserLogin from './components/forms/user/userLogin';
@@ -39,7 +40,7 @@ export const App: React.FC = React.memo(() => {
         <Route path="/user/changePassword" element={<PasswordChange />} />
         <Route path="/user/Category" element={<Category />} />
         <Route path="/about" element={<About />} />
-        {/* <Route path="/chat" element={<ChatComponent/>} /> */}
+        <Route path="/chat" element={<ChatComponent/>} />
         <Route path="/profile" element={<Profile/>} />
         <Route path="/user/emailVerification" element={<EmailVerification/>} />
         <Route path="/user/changepassword" element={<PasswordChange/>} />
