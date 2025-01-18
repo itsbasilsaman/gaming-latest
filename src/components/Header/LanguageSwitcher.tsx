@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import   { useState } from 'react';
 
 const LanguageSwitcher = () => {
   const [language, setLanguage] = useState('en'); // Default language is English

@@ -30,6 +30,7 @@ body {
 /* Header  */
 
 
+
 .header-inputbox {
   outline: none;
   background-color: transparent;
@@ -503,6 +504,9 @@ button {
 @media(max-width:1240px){
   .header-input-section {
     width: 300px;
+  }
+  .modal-country-button {
+    display: none;
   }
  
 }
