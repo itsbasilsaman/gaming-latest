@@ -2,7 +2,8 @@
 import axios  from "axios";
 import { URL,config } from "../../../config/constants";
 
-import { LoginUser } from "../../../interfaces/user/userLoginInterfaces";
+import { ILoginUser } from "../../../interfaces/user/userLoginInterfaces";
+import { IVerifyOtp } from "../../../interfaces/user/userLoginInterfaces";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { UserSignup } from '../../../interfaces/user/userSignupInterface';
 
@@ -14,9 +15,24 @@ export const axiosIn = axios.create({
 
 
   export const loginUser = createAsyncThunk( "user/send-otp",
-    async (userCredentials:LoginUser,{rejectWithValue})=>{
+    async (userCredentials:ILoginUser,{rejectWithValue})=>{
         try {
-            const { data } = await axiosIn.post(`/user/send-otp`,userCredentials, config );
+            const data  = await axiosIn.post(`/send-otp`,userCredentials, config );
+            return data
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          } catch (error: any) {
+            if (error.response && error.response.data) {
+              return rejectWithValue(error.response.data.message);
+            } else {
+              return rejectWithValue({ message: "Something went wrong!" });
+            }
+          }
+    }
+  )
+  export const verifiyOtpUser = createAsyncThunk( "user/verify-otp",
+    async (userCredentials:IVerifyOtp,{rejectWithValue})=>{
+        try {
+            const { data } = await axiosIn.post(`/verify-otp`,userCredentials, config );
             return data.data;
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } catch (error: any) {

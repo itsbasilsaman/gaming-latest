@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
-// import BgImg from "../../../assets/Images/logo.png";
+import { verifiyOtpUser } from "../../../reduxKit/actions/auth/authAction";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../reduxKit/store";
+import Swal from "sweetalert2";
+import { IVerifyOtp } from "../../../interfaces/user/userLoginInterfaces";
 
 const EmailVerification: React.FC = () => {
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState<number>(60);
+  const dispatch: AppDispatch = useDispatch();
+  const { loading } = useSelector((state: RootState) => state.auth);
 
   // Handle OTP input change
   const handleInputChange = (value: string, index: number): void => {
@@ -55,7 +61,34 @@ const EmailVerification: React.FC = () => {
   const handleResend = (): void => {
     setTimer(60); // Reset timer
     setOtp(["", "", "", "", "", ""]); // Clear OTP inputs
-    alert("OTP Resent!"); // Simulate OTP resend
+    Swal.fire({
+      icon: "info",
+      title: "OTP Resent",
+      text: "A new OTP has been sent to your email!",
+    });
+  };
+
+  // Handle OTP submission
+  const handleSubmit = async (): Promise<void> => {
+    const otpCode = otp.join("");
+    const payload: IVerifyOtp = {
+      content: "Your content here", // Provide the appropriate content value
+      otp: otpCode,
+    };
+    try {
+      await dispatch(verifiyOtpUser(payload));
+      Swal.fire({
+        icon: "success",
+        title: "Verified!",
+        text: "Your email has been successfully verified.",
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Verification Failed",
+        text: (error as { message: string })?.message || "Failed to verify OTP. Please try again.",
+      });
+    }
   };
 
   return (
@@ -73,7 +106,7 @@ const EmailVerification: React.FC = () => {
       {/* Semi-transparent Overlay */}
       <div className="absolute inset-0 adminlogin-background">
         <div className="background-one relative inset-0 flex justify-center items-start pt-[60px]">
-          {/* <img src={BgImg} alt="" className="w-[110px]" /> */}
+          {/* Placeholder for logo */}
         </div>
         <div className="background-two bg-white"></div>
       </div>
@@ -119,7 +152,7 @@ const EmailVerification: React.FC = () => {
             <div className="flex justify-between">
               <button
                 className="px-4 py-2 font-semibold text-gray-700 bg-gray-200 rounded hover:bg-gray-300"
-                onClick={() => alert("Cancelled")}
+                onClick={() => Swal.fire("Cancelled", "OTP submission cancelled.", "info")}
               >
                 Cancel
               </button>
@@ -130,9 +163,9 @@ const EmailVerification: React.FC = () => {
                     ? "bg-gray-300 cursor-not-allowed"
                     : "bg-blue-500 hover:bg-blue-600"
                 }`}
-                onClick={() => alert(`Submitted OTP: ${otp.join("")}`)}
+                onClick={handleSubmit}
               >
-                Continue
+                {loading ? "Verifying ..." : "Verify"}
               </button>
             </div>
           </div>

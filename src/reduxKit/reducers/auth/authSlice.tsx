@@ -43,9 +43,10 @@ export const authSlice = createSlice({
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, { payload }) => {
+        console.log("user login payload", payload);
+        
         state.loading = false;
         state.error = null;
-        state.userData = payload;
         state.isLogged = true;
         localStorage.setItem("isLogged", JSON.stringify(state.isLogged));
         localStorage.setItem("user", JSON.stringify(state.userData));
