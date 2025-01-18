@@ -1,13 +1,8 @@
-// import { useState } from 'react';
-// import { FaEdit, FaUserEdit } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
 import LanguageSwitcher from '../../Header/LanguageSwitcher';
 // import DarkModeSwitcher from '../../Header/DerkModeSwitcher';
-import { SellerHeader } from '../../pages/Seller/sellerHeader';
-import { IoCameraOutline } from "react-icons/io5";
-import ProfileResponsive from './ProfileResponsive';
-
+ 
 
 interface Country {
   name: string;
@@ -21,146 +16,88 @@ interface ApiCountry {
   idd: { root?: string; suffixes?: string[] };
 }
 
-  const Profile: React.FC = () => {
+
+
+const ProfileResponsive = () => {
+
+
   const [profileImage, setProfileImage] = useState<string | null>(null);
-  const [coverImage, setCoverImage] = useState<string | null>(null);
-  const [isEditing, setIsEditing] = useState<string | null>(null);
-  const [formData, setFormData] = useState({
-    firstname: "Basil",
-    lastname: "Saman",
-    email: "basilsaman.connects@gmail.com",
-    gender: "Male",
-    dob: "1990-01-01",
-    description: "This is a dummy description. Click edit to modify.",
-    memberSince : "2024-12-22",
-    followers : '0',
-    following : '0' ,
-    successfulDelivery :'0%',
-    blockedUser : '0'
-  });
-  const [countries, setCountries] = useState<Country[]>([]);
-  const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
-
-  useEffect(() => {
-    fetch('https://restcountries.com/v3.1/all')
-      .then((res) => res.json())
-      .then((data: ApiCountry[]) => {
-        const formattedData = data.map((country) => ({
-          name: country.name.common,
-          flag: country.flags.svg,
-          dialCode: `${country.idd.root || ''}${country.idd.suffixes?.[0] || ''}`,
-        }));
-        setCountries(formattedData);
-      });
-  }, []);
-
-  const handleEditClick = (field: string) => {
-    setIsEditing(field);
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSaveClick = () => {
-    setIsEditing(null);
-    console.log(formData);
+    // const [coverImage, setCoverImage] = useState<string | null>(null);
+    const [isEditing, setIsEditing] = useState<string | null>(null);
+    const [formData, setFormData] = useState({
+      firstname: "Basil",
+      lastname: "Saman",
+      email: "basilsaman.connects@gmail.com",
+      gender: "Male",
+      dob: "1990-01-01",
+      description: "This is a dummy description. Click edit to modify.",
+      memberSince : "2024-12-22",
+      followers : '0',
+      following : '0' ,
+      successfulDelivery :'0%',
+      blockedUser : '0'
+    });
+    const [countries, setCountries] = useState<Country[]>([]);
+    const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
+  
+    useEffect(() => {
+      fetch('https://restcountries.com/v3.1/all')
+        .then((res) => res.json())
+        .then((data: ApiCountry[]) => {
+          const formattedData = data.map((country) => ({
+            name: country.name.common,
+            flag: country.flags.svg,
+            dialCode: `${country.idd.root || ''}${country.idd.suffixes?.[0] || ''}`,
+          }));
+          setCountries(formattedData);
+        });
+    }, []);
+  
+    const handleEditClick = (field: string) => {
+      setIsEditing(field);
+    };
+  
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      const { name, value } = e.target;
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+  
+    const handleSaveClick = () => {
+      setIsEditing(null);
+      console.log(formData);
+      
+    };
+  
+    const handleImageChange = (
+      e: React.ChangeEvent<HTMLInputElement>,
+      setImage: React.Dispatch<React.SetStateAction<string | null>>
+    ) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        const imageUrl = URL.createObjectURL(file); // Generate a temporary URL for the image
+        setImage(imageUrl); // Update the state with the new URL
+      }
+    };
     
-  };
+  
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, setImage: React.Dispatch<React.SetStateAction<string | null>>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl);
-    }
-  };
 
   return (
     <>
-        <div className='w-full h-[90px]'><SellerHeader/></div>
-      <div className="w-full h-[1500px] profile-main     relative">
-      <div
-  className="banner-section relative cover-photo"
-  style={{
-    background: coverImage
-      ? `url(${coverImage}) center/cover no-repeat`
-      : `url('https://wallpapers.com/images/hd/bright-white-background-lxi3evlbm4uih46l.jpg')`,
-  }}
->
- 
-  {!coverImage && (
-    <div className='flex flex-col  pr-[10px] relative'>
-      <h1 className='text-[21px] font-medium' style={{ fontFamily: 'Unbounded' }}>
-        Replace banner image
-      </h1>
-      <p className='text-[15px]'>Image dimension: 1920px x 200px</p>
-    </div>
-  )}
-
- {coverImage ? <div className="cover-pic-button  absolute right-[10px] bottom-[10px]">
-    <label
-      htmlFor="cover"
-      className="flex cursor-pointer items-center justify-center gap-2 rounded   py-1 px-2 text-sm font-medium text-primary hover:bg-opacity-90"
-    >
-      <input
-        type="file"
-        id="cover"
-        className="sr-only"
-        onChange={(e) => handleImageChange(e, setCoverImage)}
-      />
-      <span
-        className='text-white px-[10px] text-[21px] py-[10px] rounded-full'
-        style={{ backgroundColor: '#03042F' }}
-      >
-        <IoCameraOutline />
-      </span>
-    </label>
-  </div> : <div className="cover-pic-button   ">
-    <label
-      htmlFor="cover"
-      className="flex cursor-pointer items-center justify-center gap-2 rounded bg-white py-1 px-2 text-sm font-medium text-primary hover:bg-opacity-90"
-    >
-      <input
-        type="file"
-        id="cover"
-        className="sr-only"
-        onChange={(e) => handleImageChange(e, setCoverImage)}
-      />
-      <span
-        className='text-white px-[10px] text-[21px] py-[10px] rounded-full'
-        style={{ backgroundColor: '#03042F' }}
-      >
-        <IoCameraOutline />
-      </span>
-    </label>
-  </div>}
-</div>
-
-        <div className="main-section bg-white relative">
-
-            <div className='absolute top-[120px] right-[450px] flex flex-col gap-[10px] justify-center items-center'>
-              <img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-2130356-1800917.png" alt="" className='w-[200px]' />
-              <h1 style={{ fontFamily: 'Unbounded' }} className='text-[22px]'>No Offers yet</h1>
-              <button className='text-white bg-blue-950 px-[18px] py-[10px] text-[18px] rounded-[8px]'>Start Selling</button>
-            </div>
-        </div>
-        <section className="absolute w-[380px] h-auto profile-section rounded-[14px] left-[140px] top-[60px] py-[25px] px-[26px] flex flex-col justify-start items-center gap-[30px]">
-        <div className="">
-
+      <section className="lg:hidden block w-[100%] h-[100%] profile-section   py-[25px] px-[35px] flex flex-col justify-start items-center gap-[30px]">
+      <div className="">
       <div className="flex justify-center mb-4">
       <div className='  h-30     rounded-full bg-black/5 p-1 backdrop-blur   sm:p-3'>
           <div className="w-[115px] h-[115px] bg-red-500 text-white flex items-center justify-center rounded-full text-[55px] relative drop-shadow-2 ">
           {profileImage ? (
-                <img
-                  src={profileImage}
-                  alt="Profile"
-                  className="w-full h-full rounded-full object-cover"
-                />
-              ) : (
-                "B"
-              )}
+  <img
+    src={profileImage}
+    alt="Profile"
+    className="w-full h-full rounded-full object-cover"
+  />
+) : (
+  "B"
+)}
             <label
                   htmlFor="profile"
                   className="absolute bottom-0 right-0 flex h-8.5 w-8.5 cursor-pointer items-center justify-center rounded-full bg-black text-primary hover:bg-opacity-90 sm:bottom-2 sm:right-2 p-[8px]"
@@ -417,15 +354,12 @@ interface ApiCountry {
  
  
     
+    
+      
     </div>
-        </section>
-        
-      </div>
-
-      <ProfileResponsive/>
+      </section>
     </>
-  );
-};
+  )
+}
 
-export default Profile
- 
+export default ProfileResponsive
