@@ -3,7 +3,7 @@ import "react-phone-number-input/style.css";
 import { NavLink } from "react-router-dom";
 import { MdAccountCircle } from "react-icons/md";
 
-export const UserLogin: React.FC = React.memo(() => {
+  const UserLogin: React.FC = React.memo(() => {
   const [inputValue, setInputValue] = useState<string>(""); // Phone number or email input value
   const [countryCode, setCountryCode] = useState<string>("IN"); // Default country code
   const [inputType, setInputType] = useState<"email" | "phone" | null>(null); // Track the type of input
@@ -157,3 +157,5 @@ export const UserLogin: React.FC = React.memo(() => {
     </div>
   );
 });
+
+export default UserLogin

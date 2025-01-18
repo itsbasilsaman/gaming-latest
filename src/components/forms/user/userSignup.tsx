@@ -25,7 +25,7 @@ import { AppDispatch, RootState } from "../../../reduxKit/store";
 
 
 
-export const UserRegister: React.FC = () => {
+  const UserRegister: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const {loading}=useSelector((state:RootState)=>state.auth)
   const dispatch=useDispatch<AppDispatch>()
@@ -153,3 +153,6 @@ export const UserRegister: React.FC = () => {
     </div>
   );
 };
+
+
+export default UserRegister

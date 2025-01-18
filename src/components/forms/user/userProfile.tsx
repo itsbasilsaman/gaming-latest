@@ -5,6 +5,7 @@ import { FaEdit } from 'react-icons/fa';
 import LanguageSwitcher from '../../Header/LanguageSwitcher';
 // import DarkModeSwitcher from '../../Header/DerkModeSwitcher';
 import { SellerHeader } from '../../pages/Seller/sellerHeader';
+import { IoCameraOutline } from "react-icons/io5";
 
 
 interface Country {
@@ -19,7 +20,7 @@ interface ApiCountry {
   idd: { root?: string; suffixes?: string[] };
 }
 
-export const Profile: React.FC = () => {
+  const Profile: React.FC = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [coverImage, setCoverImage] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState<string | null>(null);
@@ -72,28 +73,62 @@ export const Profile: React.FC = () => {
         <div className='w-full h-[90px]'><SellerHeader/></div>
       <div className="w-full h-[1500px] profile-main     relative">
       <div
-        className="banner-section relative cover-photo"
-        style={{
-          background: coverImage
-            ? `url(${coverImage}) center/cover no-repeat`
-            : ' ',
-        }}
+  className="banner-section relative cover-photo"
+  style={{
+    background: coverImage
+      ? `url(${coverImage}) center/cover no-repeat`
+      : `url('https://wallpapers.com/images/hd/bright-white-background-lxi3evlbm4uih46l.jpg')`,
+  }}
+>
+ 
+  {!coverImage && (
+    <div className='flex flex-col  pr-[10px] relative'>
+      <h1 className='text-[21px] font-medium' style={{ fontFamily: 'Unbounded' }}>
+        Replace banner image
+      </h1>
+      <p className='text-[15px]'>Image dimension: 1920px x 200px</p>
+    </div>
+  )}
+
+ {coverImage ? <div className="cover-pic-button  absolute right-[10px] bottom-[10px]">
+    <label
+      htmlFor="cover"
+      className="flex cursor-pointer items-center justify-center gap-2 rounded   py-1 px-2 text-sm font-medium text-primary hover:bg-opacity-90"
+    >
+      <input
+        type="file"
+        id="cover"
+        className="sr-only"
+        onChange={(e) => handleImageChange(e, setCoverImage)}
+      />
+      <span
+        className='text-white px-[10px] text-[21px] py-[10px] rounded-full'
+        style={{ backgroundColor: '#03042F' }}
       >
-        <div className="absolute bottom-[10px] right-[10px] z-10">
-          <label
-            htmlFor="cover"
-            className="flex cursor-pointer items-center justify-center gap-2 rounded bg-white py-1 px-2 text-sm font-medium text-primary hover:bg-opacity-90"
-          >
-            <input
-              type="file"
-              id="cover"
-              className="sr-only"
-              onChange={(e) => handleImageChange(e, setCoverImage)}
-            />
-            <span>Edit</span>
-          </label>
-        </div>
-      </div>
+        <IoCameraOutline />
+      </span>
+    </label>
+  </div> : <div className="cover-pic-button   ">
+    <label
+      htmlFor="cover"
+      className="flex cursor-pointer items-center justify-center gap-2 rounded bg-white py-1 px-2 text-sm font-medium text-primary hover:bg-opacity-90"
+    >
+      <input
+        type="file"
+        id="cover"
+        className="sr-only"
+        onChange={(e) => handleImageChange(e, setCoverImage)}
+      />
+      <span
+        className='text-white px-[10px] text-[21px] py-[10px] rounded-full'
+        style={{ backgroundColor: '#03042F' }}
+      >
+        <IoCameraOutline />
+      </span>
+    </label>
+  </div>}
+</div>
+
         <div className="main-section bg-white"></div>
         <section className="absolute w-[370px] h-auto profile-section rounded-[14px] left-[140px] top-[60px] py-[25px] px-[26px] flex flex-col justify-start items-center gap-[30px]">
         <div className="">
@@ -705,4 +740,6 @@ export const Profile: React.FC = () => {
     </>
   );
 };
+
+export default Profile
  

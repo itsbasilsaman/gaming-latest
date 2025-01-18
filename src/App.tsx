@@ -1,23 +1,25 @@
 import React, { Fragment,Suspense,lazy } from "react";
 import { Routes, Route } from "react-router-dom";
-import { UserLogin } from "./components/forms/user/userLogin";
-import { UserRegister } from "./components/forms/user/userSignup";
-const WelcomePage = lazy(() => import("./components/pages/welcome"))
- 
- 
-import { PasswordChange } from "./components/forms/user/changePassword";
-import Category from "./components/pages/category";
-import About from "./components/pages/about";
 import { Toaster } from "react-hot-toast";
-// import ChatComponent from "./components/pages/user/chat";
 import ScrollToTop from "./ScrollToTop";
-import { Profile } from "./components/forms/user/userProfile";
-import EmailVerification from "./components/forms/user/emailVerification";
-// import { MainVerification } from "./components/forms/user/phoneVerification";
-import TopUpSection from "./components/pages/Topup/topupSection";
-import SellerPage from "./components/pages/Seller/sellerPage";
-// import { MainDetails } from "./components/forms/user/mainDetails";
 import { Loading } from "./Loading";
+
+const WelcomePage = lazy(() => import("./components/pages/welcome"))
+const UserLogin = lazy(()=> import('./components/forms/user/userLogin'))
+const UserRegister = lazy(()=> import('./components/forms/user/userSignup'))
+const PasswordChange = lazy(()=> import('./components/forms/user/changePassword'))
+const Category = lazy(()=> import('./components/pages/category'))
+const About = lazy(()=> import('./components/pages/about'))
+const Profile = lazy(()=> import('./components/forms/user/userProfile'))
+const EmailVerification = lazy(()=> import('./components/forms/user/emailVerification'))
+const TopUpSection = lazy(()=> import('./components/pages/Topup/topupSection'))
+const SellerPage = lazy(()=> import('./components/pages/Seller/sellerPage'))
+
+
+// import ChatComponent from "./components/pages/user/chat";
+// import { MainVerification } from "./components/forms/user/phoneVerification";
+// import { MainDetails } from "./components/forms/user/mainDetails";
+// import UserLogin from './components/forms/user/userLogin';
  
  
 export const App: React.FC = React.memo(() => {

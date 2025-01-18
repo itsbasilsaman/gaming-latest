@@ -480,6 +480,22 @@ button {
   background: linear-gradient(to top right, #04061a, #212987);
 }
 
+
+
+/* userProfile  */
+.banner-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: brightness(95%);
+ 
+}
+.banner-section:hover {
+   filter: brightness(80%);
+  cursor: pointer; 
+}
+ 
+
  
 @media(max-width:1240px){
   .header-input-section {
