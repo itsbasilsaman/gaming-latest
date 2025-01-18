@@ -1,16 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { loginAdmin } from "../../actions/auth/authAction";
+import { loginUser } from "../../actions/auth/authAction";
+import { SignupUser } from "../../actions/auth/authAction";
 
 export interface UserState {
-  userData: UserState | null;
+  userData: UserState | null; 
   error: string | null;
   loading: boolean;
-  role: null;
-  status?: string | null;
   isLogged: boolean;
   _id?: string | null;
 }
+
+
 
 
 const initialState: UserState = {
@@ -19,15 +20,9 @@ const initialState: UserState = {
     : null,
   error: null,
   loading: false,
-  role: localStorage.getItem("role")
-    ? JSON.parse(localStorage.getItem("role")!)
-    : null,
   isLogged: localStorage.getItem("isLogged")
     ? JSON.parse(localStorage.getItem("isLogged")!)
     : false,
-  status: localStorage.getItem("status")
-    ? JSON.parse(localStorage.getItem("status")!)
-    : null,
   _id: localStorage.getItem("_id")
     ? JSON.parse(localStorage.getItem("_id")!)
     : null,
@@ -43,32 +38,49 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-    .addCase(loginAdmin.pending, (state) => {
+    .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(loginAdmin.fulfilled, (state, { payload }) => {
+      .addCase(loginUser.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.error = null;
         state.userData = payload;
-        state.role = payload.role;
         state.isLogged = true;
-        localStorage.setItem("role", JSON.stringify(state.role));
         localStorage.setItem("isLogged", JSON.stringify(state.isLogged));
         localStorage.setItem("user", JSON.stringify(state.userData));
-        localStorage.setItem("status",JSON.stringify(state.status))
-        console.log(payload, "login state inside slice");
       })
-      .addCase(loginAdmin.rejected, (state, { payload }) => {
+      .addCase(loginUser.rejected, (state, { payload }) => {
         state.loading = false;
         state.userData = null;
-        state.role = null;
+        state.error = payload as string;
+      })
+
+
+
+
+    .addCase(SignupUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+
+      .addCase(SignupUser.fulfilled, (state, { payload }) => {
+        console.log("the signup pay load ", payload);
+        state.loading = false;
+        state.error = null;
+        state.userData = payload;
+        state.isLogged = true;
+        localStorage.setItem("isLogged", JSON.stringify(state.isLogged));
+        localStorage.setItem("user", JSON.stringify(state.userData));
+      })
+      .addCase(SignupUser.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.userData = null;
         state.error = payload as string;
       })
 
   },
 });
-
 
 export const {updateError}= authSlice.actions
 export default authSlice
