@@ -43,7 +43,6 @@ export const UserRegister: React.FC = () => {
       email: "",
       gender: "",
     },
-
     validationSchema: userSignupValidationSchema,
     onSubmit: async (values:SignupFormValues) => {
       setIsSubmitting(true);
@@ -59,7 +58,6 @@ export const UserRegister: React.FC = () => {
       }
     },
   }); 
-
   return (
     <div
       className="flex items-center p-2 justify-center min-h-screen relative overflow-hidden"
