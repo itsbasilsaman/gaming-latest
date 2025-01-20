@@ -4,7 +4,7 @@ import "react-phone-number-input/style.css"; // Add styles for the phone input
 import { useState } from "react";
 
 
-export const  PasswordChange = () => {
+  const  PasswordChange = () => {
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -142,3 +142,5 @@ export const  PasswordChange = () => {
   </div>
   )
 }
+
+export default PasswordChange

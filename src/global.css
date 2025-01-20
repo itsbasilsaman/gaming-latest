@@ -30,10 +30,14 @@ body {
 /* Header  */
 
 
+
 .header-inputbox {
-  
+  outline: none;
   background-color: transparent;
   border: none;
+}
+.header-inputbox:focus {
+  outline: none;
 }
 .header-input-section {
   border: 1px solid  rgba(255, 255, 255, 0.28);
@@ -423,7 +427,7 @@ button {
 
 .profile-main {
   display: grid;
-  grid-template-rows: 1fr         3fr;
+  grid-template-rows: 1fr         5.5fr;
 }
 .profile-section {
   background-color: rgba(255, 255, 255, 0.975);
@@ -470,6 +474,9 @@ button {
 .primary-color {
   color: #101441;
 }
+.primary-background {
+  background-color:  #101441;;
+}
 .primary-border {
   border: 1px solid rgba(224, 224, 224, 0.671) ;
 }
@@ -477,10 +484,30 @@ button {
   background: linear-gradient(to top right, #04061a, #212987);
 }
 
+
+
+/* userProfile  */
+.banner-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: brightness(95%);
+  background-color: aliceblue;
+ 
+}
+.banner-section:hover {
+   filter: brightness(80%);
+  cursor: pointer; 
+}
+ 
+
  
 @media(max-width:1240px){
   .header-input-section {
     width: 300px;
+  }
+  .modal-country-button {
+    display: none;
   }
  
 }

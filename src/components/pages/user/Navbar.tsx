@@ -82,14 +82,14 @@ export const Navbar: React.FC = React.memo(() => {
   return (
     <>
       <div className='flex justify-center fixed items-center text-white md:px-[90px] px-[30px] h-[90px] lg:gap-[20px] gap-[18px] header fixed top-0 left-0 w-full ' style={{ background, zIndex: '10' }}>
-        <div className='text-[19px] font-semibold flex justify-center items-center'>  <img src={Logo} alt="" className='w-[60px] hidden lg:block' /><span className='text-[22px] l'>GATE  </span></div>
+      <Link to={'/'}>  <div className='text-[19px] font-semibold flex justify-center items-center'>  <img src={Logo} alt="" className='w-[60px] hidden lg:block' /><span className='text-[22px] l'>GATE  </span></div></Link>
         <div className="lg:relative max-w-[600px] mx-auto">
           <div ref={searchRef} className="lg:relative max-w-[600px] mx-auto">
             <div className="flex items-center rounded-full header-input-section shadow-md p-2">
               <input
                 type="text"
                 placeholder="Search in Game Gate"
-                className="flex-1 header-inputbox"
+                className="flex-1 header-inputbox pl-[10px]"
               />
               <MdOutlineKeyboardArrowDown className='text-[24px] mx-[5px] cursor-pointer' onClick={toggleDropdown} />
             </div>
@@ -204,7 +204,7 @@ export const Navbar: React.FC = React.memo(() => {
                   </label>
                 ))}
               </div>
-              {selectedItem && <p>You selected: {selectedItem}</p>}
+          
             </div>
             <div>
               <p>Currency</p>
@@ -216,12 +216,12 @@ export const Navbar: React.FC = React.memo(() => {
                 <option value="Item 2">Indian Rupee (INR)</option>
                 <option value="Item 3">Canadian Dollar (CAD)</option>
               </select>
-              {selectedBoxItem && <p>You selected: {selectedBoxItem}</p>}
+          
             </div>
           </section>
           <section className='w-full h-auto flex justify-end my-[25px] gap-[8px]'>
             <button className='bg-white text-black px-[15px] py-[7px] rounded-[10px] font-medium' onClick={toggleModal} >Cancel</button>
-            <button className='bg-white text-black px-[15px] py-[7px] rounded-[10px] font-medium'>Save</button>
+            <button className='bg-white text-black px-[15px] py-[7px] rounded-[10px] font-medium' onClick={toggleModal} >Save</button>
           </section>
         </div>
       </div>
@@ -275,7 +275,7 @@ export const Navbar: React.FC = React.memo(() => {
                 <option value="Item 2">Indian Rupee (INR)</option>
                 <option value="Item 3">Canadian Dollar (CAD)</option>
               </select>
-              {selectedBoxItem && <p>You selected: {selectedBoxItem}</p>}
+            
             </div>
           </div>
         </div>
@@ -284,7 +284,7 @@ export const Navbar: React.FC = React.memo(() => {
           <button className="px-4 py-2 text-black bg-white border rounded " onClick={togglePanel}>
             Cancel
           </button>
-          <button className="px-4 py-2 text-black bg-white border rounded ">
+          <button className="px-4 py-2 text-black bg-white border rounded " onClick={togglePanel}>
             Save
           </button>
         </div>

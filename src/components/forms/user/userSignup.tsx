@@ -26,7 +26,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-export const UserRegister: React.FC = () => {
+  const UserRegister: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const {loading}=useSelector((state:RootState)=>state.auth)
   const navigate= useNavigate()
@@ -154,3 +154,6 @@ export const UserRegister: React.FC = () => {
     </div>
   );
 };
+
+
+export default UserRegister
