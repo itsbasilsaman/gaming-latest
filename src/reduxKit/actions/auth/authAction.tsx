@@ -18,6 +18,8 @@ export const axiosIn = axios.create({
     async (userCredentials:ILoginUser,{rejectWithValue})=>{
         try {
             const data  = await axiosIn.post(`/send-otp`,userCredentials, config );
+        
+            
             return data
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } catch (error: any) {
@@ -32,8 +34,12 @@ export const axiosIn = axios.create({
   export const verifiyOtpUser = createAsyncThunk( "user/verify-otp",
     async (userCredentials:IVerifyOtp,{rejectWithValue})=>{
         try {
-            const { data } = await axiosIn.post(`/verify-otp`,userCredentials, config );
-            return data.data;
+          console.log("this is verify otp action ", userCredentials);
+          
+            const  data  = await axiosIn.post(`/verify-otp`,userCredentials, config );
+            console.log("verirf action _______sds___***____",data);
+            
+            return data
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } catch (error: any) {
             if (error.response && error.response.data) {
@@ -50,8 +56,8 @@ export const axiosIn = axios.create({
     async (userCredentials:UserSignup,{rejectWithValue})=>{
         try {
           console.log("4444444data for user login", userCredentials);
-            const { data } = await axiosIn.post(`/user/`,userCredentials, config );
-            return data.data;
+            const { data } = await axiosIn.post(`/create-account`,userCredentials, config );
+            return data;
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } catch (error: any) {
             if (error.response && error.response.data) {

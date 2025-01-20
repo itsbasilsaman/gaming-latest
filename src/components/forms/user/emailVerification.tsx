@@ -2,19 +2,22 @@ import React, { useState, useEffect } from "react";
 import { verifiyOtpUser } from "../../../reduxKit/actions/auth/authAction";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../reduxKit/store";
+import { useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { IVerifyOtp } from "../../../interfaces/user/userLoginInterfaces";
 
 const EmailVerification: React.FC = () => {
+  const [searchParams] = useSearchParams();
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState<number>(60);
+  const [Content,setContent]=useState<string|null>('')
   const dispatch: AppDispatch = useDispatch();
   const { loading } = useSelector((state: RootState) => state.auth);
+  const inputValue:string|null = searchParams.get("inputValue");
 
   // Handle OTP input change
   const handleInputChange = (value: string, index: number): void => {
     if (!/^\d*$/.test(value)) return; // Allow only numeric input
-
     const newOtp = [...otp];
     newOtp[index] = value.slice(0, 1); // Ensure single-digit input
     setOtp(newOtp);
@@ -25,7 +28,11 @@ const EmailVerification: React.FC = () => {
       nextInput?.focus();
     }
   };
+useEffect(()=>{
 
+setContent(inputValue)
+
+},[inputValue])
   // Handle backspace key
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number): void => {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
@@ -48,7 +55,6 @@ const EmailVerification: React.FC = () => {
     const nextInput = document.getElementById(`otp-input-${lastFilledIndex}`) as HTMLInputElement;
     nextInput?.focus();
   };
-
   // Handle timer countdown
   useEffect(() => {
     if (timer > 0) {
@@ -72,11 +78,12 @@ const EmailVerification: React.FC = () => {
   const handleSubmit = async (): Promise<void> => {
     const otpCode = otp.join("");
     const payload: IVerifyOtp = {
-      content: "Your content here", // Provide the appropriate content value
+      contact:Content, // Provide the appropriate content value
       otp: otpCode,
     };
     try {
-      await dispatch(verifiyOtpUser(payload));
+     const data =   await dispatch(verifiyOtpUser(payload));
+     console.log('the otp ((((((((( out data  ))))))))) ', data )
       Swal.fire({
         icon: "success",
         title: "Verified!",
@@ -121,9 +128,7 @@ const EmailVerification: React.FC = () => {
             >
               Email OTP
             </h2>
-            <p className="mb-6 text-center text-gray-600">
-              OTP code sent to <span className="font-medium text-green-600">example@example.com</span>
-            </p>
+           
             <div className="flex justify-center space-x-2 mb-6">
               {otp.map((digit, index) => (
                 <input

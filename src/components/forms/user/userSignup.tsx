@@ -8,6 +8,7 @@ import { SignupUser } from "../../../reduxKit/actions/auth/authAction";
 import { userSignupValidationSchema } from "../../../validation/user/userSignupValidationSchema"; // Import the validation schema
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../reduxKit/store";
+import { useNavigate } from "react-router-dom";
 
 // Define the form values interface
  export interface SignupFormValues {
@@ -28,6 +29,7 @@ import { AppDispatch, RootState } from "../../../reduxKit/store";
 export const UserRegister: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const {loading}=useSelector((state:RootState)=>state.auth)
+  const navigate= useNavigate()
   const dispatch=useDispatch<AppDispatch>()
   // Formik setup
   const formik = useFormik<SignupFormValues>({
@@ -47,7 +49,8 @@ export const UserRegister: React.FC = () => {
       setIsSubmitting(true);
       try {
         console.log("Form submitted successfully with values:", values);
-        await dispatch(SignupUser(values))
+        await dispatch(SignupUser(values)).unwrap()
+        navigate("/")
         // Add your form submission logic here (e.g., API request)
       } catch (error) {
         console.error("Error submitting the form:", error);

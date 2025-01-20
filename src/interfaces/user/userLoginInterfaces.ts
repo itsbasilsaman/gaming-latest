@@ -9,7 +9,7 @@ export interface ILoginUser {
 
 export interface IVerifyOtp {
 
-    content:string
+    contact:string |null
     otp:string
 
 }

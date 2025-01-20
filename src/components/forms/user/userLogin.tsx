@@ -56,7 +56,7 @@ const navigate= useNavigate()
         contact: inputType === "phone" ? `+${countryCode}${inputValue}` : inputValue,
         type: inputType === "phone" ? "PHONE" : "EMAIL",
       };
-      console.log("Payloadhihih:", payload);
+      console.log("Payloadhihih:", payload,inputValue);
          const response=  await dispatch(loginUser(payload)).unwrap()
          Swal.fire({
           icon: "success",
@@ -80,9 +80,8 @@ const navigate= useNavigate()
             popup: "animate__animated animate__fadeOutUp", // Animation when the toast disappears
           },
         });
-         navigate("/user/emailVerification")
-         console.log("the latest changes updated ", response);
-         
+        navigate(`/user/emailVerification?inputValue=${encodeURIComponent(inputValue)}`);
+    
       // Add logic to send the payload to your backend
     } catch (error) {
       console.error("Login failed:", error);
