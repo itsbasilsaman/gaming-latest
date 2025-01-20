@@ -7,6 +7,7 @@ import { IoMdClose } from "react-icons/io";
 import { Link } from 'react-router-dom';
 import { AiFillMessage } from "react-icons/ai";
 import { IoMdNotifications } from "react-icons/io";
+import { UserAvatar } from '../user/UserAvatar';
 export const SellerHeader: React.FC = React.memo(() => {
   const [scrollY, setScrollY] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -16,27 +17,9 @@ export const SellerHeader: React.FC = React.memo(() => {
   // const [searchQuery, setSearchQuery] = useState<string>(""); // State for input value
    const [isPanelOpen, setIsPanelOpen] = useState<boolean>(false);
   
-
-  interface UserProfile {
-    text: string; // Text inside the profile bar
-    profileBgColor: string; // Background color for the profile bar
-    userStatusColor: string; // Background color for the user status bar
-  }
-
-  const userProfiles: UserProfile[] = [
-    { text: 'A', profileBgColor: 'bg-red-600', userStatusColor: 'bg-green-500' },
-    
-  ];
-
-   
-
   const toggleModal = (): void => setIsModalOpen(!isModalOpen);
   
-
-  // const handlePopularSearchClick = (item: string): void => {
-  //   setSearchQuery(item); // Set the clicked item to the input
-  //   setDropdownOpen(false); // Close the dropdown after selection
-  // };
+ 
 
   const togglePanel = (): void => {
     setIsPanelOpen(!isPanelOpen);
@@ -71,7 +54,7 @@ export const SellerHeader: React.FC = React.memo(() => {
   return (
     <>
       <div className='flex justify-between   fixed items-center text-white md:px-[90px] px-[30px] h-[90px] lg:gap-[20px] gap-[18px] header fixed top-0 left-0 w-full ' style={{ background, zIndex: '10' }}>
-        <div className='text-[19px] font-semibold' style={{fontFamily:'Unbounded'}}>GAME GATE</div>
+        <Link to={'/'}><div className='text-[19px] font-semibold' style={{fontFamily:'Unbounded'}}>GAME GATE</div></Link>
          
         <div >
           <div className='flex  items-center lg:gap-[20px] hidden lg:flex'>
@@ -87,20 +70,7 @@ export const SellerHeader: React.FC = React.memo(() => {
             <IoMdNotifications className='text-[22px]' />
   
             </div>
-            {userProfiles.map((user, index) => (
-          <div key={index} className="relative flex items-center justify-center">
-            {/* Circle with the initial */}
-            <div
-              className={`w-[55px] h-[55px] ${user.profileBgColor} profile-bar text-white rounded-full flex items-center justify-center text-2xl font-bold`}
-            >
-              {user.text}
-            </div>
-            {/* User status indicator */}
-            <div
-              className={`absolute bottom-0 right-1 w-4 h-4 userstatus-bar ${user.userStatusColor} border-2 border-white rounded-full`}
-            ></div>
-          </div>
-        ))}
+            <UserAvatar/>
           </div>
           <div
             className={`w-[27px] h-[27px] lg:hidden block flex justify-center items-center transition-all duration-300 ease-in-out `}

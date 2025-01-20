@@ -8,7 +8,7 @@ import { AppDispatch, RootState } from "../../../reduxKit/store";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 
-export const UserLogin: React.FC = React.memo(() => {
+  const UserLogin: React.FC = React.memo(() => {
   const [inputValue, setInputValue] = useState<string>(""); // Phone number or email input value
   const [countryCode, setCountryCode] = useState<string>(""); // Default country code
   const [inputType, setInputType] = useState<"email" | "phone" | null>(null); // Track the type of input
@@ -201,3 +201,5 @@ const navigate= useNavigate()
     </div>
   );
 });
+
+export default UserLogin
