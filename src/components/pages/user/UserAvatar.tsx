@@ -6,6 +6,7 @@ import { IoIosArrowDown } from 'react-icons/io';
 import { FiChevronUp } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 
+
 export const UserAvatar: React.FC = () => {
   interface UserProfile {
     text: string; // Text inside the profile bar

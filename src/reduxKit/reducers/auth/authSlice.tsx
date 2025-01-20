@@ -3,6 +3,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { loginUser } from "../../actions/auth/authAction";
+import { userLogout } from "../../actions/auth/authAction";
 import { verifiyOtpUser } from "../../actions/auth/authAction";
 import { SignupUser } from "../../actions/auth/authAction";
 
@@ -113,6 +114,15 @@ export const authSlice = createSlice({
         state.error = payload as string;
       })
 
+
+
+
+
+
+
+
+
+
       .addCase(verifiyOtpUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -140,6 +150,29 @@ export const authSlice = createSlice({
         state.userData = null;
         state.error = payload as string;
       })
+
+
+
+
+      .addCase(userLogout.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+
+      .addCase(userLogout.fulfilled, (state) => {
+        state.loading = false;
+        state.isLogged = false;
+        state.error = null;
+        state.userData = null;
+        localStorage.clear();
+      })
+      .addCase(userLogout.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload as string;
+      })
+
+
+
 
       .addCase(SignupUser.pending, (state) => {
         state.loading = true;

@@ -25,7 +25,6 @@ const SellerPage = lazy(()=> import('./components/pages/Seller/sellerPage'))
 
 
 export const App: React.FC = React.memo(() => {
-
   return (
     <Fragment>
       <Toaster position="top-center" />
@@ -36,7 +35,6 @@ export const App: React.FC = React.memo(() => {
         <Route path="/user/login" element={<UserLogin />} />
         <Route path="/user/signup" element={<UserRegister/>} />
         {/* <Route path="/user/mainVerification" element={<MainVerification/>} /> */}
-
         <Route path="/user/register" element={<UserRegister />} />
         <Route path="/user/changePassword" element={<PasswordChange />} />
         <Route path="/user/Category" element={<Category />} />
@@ -55,6 +53,7 @@ export const App: React.FC = React.memo(() => {
     </Fragment>
   );
 });
+
 
 
 

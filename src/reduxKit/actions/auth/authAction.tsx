@@ -68,3 +68,23 @@ export const axiosIn = axios.create({
           }
     }
   )
+
+
+
+    
+export const userLogout = createAsyncThunk(
+  "user/logout",
+  async (__, { rejectWithValue }) => {
+    try {
+       axiosIn.delete(`/logout`, config )
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue({ message: "Something went wrong!" });
+      }
+    }
+  }
+);
+
