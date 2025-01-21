@@ -8,19 +8,9 @@ import { SellerHeader } from '../../pages/Seller/sellerHeader';
 import { IoCameraOutline } from "react-icons/io5";
 // import ProfileResponsive from './ProfileResponsive';
 import { Link } from 'react-router-dom';
+import { Country } from '../../../interfaces/user/profile';
+import { ApiCountry } from '../../../interfaces/user/profile';
 
-
-interface Country {
-  name: string;
-  flag: string;
-  dialCode: string;
-}
-
-interface ApiCountry {
-  name: { common: string };
-  flags: { svg: string };
-  idd: { root?: string; suffixes?: string[] };
-}
 
   const Profile: React.FC = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
@@ -695,6 +685,8 @@ interface ApiCountry {
             <span>{selectedCountry.dialCode}</span>
           </div>
         )}
+
+
       </div>       
           <hr className="my-4" />
         <div className="text-center mb-4 text-sm text-gray-500 flex justify-between">
