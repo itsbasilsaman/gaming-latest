@@ -9,5 +9,6 @@ export const userSignupValidationSchema = Yup.object().shape({
   email: Yup.string()
   .email("Invalid email address")
   .required("Email is required"),
-  gender: Yup.string().oneOf(["male", "female", "other"], "Invalid gender").required("Gender is required"),
+  gender: Yup.string().oneOf(["MALE", "FEMALE", "OTHER"], "Invalid gender").required("Gender is required"),
+  
 });

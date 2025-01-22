@@ -8,20 +8,8 @@ import { SellerHeader } from '../../pages/Seller/sellerHeader';
 import { IoCameraOutline } from "react-icons/io5";
 // import ProfileResponsive from './ProfileResponsive';
 import { Link } from 'react-router-dom';
-
-
-interface Country {
-  name: string;
-  flag: string;
-  dialCode: string;
-}
-
-interface ApiCountry {
-  name: { common: string };
-  flags: { svg: string };
-  idd: { root?: string; suffixes?: string[] };
-}
-
+import { Country } from '../../../interfaces/user/profile';
+import { ApiCountry } from '../../../interfaces/user/profile';
 
 
   const Profile: React.FC = () => {
@@ -43,7 +31,7 @@ interface ApiCountry {
   });
   const [countries, setCountries] = useState<Country[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
-
+  
   useEffect(() => {
     fetch('https://restcountries.com/v3.1/all')
       .then((res) => res.json())
@@ -697,6 +685,8 @@ interface ApiCountry {
             <span>{selectedCountry.dialCode}</span>
           </div>
         )}
+
+
       </div>       
           <hr className="my-4" />
         <div className="text-center mb-4 text-sm text-gray-500 flex justify-between">

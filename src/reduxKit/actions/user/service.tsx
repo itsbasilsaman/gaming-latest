@@ -11,7 +11,7 @@ export const userServiceAction = createAsyncThunk(
     "user/userService",
     async (_, { rejectWithValue }) => {
       try {
-        const response = await axiosIn.get(`/api/v1/admin/service`,config);
+        const response = await axiosIn.get(`/api/v1/user/service`,config);
         return response.data; 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {

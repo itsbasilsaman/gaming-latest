@@ -8,6 +8,7 @@ import { SignupUser } from "../../../reduxKit/actions/auth/authAction";
 import { userSignupValidationSchema } from "../../../validation/user/userSignupValidationSchema"; // Import the validation schema
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../reduxKit/store";
+import { useNavigate } from "react-router-dom";
 
 // Define the form values interface
  export interface SignupFormValues {
@@ -24,10 +25,10 @@ import { AppDispatch, RootState } from "../../../reduxKit/store";
 
 
 
-
   const UserRegister: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const {loading}=useSelector((state:RootState)=>state.auth)
+  const navigate= useNavigate()
   const dispatch=useDispatch<AppDispatch>()
   // Formik setup
   const formik = useFormik<SignupFormValues>({
@@ -42,12 +43,17 @@ import { AppDispatch, RootState } from "../../../reduxKit/store";
       gender: "",
     },
 
+
     validationSchema: userSignupValidationSchema,
     onSubmit: async (values:SignupFormValues) => {
       setIsSubmitting(true);
       try {
+   
         console.log("Form submitted successfully with values:", values);
-        await dispatch(SignupUser(values))
+       const response=   await dispatch(SignupUser(values)).unwrap()
+       console.log("saleelo",response);
+       
+        navigate("/")
         // Add your form submission logic here (e.g., API request)
       } catch (error) {
         console.error("Error submitting the form:", error);
@@ -56,7 +62,6 @@ import { AppDispatch, RootState } from "../../../reduxKit/store";
       }
     },
   }); 
-
   return (
     <div
       className="flex items-center p-2 justify-center min-h-screen relative overflow-hidden"
@@ -87,6 +92,7 @@ import { AppDispatch, RootState } from "../../../reduxKit/store";
             { name: "country", label: "Country" },
             { name: "userName", label: "Username" },
             { name: "email", label: "Email Address" },
+            { name: "phone", label: "phone number" },
           ].map((field) => (
             <div className="mb-6" key={field.name}>
               <label
@@ -106,7 +112,7 @@ import { AppDispatch, RootState } from "../../../reduxKit/store";
               />
               {formik.touched[field.name as keyof SignupFormValues] &&
                 formik.errors[field.name as keyof SignupFormValues] && (
-                  <div className="text-red-400 text-sm mt-1">
+                  <div className="text-red-400 text-sm mt-1"> 
                     {formik.errors[field.name as keyof SignupFormValues]}
                   </div>
                 )}
@@ -128,9 +134,9 @@ import { AppDispatch, RootState } from "../../../reduxKit/store";
               className="w-full px-2 py-[10px] text-lg border rounded-lg text-gray-800 focus:ring-2 focus:ring-[#723077] focus:outline-none transition"
             >
               <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
+              <option value="MALE">Male</option>
+              <option value="FEMALE">Female</option>
+              <option value="OTHER">Other</option>
             </select>
             {formik.touched.gender && formik.errors.gender && (
               <div className="text-red-400 text-sm mt-1">
