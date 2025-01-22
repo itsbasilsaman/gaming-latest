@@ -9,6 +9,7 @@ import { AiFillMessage } from "react-icons/ai";
 import { IoMdNotifications } from "react-icons/io";
 import { UserAvatar } from './UserAvatar';
 import Logo from '../../../assets/gaminggate-logo.png'
+import { ToggleProfile } from './ToggleProfile';
 export const Navbar: React.FC = React.memo(() => {
   const [scrollY, setScrollY] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -231,11 +232,13 @@ export const Navbar: React.FC = React.memo(() => {
           <h2 className="text-lg font-semibold">Localization Setting</h2>
           <IoMdClose onClick={togglePanel} className='text-[22px]' />
         </div>
-
+          
         <div className="p-[25px] space-y-6">
+        <ToggleProfile/>
           <div className='flex justify-center items-center'>
             <span className='text-[20px] font-semibold country-button px-[24px] py-[12px] rounded-[1000px]'>Become a Seller</span>
           </div>
+          
           <div>
             <div className='flex justify-between items-center py-[15px]'>
               <label className="block text-sm font-medium">Country / Region</label>

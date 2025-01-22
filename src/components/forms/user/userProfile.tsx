@@ -416,7 +416,7 @@ import { ApiCountry } from '../../../interfaces/user/profile';
         
       </div>
 
-      {/* <ProfileResponsive/> */}
+      {/* <ProfileResponsive /> */}
       <section className="lg:hidden block w-[100%] h-[100%] profile-section   pb-[25px]   flex flex-col justify-start items-center gap-[30px]">
         <div>
         <div className="flex justify-center mb-4 relative pt-[22px]" 

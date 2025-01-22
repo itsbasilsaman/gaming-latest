@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import ScrollToTop from "./ScrollToTop";
 import { Loading } from "./Loading";
+import { ToggleProfile } from "./components/pages/user/ToggleProfile";
 
 const WelcomePage = lazy(() => import("./components/pages/welcome"))
 const UserLogin = lazy(()=> import('./components/forms/user/userLogin'))
@@ -48,6 +49,7 @@ export const App: React.FC = React.memo(() => {
         {/* <Route path="/mainDetails" element={<MainDetails/>} /> */}
         {/* <Route path="/loading" element={<Loading/>} /> */}
         <Route path="/error" element={<Loading/>} />
+        <Route path="/toggle" element={<ToggleProfile/>} />
       </Routes>
         </Suspense>
     </Fragment>
