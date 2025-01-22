@@ -8,17 +8,23 @@ export const config ={
     headers :{
         "Content-Type":"application/json",
     },
-    withCredentials:false
+    withCredentials:false 
+
 }
 
 
 
-
-
-export const config2 ={
-    headers :{
-        "Content-Type":"application/x-www-form-urlencoded",
-    },
-    withCredentials:true
-}
-
+export const configWithToken = () => {
+    let token = localStorage.getItem("accessToken");
+    token = token ? token.replace(/^"|"$/g, "").trim() : null;
+    console.log("MY TOKEN IS:", token);
+  
+    return {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token ? `Bearer ${token}` : "",
+      },
+      withCredentials: false,
+    };
+  };
+  

@@ -6,21 +6,28 @@ import LanguageSwitcher from '../../Header/LanguageSwitcher';
 // import DarkModeSwitcher from '../../Header/DerkModeSwitcher';
 import { SellerHeader } from '../../pages/Seller/sellerHeader';
 import { IoCameraOutline } from "react-icons/io5";
+import { userProfile } from '../../../reduxKit/actions/user/userProfile';
 // import ProfileResponsive from './ProfileResponsive';
 import { Link } from 'react-router-dom';
+import { UserProfileData } from '../../../interfaces/user/profile';
 import { Country } from '../../../interfaces/user/profile';
 import { ApiCountry } from '../../../interfaces/user/profile';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../reduxKit/store';
 
 
   const Profile: React.FC = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [coverImage, setCoverImage] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState<string | null>(null);
+  const [profiles,setProfiles]= useState<UserProfileData>()
+  const dispatch= useDispatch<AppDispatch>()
+
   const [formData, setFormData] = useState({
     firstname: "Basil",
     lastname: "Saman",
     email: "basilsaman.connects@gmail.com",
-    gender: "Male",
+    gender: "MAL",
     dob: "1990-01-01",
     description: "This is a dummy description. Click edit to modify.",
     memberSince : "2024-12-22",
@@ -29,8 +36,27 @@ import { ApiCountry } from '../../../interfaces/user/profile';
     successfulDelivery :'0%',
     blockedUser : '0'
   });
+
   const [countries, setCountries] = useState<Country[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const resultAction = await dispatch(userProfile());
+        if (userProfile.fulfilled.match(resultAction)) {
+          setProfiles(resultAction.payload)
+          console.log("Profile data fetched successfully: ", resultAction.payload);
+        } else {
+          console.log("Failed to fetch profile: ", resultAction.payload || resultAction.error);
+        }
+      } catch (error) {
+        console.error("Unexpected error while fetching the profile: ", error);
+      }
+    };
+
+    fetchProfile();
+  }, [dispatch]);
   
   useEffect(() => {
     fetch('https://restcountries.com/v3.1/all')
@@ -44,6 +70,14 @@ import { ApiCountry } from '../../../interfaces/user/profile';
         setCountries(formattedData);
       });
   }, []);
+
+
+  useEffect(()=>{
+
+    console.log("this is my profiles of in page *****************");
+    
+  },[profiles])
+
 
   const handleEditClick = (field: string) => {
     setIsEditing(field);
@@ -154,7 +188,7 @@ import { ApiCountry } from '../../../interfaces/user/profile';
                 />
               ) : (
                 "B"
-              )}
+              )} 
             <label
                   htmlFor="profile"
                   className="absolute bottom-0 right-0 flex h-8.5 w-8.5 cursor-pointer items-center justify-center rounded-full bg-black text-primary hover:bg-opacity-90 sm:bottom-2 sm:right-2 p-[8px]"
