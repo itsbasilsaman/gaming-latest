@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { createSlice } from "@reduxjs/toolkit";
 
-import { loginUser } from "../../actions/auth/authAction";
-import { userLogout } from "../../actions/auth/authAction";
-import { verifiyOtpUser } from "../../actions/auth/authAction";
-import { SignupUser } from "../../actions/auth/authAction";
+import { loginUser, userLogout, verifiyOtpUser, SignupUser } from "../../actions/auth/authAction";
+
+
+
 
 export interface UserState {
   userData: UserState | null;
@@ -16,27 +15,6 @@ export interface UserState {
   accessToken?: string | null;
   refreshToken?: string | null;
 }
-
-// const safeParse = (key: string, fallback: any = null) => {
-//   const value = localStorage.getItem(key);
-//   try {
-//     return value ? JSON.parse(value) : fallback;
-//   } catch (error) {
-//     console.log("Error while parsing local storage value for key: ", error);
-
-//     return fallback;
-//   }
-// };
-
-// const initialState: UserState = {
-//   userData: safeParse("user"),
-//   error: null,
-//   loading: false,
-//   isLogged: safeParse("role"),
-//   _id: safeParse("_id"),
-//   accessToken: safeParse("accessToken"),
-//   refreshToken: safeParse("refreshToken"),
-// };
 
 const initialState: UserState = {
   userData: (() => {
@@ -119,39 +97,48 @@ export const authSlice = createSlice({
 
 
 
-
-
-
-
       .addCase(verifiyOtpUser.pending, (state) => {
+        console.log("the otp verifyng pending ");
+        
         state.loading = true;
         state.error = null;
-      })
+      }) 
+
       .addCase(verifiyOtpUser.fulfilled, (state, { payload }) => {
-        console.log("user verify otp  payload", payload);
+        console.log("User verify OTP payload:", payload);
+      
         state.loading = false;
         state.error = null;
-        console.log("user verify otp  payload one ", payload.data);
-        state.isLogged = true;
-        state.refreshToken = payload.data.refreshToken;
-        state.accessToken = payload.data.accessToken;
-        console.log("user verify otp  payload", payload.data.accessToken);
-        state.accessToken = payload.data.refreshToken;
-        localStorage.setItem(
-          "refreshToken",
-          JSON.stringify(state.refreshToken)
-        );
-        localStorage.setItem("accessToken", JSON.stringify(state.accessToken));
-        localStorage.setItem("isLogged", JSON.stringify(state.isLogged));
-        localStorage.setItem("user", JSON.stringify(state.userData));
+      
+        if (payload.data) {
+          console.log("User verify OTP access token:", payload.data.accessToken);
+          console.log("User verify OTP refresh token:", payload.data.refreshToken);
+      
+          // If tokens exist, update the state
+          if (payload.data.accessToken) {
+            state.isLogged = true;
+            state.accessToken = payload.data.accessToken;
+            state.refreshToken = payload.data.refreshToken;
+      
+            // Store tokens and login status in local storage
+            localStorage.setItem("accessToken", JSON.stringify(state.accessToken));
+            localStorage.setItem("refreshToken", JSON.stringify(state.refreshToken));
+            localStorage.setItem("isLogged", JSON.stringify(state.isLogged));
+          } else {
+            console.warn("Access token is not provided in the response.");
+            // Do not mark as logged in if tokens are missing
+            state.isLogged = false;
+          }
+        } else {
+          console.warn("No data received in OTP verification response.");
+        }
       })
+      
       .addCase(verifiyOtpUser.rejected, (state, { payload }) => {
         state.loading = false;
         state.userData = null;
         state.error = payload as string;
       })
-
-
 
 
       .addCase(userLogout.pending, (state) => {
@@ -178,15 +165,15 @@ export const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-
-      .addCase(SignupUser.fulfilled, (state, { payload }) => {
-        console.log("the signup pay load ", payload);
+      .addCase(SignupUser.fulfilled, (state, { payload }) => { 
         state.loading = false;
         state.error = null;
-        state.userData = payload;
         state.isLogged = true;
+        state.accessToken = payload.data.accessToken;
+        state.refreshToken = payload.data.refreshToken;
+        localStorage.setItem("accessToken", JSON.stringify(state.accessToken));
+        localStorage.setItem("refreshToken", JSON.stringify(state.refreshToken));
         localStorage.setItem("isLogged", JSON.stringify(state.isLogged));
-        localStorage.setItem("user", JSON.stringify(state.userData));
       })
       .addCase(SignupUser.rejected, (state, { payload }) => {
         state.loading = false;

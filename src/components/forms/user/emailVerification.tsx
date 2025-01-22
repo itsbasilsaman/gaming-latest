@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { verifiyOtpUser } from "../../../reduxKit/actions/auth/authAction";
+import {
+  verifiyOtpUser,
+  loginUser,
+} from "../../../reduxKit/actions/auth/authAction";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../reduxKit/store";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { IVerifyOtp } from "../../../interfaces/user/userLoginInterfaces";
+import toast from "react-hot-toast";
 
 const EmailVerification: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState<number>(60);
-  const [Content,setContent]=useState<string|null>('')
+  const [Content, setContent] = useState<string | null>("");
+  const [Type, setType] = useState<string | null>("");
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   const { loading } = useSelector((state: RootState) => state.auth);
-  const inputValue:string|null = searchParams.get("inputValue");
+  const inputValue: string | null = searchParams.get("inputValue");
+  const type: string | null = searchParams.get("type");
 
   // Handle OTP input change
   const handleInputChange = (value: string, index: number): void => {
@@ -24,19 +31,27 @@ const EmailVerification: React.FC = () => {
 
     // Automatically focus on the next input field
     if (value && index < otp.length - 1) {
-      const nextInput = document.getElementById(`otp-input-${index + 1}`) as HTMLInputElement;
+      const nextInput = document.getElementById(
+        `otp-input-${index + 1}`
+      ) as HTMLInputElement;
       nextInput?.focus();
     }
   };
-useEffect(()=>{
 
-setContent(inputValue)
+  useEffect(() => {
+    setContent(inputValue);
+    setType(type);
+  }, [inputValue, type]);
 
-},[inputValue])
   // Handle backspace key
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number): void => {
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number
+  ): void => {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
-      const prevInput = document.getElementById(`otp-input-${index - 1}`) as HTMLInputElement;
+      const prevInput = document.getElementById(
+        `otp-input-${index - 1}`
+      ) as HTMLInputElement;
       prevInput?.focus();
     }
   };
@@ -52,7 +67,9 @@ setContent(inputValue)
 
     // Automatically focus on the last filled input
     const lastFilledIndex = pasteData.length - 1;
-    const nextInput = document.getElementById(`otp-input-${lastFilledIndex}`) as HTMLInputElement;
+    const nextInput = document.getElementById(
+      `otp-input-${lastFilledIndex}`
+    ) as HTMLInputElement;
     nextInput?.focus();
   };
   // Handle timer countdown
@@ -64,36 +81,49 @@ setContent(inputValue)
   }, [timer]);
 
   // Resend OTP
-  const handleResend = (): void => {
-    setTimer(60); // Reset timer
-    setOtp(["", "", "", "", "", ""]); // Clear OTP inputs
-    Swal.fire({
-      icon: "info",
-      title: "OTP Resent",
-      text: "A new OTP has been sent to your email!",
-    });
-  };
+  const handleResend = () => {
+    if (!Content || !Type) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Contact and Type are required fields!",
+      });
+      return;
+    }
 
+    setOtp(["", "", "", "", "", ""]);
+    const payload = {
+      contact: Content,
+      type: Type,
+    };
+    dispatch(loginUser(payload));
+    toast.success("OTP Resend Successfull");
+  };
   // Handle OTP submission
   const handleSubmit = async (): Promise<void> => {
     const otpCode = otp.join("");
     const payload: IVerifyOtp = {
-      contact:Content, // Provide the appropriate content value
+      contact: Content, // Provide the appropriate content value
       otp: otpCode,
+      fcmToken: "fcm",
     };
     try {
-     const data =   await dispatch(verifiyOtpUser(payload));
-     console.log('the otp ((((((((( out data  ))))))))) ', data )
-      Swal.fire({
-        icon: "success",
-        title: "Verified!",
-        text: "Your email has been successfully verified.",
-      });
+      const data = await dispatch(verifiyOtpUser(payload)).unwrap();
+      console.log("The OTP verification response:", data);
+      if (data?.data?.accessToken) {
+        toast.success("OTP successfully verified");
+        navigate("/");
+      } else {
+        toast.error("User does not exist. Redirecting to signup...");
+        navigate("/user/signup");
+      }
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Verification Failed",
-        text: (error as { message: string })?.message || "Failed to verify OTP. Please try again.",
+        text:
+          (error as { message: string })?.message ||
+          "Failed to verify OTP. Please try again.",
       });
     }
   };
@@ -128,7 +158,7 @@ setContent(inputValue)
             >
               Email OTP
             </h2>
-           
+
             <div className="flex justify-center space-x-2 mb-6">
               {otp.map((digit, index) => (
                 <input
@@ -149,7 +179,10 @@ setContent(inputValue)
               {timer > 0 ? (
                 `${timer} sec`
               ) : (
-                <button onClick={handleResend} className="text-blue-600 hover:underline">
+                <button
+                  onClick={handleResend}
+                  className="text-blue-600 hover:underline"
+                >
                   Resend
                 </button>
               )}
@@ -157,7 +190,9 @@ setContent(inputValue)
             <div className="flex justify-between">
               <button
                 className="px-4 py-2 font-semibold text-gray-700 bg-gray-200 rounded hover:bg-gray-300"
-                onClick={() => Swal.fire("Cancelled", "OTP submission cancelled.", "info")}
+                onClick={() =>
+                  Swal.fire("Cancelled", "OTP submission cancelled.", "info")
+                }
               >
                 Cancel
               </button>

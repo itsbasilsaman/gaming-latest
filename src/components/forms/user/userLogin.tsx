@@ -6,6 +6,7 @@ import { loginUser } from "../../../reduxKit/actions/auth/authAction";
 import { useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../../reduxKit/store";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 
   const UserLogin: React.FC = React.memo(() => {
@@ -56,31 +57,12 @@ const navigate= useNavigate()
         contact: inputType === "phone" ? `+${countryCode}${inputValue}` : inputValue,
         type: inputType === "phone" ? "PHONE" : "EMAIL",
       };
+
+      const Type=payload.type
       console.log("Payloadhihih:", payload,inputValue);
-         const response=  await dispatch(loginUser(payload)).unwrap()
-         Swal.fire({
-          icon: "success",
-          title: "Success",
-          text: response.data.message,
-          timer: 3000,
-          toast: true,
-          showConfirmButton: false,
-          timerProgressBar: true,
-          background: "#d4edda", // Light green background for success
-          color: "#155724", // Darker green text color
-          iconColor: "#28a745", // Custom color for the success icon
-          didOpen: (toast) => {
-            toast.addEventListener("mouseenter", Swal.stopTimer); // Pause timer on hover
-            toast.addEventListener("mouseleave", Swal.resumeTimer); // Resume timer on mouse leave
-          },
-          showClass: {
-            popup: "animate__animated animate__fadeInDown", // Animation when the toast appears
-          },
-          hideClass: {
-            popup: "animate__animated animate__fadeOutUp", // Animation when the toast disappears
-          },
-        });
-        navigate(`/user/emailVerification?inputValue=${encodeURIComponent(inputValue)}`);
+         await dispatch(loginUser(payload)).unwrap()
+         toast.success("Otp Sented Successfully");
+        navigate(`/user/emailVerification?inputValue=${encodeURIComponent(inputValue)}&type=${Type}`);
     
       // Add logic to send the payload to your backend
     } catch (error) {

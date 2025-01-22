@@ -11,5 +11,6 @@ export interface IVerifyOtp {
 
     contact:string |null
     otp:string
+        "fcmToken" : string
 
 }

@@ -10,6 +10,11 @@ export const config ={
     },
     withCredentials:false
 }
+
+
+
+
+
 export const config2 ={
     headers :{
         "Content-Type":"application/x-www-form-urlencoded",

@@ -31,7 +31,7 @@ import { ApiCountry } from '../../../interfaces/user/profile';
   });
   const [countries, setCountries] = useState<Country[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
-
+  
   useEffect(() => {
     fetch('https://restcountries.com/v3.1/all')
       .then((res) => res.json())
