@@ -42,7 +42,7 @@ body {
 .header-input-section {
   border: 1px solid  rgba(255, 255, 255, 0.28);
   background-color: rgba(242, 244, 248, 0.13);
-  width: 500px;
+  /* width: 500px; */
   height: 55px;
 }
 .about-inputbox {
@@ -188,6 +188,9 @@ button {
   background-color: rgba(255, 255, 255, 0.715);
   color: #040635;
 }
+
+
+
 /* AffiliateSection */
 
 .affiliate-section {
@@ -504,11 +507,9 @@ button {
  
 @media(max-width:1240px){
   .header-input-section {
-    width: 300px;
+    /* width: 300px; */
   }
-  .modal-country-button {
-    display: none;
-  }
+ 
  
 }
 
@@ -541,7 +542,7 @@ button {
   grid-template-columns: repeat(2,1fr);
 }
 .header-input-section {
-  width: 350px;
+  /* width: 350px; */
 }
 }
 
@@ -572,7 +573,7 @@ button {
     grid-template-columns: 1fr;
   }
   .header-input-section {
-    width: 250px;
+    /* width: 250px; */
   }
 }
 
