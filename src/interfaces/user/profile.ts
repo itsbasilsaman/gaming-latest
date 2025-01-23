@@ -20,12 +20,13 @@ export interface UserProfileData {
     coverPic: string | null;
     memberSince: string; // ISO date string
     userName: string;
+    dob : string | null; // ISO date string
     gender: "MALE" | "FEMALE" | "OTHER"; // You can add more options if needed
     followersCount: number;
     country: string;
     countryCode: string;
     folowingCount: number;
-    description: string | null;
+    description: string | null 
     blockedUsersCount: number;
     succesfullDeliveries: number;
     nextLevel: string | null;
