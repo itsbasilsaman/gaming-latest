@@ -10,9 +10,10 @@ import Six from '../../../assets/MainCardImages/item.png';
 import Seven from '../../../assets/MainCardImages/heart2222.png';
 import Eight from '../../../assets/Images/eight.png';
 import { Link } from 'react-router-dom';
+// import { IoIosArrowDropright } from "react-icons/io";
 
 interface BoxItem {
-  img: string;
+  img: string ;
   name: string;
   rounded?: string;
 }
@@ -52,14 +53,17 @@ export const Main: FC = memo(() => {
       img: Eight,
       name: 'Accounts',
     },
+    // {
+    //   img: <IoIosArrowDropright />
+    // }
   ];
 
   return (
     <>
         <main className='w-full  h-auto home text-white   -z-10 md:px-[80px] px-[20px] dlg:pt-[100px] lg:pt-[130px]'>
-         <section className='lg:flex lg:justify-center lg:items-left lg:flex-col lg:pl-[18px] mt-[170px] lg:mt-[30px]'>
-          <h1 className=' text-[48px] w-[350px] lg:text-[54px] font-bold lg:w-[100%] leading-[52px] lg:leading-[58px] mb-[5px] lg:mb-[0px]' style={{fontFamily:"Unbounded"}}>Your One-Stop Shop for Gaming Goodies!</h1>
-          <p className='lg:w-[520px] w-[350px] lg:text-[18px]'>Buy and sell gaming products securely—gift cards, game coins, accounts, and more. Trusted by millions of gamers worldwide.</p>
+         <section className='    lg:items-start md:items-center   lg:pl-[18px] mt-[170px] lg:mt-[30px] md:flex  flex-col justify-center  '>
+          <h1 className=' text-[47px] md:text-center lg:text-left   mediumlg:text-[54px] font-bold w-[100%] leading-[49px] mediumlg:leading-[58px] mb-[5px] lg:mb-[0px]' style={{fontFamily:"Unbounded"}}>Your One-Stop Shop for Gaming Goodies!</h1>
+          <p className='lg:w-[520px] md:w-[460px]  lg:text-[18px]'>Buy and sell gaming products securely—gift cards, game coins, accounts, and more. Trusted by millions of gamers worldwide.</p>
          </section>
          <section className='lg:relative'>
           <img src={HomeImg} alt="" className=' w-[100%] ' />
