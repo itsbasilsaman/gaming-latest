@@ -6,44 +6,87 @@ import LanguageSwitcher from '../../Header/LanguageSwitcher';
 // import DarkModeSwitcher from '../../Header/DerkModeSwitcher';
 import { SellerHeader } from '../../pages/Seller/sellerHeader';
 import { IoCameraOutline } from "react-icons/io5";
+import { userProfile } from '../../../reduxKit/actions/user/userProfile';
 // import ProfileResponsive from './ProfileResponsive';
 import { Link } from 'react-router-dom';
-import { Country } from '../../../interfaces/user/profile';
-import { ApiCountry } from '../../../interfaces/user/profile';
+import { UserProfileData } from '../../../interfaces/user/profile';
+// import { Country } from '../../../interfaces/user/profile';
+
+
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../reduxKit/store';
 
 
   const Profile: React.FC = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [coverImage, setCoverImage] = useState<string | null>(null);
+
   const [isEditing, setIsEditing] = useState<string | null>(null);
-  const [formData, setFormData] = useState({
-    firstname: "Basil",
-    lastname: "Saman",
-    email: "basilsaman.connects@gmail.com",
-    gender: "Male",
-    dob: "1990-01-01",
-    description: "This is a dummy description. Click edit to modify.",
-    memberSince : "2024-12-22",
-    followers : '0',
-    following : '0' ,
-    successfulDelivery :'0%',
-    blockedUser : '0'
-  });
-  const [countries, setCountries] = useState<Country[]>([]);
-  const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
-  
+  const [formData,setProfiles]= useState<UserProfileData>()
+  const [languages,setLanguages]= useState([])
+  const dispatch= useDispatch<AppDispatch>()
+
+//   const [formData, setFormData] = useState( {
+//     email: "najibpt89@gmail.com",
+//     firstName: "Najib",
+//     lastName: "Nj",
+//     languages: [],
+//     avatar: null,
+//     coverPic: null,
+//     memberSince: "2024-12-22T14:18:10.190Z",
+//     userName: "SALEEL",
+//     dob: null,
+//     gender: "MALE",
+//     followersCount: 0,
+//     country: "India",
+//     countryCode: "91",
+//     folowingCount: 0,
+//     description: null,
+//     blockedUsersCount: 0,
+//     succesfullDeliveries: 0,
+//     level: {
+//         level: 1,
+//         criteria: "Noobie",
+//         requiredTransactions: 10
+//     }
+// });
+
+
+  // const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
+
+
+
   useEffect(() => {
-    fetch('https://restcountries.com/v3.1/all')
-      .then((res) => res.json())
-      .then((data: ApiCountry[]) => {
-        const formattedData = data.map((country) => ({
-          name: country.name.common,
-          flag: country.flags.svg,
-          dialCode: `${country.idd.root || ''}${country.idd.suffixes?.[0] || ''}`,
-        }));
-        setCountries(formattedData);
-      });
-  }, []);
+    const fetchProfile = async () => {
+      try {
+        const resultAction = await dispatch(userProfile());
+        if (userProfile.fulfilled.match(resultAction)) {
+
+          const {data}=resultAction.payload
+          setProfiles(data)
+          setLanguages(data.languages)
+          console.log("Profile data fetched successfully: ", resultAction.payload);
+        } else {
+          console.log("Failed to fetch profile: ", resultAction.payload || resultAction.error);
+        }
+      } catch (error) {
+        console.error("Unexpected error while fetching the profile: ", error);
+      }
+    };
+
+    fetchProfile();
+  }, [dispatch]);
+  
+ 
+
+  useEffect(()=>{
+
+    console.log("this is my profiles of in page *****************",formData);
+    console.log("my languages are",languages);
+    
+    
+  },[formData])
+  
 
   const handleEditClick = (field: string) => {
     setIsEditing(field);
@@ -53,10 +96,13 @@ import { ApiCountry } from '../../../interfaces/user/profile';
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  
+    setProfiles((prev) => ({
+      ...(prev as UserProfileData),
+      [name]: value,
+    }));
   };
   
-
   const handleSaveClick = () => {
     setIsEditing(null);
     console.log(formData);
@@ -154,7 +200,7 @@ import { ApiCountry } from '../../../interfaces/user/profile';
                 />
               ) : (
                 "B"
-              )}
+              )} 
             <label
                   htmlFor="profile"
                   className="absolute bottom-0 right-0 flex h-8.5 w-8.5 cursor-pointer items-center justify-center rounded-full bg-black text-primary hover:bg-opacity-90 sm:bottom-2 sm:right-2 p-[8px]"
@@ -194,12 +240,12 @@ import { ApiCountry } from '../../../interfaces/user/profile';
       </div>
      
           <div className="text-center mb-4">
-            <h2 className="text-[16px] primary-color" style={{ fontFamily: 'Unbounded' }}>userName</h2>
-            <p className="text-gray-500">Level 1</p>
+            <h2 className="text-[16px] primary-color" style={{ fontFamily: 'Unbounded' }}>{formData?.userName}</h2>
+            <p className="text-gray-500">Level {formData?.level.level}</p>
             <div className="mb-4">
               <div className="flex justify-between my-[6px]">
-                <p>Level 1</p>
-                <p>Level 2</p>
+                <p>Level {formData?.level.level}</p>
+                <p>{formData?.level?.level ? formData.level.level + 1 : "N/A"}</p>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2.5">
                 <div className="bg-red-500 h-2.5 rounded-full" style={{ width: "0%" }}></div>
@@ -215,102 +261,32 @@ import { ApiCountry } from '../../../interfaces/user/profile';
               <div className="flex gap-4 w-full mr-[10px]">
                 <div className="flex-1">
                   <p className="text-sm text-gray-600">Firstname</p>
-                  {isEditing === "name" ? (
-                    <input
-                      type="text"
-                      name="firstname"
-                      value={formData.firstname}
-                      onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-md px-2 py-1"
-                    />
-                  ) : (
-                    <p className="text-gray-800">{formData.firstname}</p>
-                  )}
+                 
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm text-gray-600">Lastname</p>
-                  {isEditing === "name" ? (
-                    <input
-                      type="text"
-                      name="lastname"
-                      value={formData.lastname}
-                      onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-md px-2 py-1"
-                    />
-                  ) : (
-                    <p className="text-gray-800">{formData.lastname}</p>
-                  )}
+                  <p className="text-sm text-gray-600">{formData?.lastName}</p>
+                  
                 </div>
               </div>
-              <FaEdit
-                className="cursor-pointer text-gray-500"
-                onClick={() => handleEditClick("name")}
-              />
+             
             </div>
             <div className="flex justify-between items-center w-full">
               <div>
-                <p className="text-sm text-gray-600">Email</p>
-                {isEditing === "email" ? (
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-md px-2 py-1"
-                  />
-                ) : (
-                  <p className="text-gray-800">{formData.email}</p>
-                )}
+                <p className="text-sm text-gray-600">{formData?.email}</p>
+              
               </div>
-              <FaEdit
-                className="cursor-pointer text-gray-500"
-                onClick={() => handleEditClick("email")}
-              />
-            </div>
 
+            </div>
             {/* Gender */}
             <div className="flex justify-between items-center w-full">
-              <div>
-                <p className="text-sm text-gray-600">Gender</p>
-                {isEditing === "gender" ? (
-                  <select
-                    name="gender"
-                    value={formData.gender}
-                    onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-md px-2 py-1"
-                  >
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                  </select>
-                ) : (
-                  <p className="text-gray-800">{formData.gender}</p>
-                )}
-              </div>
-              <FaEdit
-                className="cursor-pointer text-gray-500"
-                onClick={() => handleEditClick("gender")}
-              />
+                <p className="text-sm text-gray-600">Gender  {formData?.gender}</p>
             </div>
             <div className="flex justify-between items-center w-full">
               <div>
-                <p className="text-sm text-gray-600">Date of Birth</p>
-                {isEditing === "dob" ? (
-                  <input
-                    type="date"
-                    name="dob"
-                    value={formData.dob}
-                    onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-md px-2 py-1"
-                  />
-                ) : (
-                  <p className="text-gray-800">{formData.dob}</p>
-                )}
+                <p className="text-sm text-gray-600">Date of Birth : {formData?.dob}</p>
+              
               </div>
-              <FaEdit
-                className="cursor-pointer text-gray-500"
-                onClick={() => handleEditClick("dob")}
-              />
+            
             </div>
           </div>
 
@@ -319,15 +295,16 @@ import { ApiCountry } from '../../../interfaces/user/profile';
             <p className="text-sm text-gray-600">Description</p>
             {isEditing === "description" ? (
               <textarea
+              
                 name="description"
-                value={formData.description}
+                value={formData?.description ?? ""}
                 onChange={handleInputChange}
                 className="w-full border border-gray-300 rounded-md px-2 py-1 my-2"
                 rows={3}
                 cols={30}
               ></textarea>
             ) : (
-              <p className="text-gray-800">{formData.description}</p>
+              <p className="text-gray-800">{formData?.description}</p>
             )}
           </div>
           <FaEdit
@@ -347,46 +324,26 @@ import { ApiCountry } from '../../../interfaces/user/profile';
           )}
 
 <p className="text-sm text-gray-600 pt-4 pb-2">Country</p>
-<div className="pb-4 flex  items-center justify-between">
-   
-      <select
-        className="w-full border rounded-md p-2 mr-[10px]"
-        onChange={(e) => {
-          const selected = countries.find((c) => c.name === e.target.value);
-          setSelectedCountry(selected || null);
-        }}
-      >
-        <option value="">Select a Country</option>
-        {countries.map((country) => (
-          <option key={country.name} value={country.name}>
-            {country.name}
-          </option>
-        ))}
-      </select>
-      {selectedCountry && (
-        <div className="flex items-center ">
-          <img
-            src={selectedCountry.flag}
-            alt={selectedCountry.name}
-            className="w-8 h-5 mr-2"
-          />
-          <span>{selectedCountry.dialCode}</span>
-        </div>
-      )}
-    </div>       
         <hr className="my-4" />
       <div className="text-center mb-4 text-sm text-gray-500 flex justify-between">
         <p>Member since</p>
-        <p className="font-medium">{formData.memberSince}</p>
+        <p className="font-medium">
+        {formData?.memberSince
+    ? new Date(formData.memberSince).toLocaleString('en-US', {
+        month: 'long',
+        year: 'numeric',
+      })
+    : "N/A"}
+  </p>
       </div>
       <hr className="my-4" />
          <div className="flex justify-between text-center text-sm text-gray-500">
         <div>
-          <p className="font-medium text-gray-800">{formData.followers}</p>
+          <p className="font-medium text-gray-800">{formData?.followersCount}</p>
           <p>Followers</p>
         </div>
         <div>
-          <p className="font-medium text-gray-800">{formData.following}</p>
+          <p className="font-medium text-gray-800">{formData?.folowingCount}</p>
           <p>Following</p>
         </div>
       </div>
@@ -396,7 +353,7 @@ import { ApiCountry } from '../../../interfaces/user/profile';
 <div className="text-center mb-4 flex justify-between">
   <p className="text-sm text-gray-500">Successful delivery</p>
  <div>
-    <p className="font-medium text-gray-800">{formData.successfulDelivery}</p>
+    <p className="font-medium text-gray-800">{formData?.succesfullDeliveries}</p>
     <p className="text-xs text-gray-500">(Total lifetime orders: 0)</p>
  </div>
 </div>
@@ -406,7 +363,7 @@ import { ApiCountry } from '../../../interfaces/user/profile';
  
       <div className="text-center mb-4 text-sm text-gray-500 flex justify-between">
         <p>Blocked User Count</p>
-        <p className="font-medium">{formData.blockedUser}</p>
+        <p className="font-medium">{formData?.blockedUsersCount}</p>
       </div>
  
  
@@ -415,6 +372,48 @@ import { ApiCountry } from '../../../interfaces/user/profile';
         </section>
         
       </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       {/* <ProfileResponsive /> */}
       <section className="lg:hidden block w-[100%] h-[100%] profile-section   pb-[25px]   flex flex-col justify-start items-center gap-[30px]">
@@ -506,12 +505,13 @@ import { ApiCountry } from '../../../interfaces/user/profile';
      
 <div className='px-[35px]'>
             <div className="text-center mb-4">
-              <h2 className="text-[16px] primary-color" style={{ fontFamily: 'Unbounded' }}>userName</h2>
-              <p className="text-gray-500">Level 1</p>
+              <h2 className="text-[16px] primary-color" style={{ fontFamily: 'Unbounded' }}>{formData?.userName}</h2>
+              <p className="text-gray-500">Level {formData?.level.level}</p>
               <div className="mb-4">
                 <div className="flex justify-between my-[6px]">
-                  <p>Level 1</p>
-                  <p>Level 2</p>
+                <p>Level {formData?.level.level}</p>
+                <p>{formData?.level?.level ? formData.level.level + 1 : "N/A"}</p>
+
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2.5">
                   <div className="bg-red-500 h-2.5 rounded-full" style={{ width: "0%" }}></div>
@@ -526,103 +526,36 @@ import { ApiCountry } from '../../../interfaces/user/profile';
               <div className="flex justify-between items-center w-full">
                 <div className="flex gap-4 w-full mr-[10px]">
                   <div className="flex-1">
-                    <p className="text-sm text-gray-600">Firstname</p>
-                    {isEditing === "name" ? (
-                      <input
-                        type="text"
-                        name="firstname"
-                        value={formData.firstname}
-                        onChange={handleInputChange}
-                        className="w-full border border-gray-300 rounded-md px-2 py-1"
-                      />
-                    ) : (
-                      <p className="text-gray-800">{formData.firstname}</p>
-                    )}
+                    <p className="text-sm text-gray-600">{formData?.firstName}</p>
+                  
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm text-gray-600">Lastname</p>
-                    {isEditing === "name" ? (
-                      <input
-                        type="text"
-                        name="lastname"
-                        value={formData.lastname}
-                        onChange={handleInputChange}
-                        className="w-full border border-gray-300 rounded-md px-2 py-1"
-                      />
-                    ) : (
-                      <p className="text-gray-800">{formData.lastname}</p>
-                    )}
+                    <p className="text-sm text-gray-600">{formData?.lastName}</p>
+                   
                   </div>
                 </div>
-                <FaEdit
-                  className="cursor-pointer text-gray-500"
-                  onClick={() => handleEditClick("name")}
-                />
+              
               </div>
               <div className="flex justify-between items-center w-full">
                 <div>
-                  <p className="text-sm text-gray-600">Email</p>
-                  {isEditing === "email" ? (
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-md px-2 py-1"
-                    />
-                  ) : (
-                    <p className="text-gray-800">{formData.email}</p>
-                  )}
+                  {/* <p className="text-sm text-gray-600">Email</p> */}
+                 
                 </div>
-                <FaEdit
-                  className="cursor-pointer text-gray-500"
-                  onClick={() => handleEditClick("email")}
-                />
+               
               </div>
   
               {/* Gender */}
               <div className="flex justify-between items-center w-full">
                 <div>
-                  <p className="text-sm text-gray-600">Gender</p>
-                  {isEditing === "gender" ? (
-                    <select
-                      name="gender"
-                      value={formData.gender}
-                      onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-md px-2 py-1"
-                    >
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                      <option value="Other">Other</option>
-                    </select>
-                  ) : (
-                    <p className="text-gray-800">{formData.gender}</p>
-                  )}
+                  <p className="text-sm text-gray-600">Gender {formData?.gender}</p>
                 </div>
-                <FaEdit
-                  className="cursor-pointer text-gray-500"
-                  onClick={() => handleEditClick("gender")}
-                />
               </div>
               <div className="flex justify-between items-center w-full">
                 <div>
-                  <p className="text-sm text-gray-600">Date of Birth</p>
-                  {isEditing === "dob" ? (
-                    <input
-                      type="date"
-                      name="dob"
-                      value={formData.dob}
-                      onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-md px-2 py-1"
-                    />
-                  ) : (
-                    <p className="text-gray-800">{formData.dob}</p>
-                  )}
+                <p className="text-sm text-gray-600">Date of Birth : {formData?.dob}</p>
+                  
                 </div>
-                <FaEdit
-                  className="cursor-pointer text-gray-500"
-                  onClick={() => handleEditClick("dob")}
-                />
+            
               </div>
             </div>
   
@@ -632,14 +565,14 @@ import { ApiCountry } from '../../../interfaces/user/profile';
               {isEditing === "description" ? (
                 <textarea
                   name="description"
-                  value={formData.description}
+                  value={formData?.description ?? ""}
                   onChange={handleInputChange}
                   className="w-full border border-gray-300 rounded-md px-2 py-1 my-2"
                   rows={3}
                   cols={30}
                 ></textarea>
               ) : (
-                <p className="text-gray-800">{formData.description}</p>
+                <p className="text-gray-800">{formData?.description}</p>
               )}
             </div>
             <FaEdit
@@ -659,7 +592,7 @@ import { ApiCountry } from '../../../interfaces/user/profile';
             )}
   
   <p className="text-sm text-gray-600 pt-4 pb-2">Country</p>
-  <div className="pb-4 flex  items-center justify-between">
+  {/* <div className="pb-4 flex  items-center justify-between">
      
         <select
           className="w-full border rounded-md p-2 mr-[10px]"
@@ -685,22 +618,23 @@ import { ApiCountry } from '../../../interfaces/user/profile';
             <span>{selectedCountry.dialCode}</span>
           </div>
         )}
-
-
-      </div>       
+      </div>        */}
           <hr className="my-4" />
         <div className="text-center mb-4 text-sm text-gray-500 flex justify-between">
           <p>Member since</p>
-          <p className="font-medium">{formData.memberSince}</p>
+          {new Date(formData?.memberSince ?? "1970-01-01").toLocaleString('en-US', {
+    month: 'long',
+    year: 'numeric',
+  })}
         </div>
         <hr className="my-4" />
            <div className="flex justify-between text-center text-sm text-gray-500">
           <div>
-            <p className="font-medium text-gray-800">{formData.followers}</p>
+            <p className="font-medium text-gray-800">{formData?.followersCount}</p>
             <p>Followers</p>
           </div>
           <div>
-            <p className="font-medium text-gray-800">{formData.following}</p>
+            <p className="font-medium text-gray-800">{formData?.folowingCount}</p>
             <p>Following</p>
           </div>
         </div>
@@ -710,7 +644,7 @@ import { ApiCountry } from '../../../interfaces/user/profile';
   <div className="text-center mb-4 flex justify-between">
     <p className="text-sm text-gray-500">Successful delivery</p>
    <div>
-      <p className="font-medium text-gray-800">{formData.successfulDelivery}</p>
+      <p className="font-medium text-gray-800">{formData?.succesfullDeliveries}</p>
       <p className="text-xs text-gray-500">(Total lifetime orders: 0)</p>
    </div>
   </div>
@@ -720,7 +654,7 @@ import { ApiCountry } from '../../../interfaces/user/profile';
    
         <div className="text-center mb-4 text-sm text-gray-500 flex justify-between">
           <p>Blocked User Count</p>
-          <p className="font-medium">{formData.blockedUser}</p>
+          <p className="font-medium">{formData?.blockedUsersCount}</p>
         </div>
 </div>
  
