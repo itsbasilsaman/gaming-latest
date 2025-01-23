@@ -149,7 +149,7 @@ button {
   cursor: pointer;
 }
 .game-slider-home .game-slider-box:hover {
-  border: 2px solid rgb(255, 255, 255) ;
+   background-color:rgba(255, 255, 255, 0.21);
 }
 
 
@@ -316,6 +316,41 @@ button {
 .chat-input-field:focus {
   border: 2px solid #181b37;
 }
+
+
+/* Animations */
+
+/* animations.css */
+@keyframes fadeScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeScaleOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+.modal-enter {
+  animation: fadeScaleIn 0.5s ease-out forwards;
+}
+
+.modal-exit {
+  animation: fadeScaleOut 0.5s ease-in forwards;
+}
+
  
 
 @media(max-width:745px){
@@ -478,7 +513,11 @@ button {
   color: #101441;
 }
 .primary-background {
-  background-color:  #101441;;
+  background-color:  #181e5a;
+  transition: all ease 0.4s;
+}
+.primary-background:hover {
+  background-color:  #0c0e28;
 }
 .primary-border {
   border: 1px solid rgba(224, 224, 224, 0.671) ;

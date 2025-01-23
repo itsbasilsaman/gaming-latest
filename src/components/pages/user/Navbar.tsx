@@ -160,7 +160,7 @@ export const Navbar: React.FC = React.memo(() => {
 </div>
 
         <div className='flex justify-center items-center lg:gap-[20px] hidden lg:flex'>
-          <button className=' w-[94px] lg:h-[56px] country-button modal-country-button flex justify-center items-center gap-[10px] rounded-[1000px] lg:text-[19px]' onClick={toggleModal}><img src={Flag} alt="" className='w-[43px]' /> IN</button>
+          <button className=' w-[92px] pr-[4px] lg:h-[56px] country-button modal-country-button flex justify-center items-center gap-[10px] rounded-[1000px] lg:text-[19px]' onClick={toggleModal}><img src={Flag} alt="" className='w-[43px]' /> IN</button>
           <Link to={'/user/seller'}><button className='lg:w-[188px] lg:h-[56px] country-button rounded-[1000px] lg:text-[19px] '>Become a Seller</button></Link>
           {/* <Link to={'/user/login'}><button className='lg:w-[228px] lg:h-[56px] login-signup-button rounded-[1000px] lg:text-[19px]'>Login / Signup</button></Link> */}
          <Link to={'/chat'}>
@@ -191,7 +191,7 @@ export const Navbar: React.FC = React.memo(() => {
       <div
         className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 transition-all duration-300 ease-in-out ${isModalOpen ? "scale-100 opacity-100" : "scale-75 opacity-0 pointer-events-none"}`}
       >
-        <div className='px-[29px] py-[25px] bg-white w-[550px] modal-main '>
+        <div className='px-[29px] py-[25px]  w-[550px] modal-main '>
           <section className='w-full flex justify-between items-center pb-[15px]'>
             <p className='text-[20px] font-semibold' style={{ fontFamily: 'Unbounded' }}>Localization setting</p>
             <IoClose className='text-[23px] cursor-pointer' onClick={toggleModal} />
