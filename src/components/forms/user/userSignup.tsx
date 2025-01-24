@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import { useFormik } from "formik";
 // import { NavLink } from "react-router-dom";
@@ -9,7 +10,8 @@ import { userSignupValidationSchema } from "../../../validation/user/userSignupV
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../reduxKit/store";
 import { useNavigate } from "react-router-dom";
-
+import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 // Define the form values interface
  export interface SignupFormValues {
 
@@ -52,11 +54,33 @@ import { useNavigate } from "react-router-dom";
         console.log("Form submitted successfully with values:", values);
        const response=   await dispatch(SignupUser(values)).unwrap()
        console.log("saleelo",response);
-       
+       toast.success(response.message)
         navigate("/")
         // Add your form submission logic here (e.g., API request)
-      } catch (error) {
+      } catch (error:any) {
         console.error("Error submitting the form:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: error,
+          timer: 3000,
+          toast: true,
+          showConfirmButton: false,
+          timerProgressBar: true,
+          background: '#fff', // Light red background for an error message
+          color: '#721c24', // Darker red text color for better readability
+          iconColor: '#f44336', // Custom color for the icon
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer); // Pause timer on hover
+            toast.addEventListener('mouseleave', Swal.resumeTimer); // Resume timer on mouse leave
+          },
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown' // Animation when the toast appears
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp' // Animation when the toast disappears
+          }
+        });
       } finally {
         setIsSubmitting(false);
       }

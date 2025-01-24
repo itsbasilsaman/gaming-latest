@@ -51,7 +51,7 @@ export const App: React.FC = React.memo(() => {
         {/* <Route path="/loading" element={<Loading/>} /> */}
         <Route path="/error" element={<Loading/>} />
         <Route path="/toggle" element={<ToggleProfile/>} />
-        <Route path="/sellerregistration" element={<SellerRegistrationForm/>} />
+        <Route path="/user/sellerSignup" element={<SellerRegistrationForm/>} />
       </Routes>
         </Suspense>
     </Fragment>

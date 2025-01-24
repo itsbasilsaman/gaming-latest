@@ -28,7 +28,7 @@ export const axiosIn = axios.create({
   export const loginUser = createAsyncThunk( "user/send-otp",
     async (userCredentials:ILoginUser,{rejectWithValue})=>{
         try {
-            const data  = await axiosIn.post(`/send-otp`,userCredentials, config );
+            const data  = await axiosIn.post(`/user/send-otp`,userCredentials, config );
             return data
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } catch (error: any) {
@@ -46,7 +46,7 @@ export const axiosIn = axios.create({
         try {
           console.log("this is verify otp action ", userCredentials);
           
-          const response = await axiosIn.post<VerifyOtpResponse>(`/verify-otp`,userCredentials, config );
+          const response = await axiosIn.post<VerifyOtpResponse>(`/user/verify-otp`,userCredentials, config );
 
             console.log("verirf action _______sds___***____",response.data);
             
@@ -67,7 +67,7 @@ export const axiosIn = axios.create({
     async (userCredentials:UserSignup,{rejectWithValue})=>{
         try {
           console.log("4444444data for user signup the data ___", userCredentials);
-            const  response = await axiosIn.post(`/create-account`,userCredentials, config );
+            const  response = await axiosIn.post(`/user/create-account`,userCredentials, config );
             console.log("the filled data of the signup ", response.data );
             return response.data;
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -88,7 +88,7 @@ export const userLogout = createAsyncThunk(
   "user/logout",
   async (__, { rejectWithValue }) => {
     try {
-       axiosIn.delete(`/logout`, config )
+       axiosIn.delete(`/user/logout`, config )
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.response && error.response.data) {
