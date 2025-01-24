@@ -14,6 +14,7 @@ export default {
         extralg : '1345px',
         xl: '1400px',  
       },
+      
       animation: {
         fadeIn: "fadeIn 1s ease-out",
         slideInLeft: "slideInLeft 0.8s ease-out",

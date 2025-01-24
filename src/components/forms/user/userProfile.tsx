@@ -1,6 +1,6 @@
 // import { useState } from 'react';
 // import { FaEdit, FaUserEdit } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
+import  React ,{ useEffect, useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
 import LanguageSwitcher from '../../Header/LanguageSwitcher';
 // import DarkModeSwitcher from '../../Header/DerkModeSwitcher';
@@ -15,6 +15,9 @@ import { UserProfileData } from '../../../interfaces/user/profile';
 
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../reduxKit/store';
+import LanguageSection from '../../Header/LanguageSection';
+import FollowingModal from './FollowingModal';
+import FollowersModal from './FollowerModal';
 
 
   const Profile: React.FC = () => {
@@ -24,7 +27,22 @@ import { AppDispatch } from '../../../reduxKit/store';
   const [isEditing, setIsEditing] = useState<string | null>(null);
   const [formData,setProfiles]= useState<UserProfileData>()
   const [languages,setLanguages]= useState([])
+
+
+    // This is Following ModaL ***
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  // It is Follower Modal 
+  const [isFollowersModalOpen, setIsFollowersModalOpen] = React.useState(false);
+  const openFollowersModal = () => setIsFollowersModalOpen(true);
+  const closeFollowersModal = () => setIsFollowersModalOpen(false);
+
+
   const dispatch= useDispatch<AppDispatch>()
+
+
 
 //   const [formData, setFormData] = useState( {
 //     email: "najibpt89@gmail.com",
@@ -118,7 +136,7 @@ import { AppDispatch } from '../../../reduxKit/store';
   };
 
   return (
-    <>
+    <div className='w-full h-full bg-gray-300'>
         <div className='w-full h-[90px]'><SellerHeader/></div>
       <div className="w-full h-[1500px] profile-main     relative">
       <div
@@ -126,7 +144,7 @@ import { AppDispatch } from '../../../reduxKit/store';
   style={{
     background: coverImage
       ? `url(${coverImage}) center/cover no-repeat`
-      : `url('../../../assets/th.jpg')`,
+      : `url('../../../assets/Images/profile-bg.avif')`,
   }}
 >
  
@@ -324,6 +342,7 @@ import { AppDispatch } from '../../../reduxKit/store';
           )}
 
 <p className="text-sm text-gray-600 pt-4 pb-2">Country</p>
+          <LanguageSection/>
         <hr className="my-4" />
       <div className="text-center mb-4 text-sm text-gray-500 flex justify-between">
         <p>Member since</p>
@@ -338,11 +357,11 @@ import { AppDispatch } from '../../../reduxKit/store';
       </div>
       <hr className="my-4" />
          <div className="flex justify-between text-center text-sm text-gray-500">
-        <div>
+        <div onClick={openFollowersModal} className='cursor-pointer'>
           <p className="font-medium text-gray-800">{formData?.followersCount}</p>
           <p>Followers</p>
         </div>
-        <div>
+        <div  onClick={openModal} className='cursor-pointer'>
           <p className="font-medium text-gray-800">{formData?.folowingCount}</p>
           <p>Following</p>
         </div>
@@ -373,6 +392,8 @@ import { AppDispatch } from '../../../reduxKit/store';
         
       </div>
 
+      <FollowingModal  isOpen={isModalOpen} onClose={closeModal} />
+      <FollowersModal isOpen={isFollowersModalOpen} onClose={closeFollowersModal} />
 
 
 
@@ -662,7 +683,7 @@ import { AppDispatch } from '../../../reduxKit/store';
     
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

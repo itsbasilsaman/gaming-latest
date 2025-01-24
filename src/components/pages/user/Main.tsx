@@ -74,7 +74,7 @@ export const Main: FC = memo(() => {
   {boxItems.map((item, index) => (
     <Link to="/about" key={index}>
       <div className="box-item flex flex-col justify-center items-center">
-        <div className='flex flex-col justify-center items-center py-[8px] px-[6px] game-slider-box cursor-pointer rounded-[8px]'>
+        <div className='flex flex-col justify-center items-center py-[8px] px-[10px] game-slider-box cursor-pointer rounded-[8px]'>
           <img
             src={item.img}
             alt={item.name}

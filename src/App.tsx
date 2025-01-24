@@ -5,6 +5,7 @@ import ScrollToTop from "./ScrollToTop";
 import { Loading } from "./Loading";
 import { ToggleProfile } from "./components/pages/user/ToggleProfile";
 import SellerRegistrationForm from "./components/seller/forms/SellerRegistrationForm";
+import LanguageSection from "./components/Header/LanguageSection";
 
 const WelcomePage = lazy(() => import("./components/pages/welcome"))
 const UserLogin = lazy(()=> import('./components/forms/user/userLogin'))
@@ -51,7 +52,7 @@ export const App: React.FC = React.memo(() => {
         {/* <Route path="/loading" element={<Loading/>} /> */}
         <Route path="/error" element={<Loading/>} />
         <Route path="/toggle" element={<ToggleProfile/>} />
-        <Route path="/user/sellerSignup" element={<SellerRegistrationForm/>} />
+
       </Routes>
         </Suspense>
     </Fragment>
