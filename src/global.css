@@ -143,14 +143,44 @@ button {
   justify-content: center;
   align-items: center;
 }
+.game-slider-home-responsive {
+  background-color: rgba(255, 255, 255, 0.14);
+  border: 2px solid rgba(255, 255, 255, 0.21);
+  display: flex;
+  overflow-x: auto; /* Enable horizontal scroll */
+  gap: 16px; /* Space between items */
+  padding: 8px;
+  scroll-behavior: smooth; /* Smooth scroll */
+  width: 100%; /* Make it span the full width of its parent container */
+}
+
+.game-slider-home-responsive .box-item {
+  flex-shrink: 0; /* Prevent items from shrinking */
+  width: 170px; /* Adjust width for 4-5 items to fit */
+}
+
+.game-slider-home-responsive::-webkit-scrollbar {
+  display: none; /* Hide default scrollbar */
+}
+
 
 .game-slider-box {
   border: 2px solid  rgba(255, 255, 255, 0);
   cursor: pointer;
 }
-.game-slider-home .game-slider-box:hover {
+.game-slider-home-responsive .game-slider-box:hover {
    background-color:rgba(255, 255, 255, 0.21);
 }
+
+ /* Hide the scrollbar while keeping scroll functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
 
 
 /* GameCard */
@@ -359,9 +389,7 @@ button {
     width: 100%;
     text-align: center;
   }
-  .game-slider-home {
-    display: none;
-  }
+
 
 }
 
@@ -580,9 +608,7 @@ button {
   display: grid;
   grid-template-columns: repeat(2,1fr);
 }
-.header-input-section {
-  /* width: 350px; */
-}
+ 
 }
 
 

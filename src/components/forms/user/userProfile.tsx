@@ -272,7 +272,7 @@ import FollowersModal from './FollowerModal';
             </div>
           </div>
           <div className='py-[10px] w-full flex justify-center items-center pb-[18px]'>
-          <LanguageSwitcher/>
+      
           </div>
           <div className="w-full space-y-6">
             <div className="flex justify-between items-center w-full">

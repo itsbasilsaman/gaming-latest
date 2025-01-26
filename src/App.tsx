@@ -6,6 +6,7 @@ import { Loading } from "./Loading";
 import { ToggleProfile } from "./components/pages/user/ToggleProfile";
 import SellerRegistrationForm from "./components/seller/forms/SellerRegistrationForm";
 import LanguageSection from "./components/Header/LanguageSection";
+import HorizontalScrollSection from "./components/forms/user/HorizontalScrollSection";
 
 const WelcomePage = lazy(() => import("./components/pages/welcome"))
 const UserLogin = lazy(()=> import('./components/forms/user/userLogin'))
@@ -18,8 +19,6 @@ const Profile = lazy(()=> import('./components/forms/user/userProfile'))
 const EmailVerification = lazy(()=> import('./components/forms/user/emailVerification'))
 const TopUpSection = lazy(()=> import('./components/pages/Topup/topupSection'))
 const SellerPage = lazy(()=> import('./components/pages/Seller/sellerPage'))
-
-
  
 // import { MainVerification } from "./components/forms/user/phoneVerification";
 // import { MainDetails } from "./components/forms/user/mainDetails";
@@ -54,6 +53,7 @@ export const App: React.FC = React.memo(() => {
         <Route path="/toggle" element={<ToggleProfile/>} />
         <Route path="/languageselect" element={<LanguageSection/>} />
         <Route path="/sellerregistration" element={<SellerRegistrationForm/>} />
+        <Route path="/scroll" element={<HorizontalScrollSection/>} />
       </Routes>
         </Suspense>
     </Fragment>

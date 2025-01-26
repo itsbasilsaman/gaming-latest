@@ -12,7 +12,7 @@ export const SellerHome: React.FC = () => {
           <p className="text-white text-[15px] mb-6 uppercase">
             Access millions of users worldwide without any registration costs.
           </p>
-          <button className="  text-blue-900 bg-white font-semibold px-6 py-3 rounded-lg transition duration-300" style={{fontFamily:'Unbounded'}}>
+          <button className="  text-blue-900 bg-white font-semibold px-6 py-4 rounded-full transition duration-300" style={{fontFamily:'Unbounded'}}>
             Register now
           </button>
         </div>

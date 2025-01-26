@@ -46,7 +46,7 @@ export const ToggleProfile: React.FC = () => {
            
 
          
-            <div className="  mt-2   py-4 w-[370px]  rounded-lg shadow-md">
+            <div className="  mt-2   py-4  w-[100%]  rounded-lg shadow-md">
               <div className="  rounded-lg max-w-md mx-auto">
                 {/* Header */}
                 <Link to={'/profile'}>
@@ -77,7 +77,7 @@ export const ToggleProfile: React.FC = () => {
                     <span className="text-sm font-medium text-white">
                       G2G Store Credit
                     </span>
-                    <span className="text-sm font-medium text-green-600 flex gap-[5px]">
+                    <span className="text-sm font-medium text-white flex gap-[5px]">
                       <img src={ScoreCard} className="w-[20px]" /> SC 0.00
                     </span>
                   </div>
@@ -93,7 +93,7 @@ export const ToggleProfile: React.FC = () => {
                     <span className="text-sm font-medium text-white">
                       Available Balance
                     </span>
-                    <span className="text-[18px] text-black">
+                    <span className="text-[18px] text-white">
                       0.00 <span className="text-[12px]">USD</span>
                     </span>
                   </div>
@@ -103,12 +103,12 @@ export const ToggleProfile: React.FC = () => {
                 <div className="mt-1">
                   <ul className="space-y-2">
                     <li>
-                      <button className="w-full text-left text-sm primary-color hover:bg-gray-100 py-2 rounded-lg px-4">
+                      <button className="w-full text-left text-sm text-white hover:bg-gray-100 py-2 rounded-lg px-4">
                         Overview
                       </button>
                     </li>
                     <li>
-                      <button className="w-full text-left text-sm primary-color hover:bg-gray-100 rounded-lg px-4">
+                      <button className="w-full text-left text-sm text-white hover:bg-gray-100 rounded-lg px-4">
                         Purchase Orders
                       </button>
                     </li>
@@ -116,7 +116,7 @@ export const ToggleProfile: React.FC = () => {
                       <div>
                         <button
                           onClick={toggleSelling}
-                          className="w-full text-left text-sm primary-color hover:bg-gray-100 py-2 rounded-lg flex justify-between items-center px-4"
+                          className="w-full text-left text-sm text-white  py-2 rounded-lg flex justify-between items-center px-4"
                         >
                           Selling
                           <span>
@@ -129,11 +129,11 @@ export const ToggleProfile: React.FC = () => {
                         </button>
                         {isSellingOpen && (
                           <ul className="space-y-1">
-                            <li className="text-sm text-gray-600 px-4">
-                              Selling Item 1
+                            <li className="text-sm text-gray-400 px-4">
+                              Clash of Clans
                             </li>
-                            <li className="text-sm text-gray-600 px-4">
-                              Selling Item 2
+                            <li className="text-sm text-gray-400 px-4">
+                              Pub - G
                             </li>
                           </ul>
                         )}
@@ -143,7 +143,7 @@ export const ToggleProfile: React.FC = () => {
                       <div>
                         <button
                           onClick={toggleSettings}
-                          className="w-full text-left text-sm primary-color hover:bg-gray-100 py-2 rounded-lg flex justify-between items-center px-4"
+                          className="w-full text-left text-sm text-white  py-2 rounded-lg flex justify-between items-center px-4"
                         >
                           Settings
                           <span>
@@ -156,11 +156,11 @@ export const ToggleProfile: React.FC = () => {
                         </button>
                         {isSettingsOpen && (
                           <ul className="space-y-1">
-                            <li className="text-sm text-gray-600 px-4">
-                              Setting Item 1
+                            <li className="text-sm text-gray-400 px-4">
+                              Setting  1
                             </li>
-                            <li className="text-sm text-gray-600 px-4">
-                              Setting Item 2
+                            <li className="text-sm text-gray-400 px-4">
+                              Setting  2
                             </li>
                           </ul>
                         )}
@@ -168,7 +168,7 @@ export const ToggleProfile: React.FC = () => {
                     </li>
                     <li>
                     <Link to={'/'}>
-                        <button className="w-full text-left text-sm primary-color hover:bg-gray-100 py-2 rounded-lg flex justifu-center items-center gap-[6px] px-4">
+                        <button className="w-full text-left text-sm text-white   py-2 rounded-lg flex justifu-center items-center gap-[6px] px-4">
                           <MdLogout className="text-[19px]" /> Log Out
                         </button>
                     </Link>

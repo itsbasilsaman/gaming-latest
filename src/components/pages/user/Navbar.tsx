@@ -5,9 +5,9 @@ import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import Flag from './Images/flag.png';
 import { IoMdClose } from "react-icons/io";
 import { Link } from 'react-router-dom';
-import { AiFillMessage } from "react-icons/ai";
-import { IoMdNotifications } from "react-icons/io";
-import { UserAvatar } from './UserAvatar';
+// import { AiFillMessage } from "react-icons/ai";
+// import { IoMdNotifications } from "react-icons/io";
+// import { UserAvatar } from './UserAvatar';
 import Logo from '../../../assets/gaminggate-logo.png'
 import { ToggleProfile } from './ToggleProfile';
 export const Navbar: React.FC = React.memo(() => {
@@ -162,18 +162,18 @@ export const Navbar: React.FC = React.memo(() => {
         <div className='flex justify-center items-center lg:gap-[20px] hidden lg:flex'>
           <button className=' w-[92px] pr-[4px] lg:h-[56px] country-button modal-country-button flex justify-center items-center gap-[10px] rounded-[1000px] lg:text-[19px]' onClick={toggleModal}><img src={Flag} alt="" className='w-[43px]' /> IN</button>
           <Link to={'/user/seller'}><button className='lg:w-[188px] lg:h-[56px] country-button rounded-[1000px] lg:text-[19px] '>Become a Seller</button></Link>
-          {/* <Link to={'/user/login'}><button className='lg:w-[228px] lg:h-[56px] login-signup-button rounded-[1000px] lg:text-[19px]'>Login / Signup</button></Link> */}
-         <Link to={'/chat'}>
+          <Link to={'/user/login'}><button className='lg:w-[228px] lg:h-[56px] login-signup-button rounded-[1000px] lg:text-[19px]'>Login / Signup</button></Link>
+         {/* <Link to={'/chat'}>
             <div className=' p-[15px] rounded-full country-button cursor-pointer'>
             <AiFillMessage className='text-[22px] ' />
             </div>
-         </Link>
-          <div className=' p-[15px] rounded-full country-button cursor-pointer'>
+         </Link> */}
+          {/* <div className=' p-[15px] rounded-full country-button cursor-pointer'>
           <IoMdNotifications className='text-[22px]' />
 
-          </div>
+          </div> */}
       
-          <UserAvatar/>
+          {/* <UserAvatar/> */}
 
 
 
@@ -250,8 +250,10 @@ export const Navbar: React.FC = React.memo(() => {
         </div>
           
         <div className="p-[25px] space-y-6">
+      
         <ToggleProfile/>
-          <div className='flex justify-center items-center'>
+          <div className='flex justify-center items-center flex-col gap-[15px] '>
+          <Link to={'/user/login'}><button className=' px-[33px] h-[56px] login-signup-button rounded-[1000px] lg:text-[19px]'>Login / Signup</button></Link>
             <span className='text-[20px] font-semibold country-button px-[24px] py-[12px] rounded-[1000px]'>Become a Seller</span>
           </div>
           
