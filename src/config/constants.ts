@@ -1,6 +1,6 @@
 
 
-export const URL="https://game-gate-api.onrender.com/api/v1/user";
+export const URL="https://game-gate-api.onrender.com/api/v1";
 // export const URL="http://localhost:2002";
 
 
@@ -11,8 +11,6 @@ export const config ={
     withCredentials:false 
 
 }
-
-
 
 export const configWithToken = () => {
     let token = localStorage.getItem("accessToken");

@@ -2,7 +2,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const userLanguageChange = createAsyncThunk(
-    "admin/language change",
+    "user/language change",
     async (lang:string, { rejectWithValue }) => {
       try {
            const language=lang
