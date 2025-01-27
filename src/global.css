@@ -569,6 +569,14 @@ button {
    filter: brightness(80%);
   cursor: pointer; 
 }
+
+
+
+/* UserSignUp & UserLogin */
+
+.user-background {
+  background: linear-gradient(to top right, #10133c, #2c369e);
+}
  
 
  
