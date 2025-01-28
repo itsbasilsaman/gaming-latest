@@ -1,151 +1,146 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import { useFormik } from "formik";
-// import { NavLink } from "react-router-dom";
-// import { MdAccountCircle } from "react-icons/md";
-import { SignupUser } from "../../../reduxKit/actions/auth/authAction";
-
-
-import { userSignupValidationSchema } from "../../../validation/user/userSignupValidationSchema"; // Import the validation schema
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../reduxKit/store";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-// Define the form values interface
- export interface SignupFormValues {
+import { AxiosError } from "axios"; // Import AxiosError for error typing
 
-  firstName:string
-  lastName:string
-  fcmToken:string
-  phone:string
-  country:string
-  userName:string
-  email:string
-  gender:string
+import { SignupUser } from "../../../reduxKit/actions/auth/authAction";
+import { userSignupValidationSchema } from "../../../validation/user/userSignupValidationSchema";
+import { AppDispatch, RootState } from "../../../reduxKit/store";
+
+export interface SignupFormValues {
+  firstName: string;
+  lastName: string;
+  fcmToken: string;
+  phone: string;
+  country: string;
+  userName: string;
+  email: string;
+  gender: string;
 }
 
-
-
-  const UserRegister: React.FC = () => {
+const UserRegister: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const {loading}=useSelector((state:RootState)=>state.auth)
-  const navigate= useNavigate()
-  const dispatch=useDispatch<AppDispatch>()
+  const { loading } = useSelector((state: RootState) => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+
   // Formik setup
   const formik = useFormik<SignupFormValues>({
     initialValues: {
       firstName: "",
       lastName: "",
       fcmToken: "fcm",
-      phone:"",
+      phone: "",
       country: "",
       userName: "",
       email: "",
       gender: "",
     },
-
-
     validationSchema: userSignupValidationSchema,
-    onSubmit: async (values:SignupFormValues) => {
+    onSubmit: async (values: SignupFormValues) => {
       setIsSubmitting(true);
       try {
-   
-        console.log("Form submitted successfully with values:", values);
-       const response=   await dispatch(SignupUser(values)).unwrap()
-       console.log("saleelo",response);
-       toast.success(response.message)
-        navigate("/")
-        // Add your form submission logic here (e.g., API request)
-      } catch (error:any) {
-        console.error("Error submitting the form:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Error!",
-          text: error,
-          timer: 3000,
-          toast: true,
-          showConfirmButton: false,
-          timerProgressBar: true,
-          background: '#fff', // Light red background for an error message
-          color: '#721c24', // Darker red text color for better readability
-          iconColor: '#f44336', // Custom color for the icon
-          didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer); // Pause timer on hover
-            toast.addEventListener('mouseleave', Swal.resumeTimer); // Resume timer on mouse leave
-          },
-          showClass: {
-            popup: 'animate__animated animate__fadeInDown' // Animation when the toast appears
-          },
-          hideClass: {
-            popup: 'animate__animated animate__fadeOutUp' // Animation when the toast disappears
-          }
-        });
+        const response = await dispatch(SignupUser(values)).unwrap();
+        toast.success(response.message);
+        navigate("/");
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          // Handle Axios specific error
+          Swal.fire({
+            icon: "error",
+            title: "Error!",
+            text: error.response?.data.message || "Something went wrong",
+            timer: 3000,
+            toast: true,
+            showConfirmButton: false,
+            timerProgressBar: true,
+            background: "#fff",
+            color: "#721c24",
+            iconColor: "#f44336",
+            didOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+            showClass: { popup: "animate__animated animate__fadeInDown" },
+            hideClass: { popup: "animate__animated animate__fadeOutUp" },
+          });
+        } else {
+          // Handle other errors
+          Swal.fire({
+            icon: "error",
+            title: "Error!",
+            text: "An unknown error occurred.",
+            timer: 3000,
+            toast: true,
+            showConfirmButton: false,
+            timerProgressBar: true,
+            background: "#fff",
+            color: "#721c24",
+            iconColor: "#f44336",
+            didOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+            showClass: { popup: "animate__animated animate__fadeInDown" },
+            hideClass: { popup: "animate__animated animate__fadeOutUp" },
+          });
+        }
       } finally {
         setIsSubmitting(false);
       }
     },
-  }); 
-  return (
-    <div
-      className="flex items-center p-2 justify-center min-h-screen relative overflow-hidden"
-      style={{
-        backgroundAttachment: "fixed",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-      }}
-    >
-      <div className="absolute inset-0 animate-pulse"></div>
-      <div className="absolute inset-0 adminlogin-background">
-        <div className="background-one relative inset-0 flex justify-center items-start pt-[60px]"></div>
-        <div className="background-two"></div>
-      </div>
+  });
 
-      <div className="relative z-10 flex flex-col bg-white items-center px-[28px] py-[75px] w-full max-w-md admin-login-box">
-        <h2
-          className="text-3xl font-bold mb-6 text-center text-white animate-bounce"
-          style={{ fontFamily: "Unbounded", color: "#24288E" }}
-        >
+  return (
+    <div className="flex items-center justify-center min-h-screen user-background py-8 px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10  affiliate-section  px-8 py-10 rounded-[24px]   w-full max-w-lg md:max-w-3xl lg:max-w-4xl">
+        <h2 className="text-3xl font-bold text-center text-white mb-6 py-3"  style={{fontFamily:"Unbounded"}}>
           Create Account
         </h2>
-        <form onSubmit={formik.handleSubmit} className="w-full">
-          {[
-            { name: "firstName", label: "First Name" },
-            { name: "lastName", label: "Last Name" },
-            { name: "country", label: "Country" },
-            { name: "userName", label: "Username" },
-            { name: "email", label: "Email Address" },
-            { name: "phone", label: "phone number" },
-          ].map((field) => (
-            <div className="mb-6" key={field.name}>
-              <label
-                htmlFor={field.name}
-                className="block text-[17px] text-gray-600 mb-[2px]"
-              >
-                {field.label}
-              </label>
-              <input
-                id={field.name}
-                name={field.name}
-                type="text"
-                value={formik.values[field.name as keyof SignupFormValues]}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className="w-full px-2 py-[10px] text-lg border rounded-lg text-gray-800 focus:ring-2 focus:ring-[#723077] focus:outline-none transition"
-              />
-              {formik.touched[field.name as keyof SignupFormValues] &&
-                formik.errors[field.name as keyof SignupFormValues] && (
-                  <div className="text-red-400 text-sm mt-1"> 
-                    {formik.errors[field.name as keyof SignupFormValues]}
-                  </div>
-                )}
-            </div>
-          ))}
-          <div className="mb-6">
+        <form onSubmit={formik.handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {[
+              { name: "firstName", label: "First Name" , placeholder:'Your First Name' },
+              { name: "lastName", label: "Last Name" ,placeholder:'Your Last Name'  },
+              { name: "country", label: "Country" , placeholder:'Your Country' },
+              { name: "userName", label: "Username" , placeholder:'Enter Your Username' },
+              { name: "email", label: "Email " , placeholder:'email@example.com' },
+              { name: "phone", label: "Phone Number" , placeholder:'(123) 456-7890' },
+            ].map((field) => (
+              <div key={field.name}  >
+                <label
+                  htmlFor={field.name}
+                  className="block text-sm font-medium text-white"
+                >
+                  {field.label}
+                </label>
+                <input
+                  id={field.name}
+                  name={field.name}
+                  type="text"
+                  value={formik.values[field.name as keyof SignupFormValues]}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  placeholder={field.placeholder}
+                  className="w-full px-3 py-3 pl-4 border rounded-[3px]  mt-[8px] focus:outline-none focus:ring-2 focus:ring-blue-950"
+                />
+                {formik.touched[field.name as keyof SignupFormValues] &&
+                  formik.errors[field.name as keyof SignupFormValues] && (
+                    <p className="text-[14px] text-red-400 mt-1 ">
+                      {formik.errors[field.name as keyof SignupFormValues]}
+                    </p>
+                  )}
+              </div>
+            ))}
+          </div>
+
+          <div>
             <label
               htmlFor="gender"
-              className="block text-[17px] text-gray-600 mb-[2px]"
+              className="block text-sm font-medium text-gray-700"
             >
               Gender
             </label>
@@ -155,27 +150,26 @@ import toast from "react-hot-toast";
               value={formik.values.gender}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="w-full px-2 py-[10px] text-lg border rounded-lg text-gray-800 focus:ring-2 focus:ring-[#723077] focus:outline-none transition"
+              className="w-full px-3 py-3 border rounded-[3px] mt-[8px] cursor-pointer    focus:outline-none focus:ring-2 focus:ring-blue-950"
             >
-              <option value="">Select Gender</option>
+              <option   value="">Select Gender</option>
               <option value="MALE">Male</option>
               <option value="FEMALE">Female</option>
               <option value="OTHER">Other</option>
             </select>
             {formik.touched.gender && formik.errors.gender && (
-              <div className="text-red-400 text-sm mt-1">
+              <p className="text-sm text-red-800 mt-1">
                 {formik.errors.gender}
-              </div>
+              </p>
             )}
           </div>
-          <div className="text-center mt-4">
+          <div>
             <button
               type="submit"
-              disabled={isSubmitting}
-              className="w-full px-6 py-3 rounded-[1000px] text-white font-semibold text-lg hover:shadow-lg hover:scale-105 transform transition"
-              style={{ backgroundColor: "#24288E", fontFamily: "Unbounded" }}
+              disabled={isSubmitting || loading}
+              className="w-full px-4 py-3 bg-blue-950 text-white text-[17px] font-semibold rounded-md hover:bg-blue-900 transition"
             >
-              {loading ? "Submitting..." : "Sign Up"}
+              {loading ? "Submitting..." : "Create account"}
             </button>
           </div>
         </form>
@@ -184,5 +178,4 @@ import toast from "react-hot-toast";
   );
 };
 
-
-export default UserRegister
+export default UserRegister;
