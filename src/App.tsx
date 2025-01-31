@@ -17,7 +17,7 @@ const ChatComponent = lazy(()=> import('./components/pages/user/chat'))
 const About = lazy(()=> import('./components/pages/about'))
 const Profile = lazy(()=> import('./components/forms/user/userProfile'))
 const EmailVerification = lazy(()=> import('./components/forms/user/emailVerification'))
-const TopUpSection = lazy(()=> import('./components/pages/Topup/topupSection'))
+const TopUp = lazy(()=> import('./components/pages/Topup/TopUp'))
 const SellerPage = lazy(()=> import('./components/pages/Seller/sellerPage'))
  
 // import { MainVerification } from "./components/forms/user/phoneVerification";
@@ -45,7 +45,7 @@ export const App: React.FC = React.memo(() => {
         <Route path="/profile" element={<Profile/>} />
         <Route path="/user/emailVerification" element={<EmailVerification/>} />
         <Route path="/user/changepassword" element={<PasswordChange/>} />
-        <Route path="/user/topup" element={<TopUpSection/>} />
+        <Route path="/user/topup" element={<TopUp/>} />
         <Route path="/user/seller" element={<SellerPage/>} />
         {/* <Route path="/mainDetails" element={<MainDetails/>} /> */}
         {/* <Route path="/loading" element={<Loading/>} /> */}
