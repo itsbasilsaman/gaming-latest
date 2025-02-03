@@ -1,6 +1,6 @@
 
 
-export const URL="https://game-gate-api.onrender.com/api/v1";
+export const URL="https://api.ggtops.com/api/v1";
 // export const URL="http://localhost:2002";
 
 

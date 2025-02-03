@@ -114,7 +114,6 @@ const EmailVerification: React.FC = () => {
         toast.success("OTP successfully verified");
         navigate("/");
       } else {
-        toast.error("User does not exist. Redirecting to signup...");
         navigate("/user/signup");
       }
     } catch (error) {
