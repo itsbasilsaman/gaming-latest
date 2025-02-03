@@ -97,21 +97,16 @@ const navigate= useNavigate()
 
   return (
     <div
-      className="flex items-center p-2 justify-center min-h-screen relative overflow-hidden"
-      style={{
-        backgroundAttachment: "fixed",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-      }}
+      className="flex items-center p-2 justify-center min-h-screen user-background relative overflow-hidden"
+    
     >
       <div className="absolute inset-0 animate-pulse"></div>
       <div className="absolute inset-0 adminlogin-background"></div>
 
-      <div className="relative z-10 flex flex-col bg-white items-center px-6 py-8 w-full max-w-md admin-login-box">
+      <div className="relative z-10 flex flex-col affiliate-section rounded-[13px] items-center px-6 py-10 w-full max-w-md ">
         <h2
           className="text-3xl font-bold mb-6 text-center"
-          style={{ fontFamily: "Unbounded", color: "#24288E" }}
+          style={{ fontFamily: "Unbounded", color: "white" }}
         >
           Login
         </h2>
@@ -141,7 +136,7 @@ const navigate= useNavigate()
                 value={inputValue}
                 onChange={(e) => handleInputChange(e.target.value)}
                 placeholder={inputType === "phone" ? "Enter phone number " : "Enter email address"}
-                className="w-full px-3 py-2 text-lg border-none focus:outline-none"
+                className="w-full px-3 py-3 text-lg rounded-[6px] focus:outline-none"
               />
             </div>
 
@@ -156,24 +151,24 @@ const navigate= useNavigate()
             <button
               type="submit"
              
-              className="w-full px-6 py-3 rounded-[1000px] text-white font-semibold text-lg hover:shadow-lg hover:scale-105 transform transition"
+              className="w-full px-6 py-3 rounded-[6px] text-white font-semibold text-lg    transform transition"
               style={{ backgroundColor: "#24288E", fontFamily: "Unbounded" }}
             >
               {loading ? "Logging In..." : "Login"}
             </button>
 
             <div className="flex justify-center items-center mt-5">
-              <div className="line"></div>
-              <p className="text-[17px] mx-3 text-gray-700">or</p>
-              <div className="line"></div>
+              <div className="line text-gray-200"  ></div>
+              <p className="text-[17px] mx-3 text-gray-200">or</p>
+              <div className="line  text-gray-200"></div>
             </div>
 
-            <span className="mt-4 flex gap-2 justify-center items-center text-gray-950">
+            <span className="mt-4 flex gap-2 justify-center items-center text-white">
               <MdAccountCircle style={{ color: "#24288E" }} className="text-lg" />
               Don't have an account?{" "}
               <NavLink
                 to="/user/signup"
-                className="text-blue-600 uppercase text-sm font-medium"
+                className="text-blue-950   text-sm font-medium hover:underline"
               >
                 Sign Up
               </NavLink>

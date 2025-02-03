@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,11 +7,16 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap'); */
 /* @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap'); */
 
+ 
 
 @font-face {
   font-family: 'Unbounded';
   src: url('./assets/static/Unbounded-Bold.ttf');
   font-style: normal;
+}
+.lato-font {
+  font-family: "Lato", serif;
+  font-weight: 300;
 }
 
 * {
@@ -26,6 +33,16 @@ body {
   font-family: "Roboto", sans-serif;
   background-repeat: no-repeat;
 }
+
+/* Background */
+
+.common-background {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background-color: rgba(255, 255, 255, 0.077);
+  backdrop-filter: blur(5px);
+}
+
+
 
 /* Header  */
 
@@ -143,14 +160,44 @@ button {
   justify-content: center;
   align-items: center;
 }
+.game-slider-home-responsive {
+  background-color: rgba(255, 255, 255, 0.14);
+  border: 2px solid rgba(255, 255, 255, 0.21);
+  display: flex;
+  overflow-x: auto; /* Enable horizontal scroll */
+  gap: 16px; /* Space between items */
+  padding: 8px;
+  scroll-behavior: smooth; /* Smooth scroll */
+  width: 100%; /* Make it span the full width of its parent container */
+}
+
+.game-slider-home-responsive .box-item {
+  flex-shrink: 0; /* Prevent items from shrinking */
+  width: 145px; /* Adjust width for 4-5 items to fit */
+}
+
+.game-slider-home-responsive::-webkit-scrollbar {
+  display: none; /* Hide default scrollbar */
+}
+
 
 .game-slider-box {
   border: 2px solid  rgba(255, 255, 255, 0);
   cursor: pointer;
 }
-.game-slider-home .game-slider-box:hover {
+.game-slider-home-responsive .game-slider-box:hover {
    background-color:rgba(255, 255, 255, 0.21);
 }
+
+ /* Hide the scrollbar while keeping scroll functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
 
 
 /* GameCard */
@@ -359,9 +406,7 @@ button {
     width: 100%;
     text-align: center;
   }
-  .game-slider-home {
-    display: none;
-  }
+
 
 }
 
@@ -444,6 +489,11 @@ button {
   grid-template-columns: repeat(2,1fr);
   gap: 90px;
 }
+
+.header-background {
+  background-color: #070720;
+}
+
 .counter {
   border: 2px solid rgba(255, 255, 255, 0.671);
 }
@@ -541,6 +591,14 @@ button {
    filter: brightness(80%);
   cursor: pointer; 
 }
+
+
+
+/* UserSignUp & UserLogin */
+
+.user-background {
+  background: linear-gradient(to top right, #10133c, #2c369e);
+}
  
 
  
@@ -580,9 +638,7 @@ button {
   display: grid;
   grid-template-columns: repeat(2,1fr);
 }
-.header-input-section {
-  /* width: 350px; */
-}
+ 
 }
 
 

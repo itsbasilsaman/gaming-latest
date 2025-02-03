@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 interface Message {
   type: "sent" | "received";
@@ -96,7 +97,7 @@ const ChatComponent = () => {
         }`}
       >
         <div className="p-4 py-[1.5rem] border-b border-gray-200 flex items-center justify-between" style={{backgroundColor:'#121A67'}}>
-          <h1 className="text-lg font-semibold" style={{fontFamily:"Unbounded", color:'white'}}>GAME GATE</h1>
+          <Link to={'/'}><h1 className="text-lg font-semibold" style={{fontFamily:"Unbounded", color:'white'}}>GAME GATE</h1></Link>
           <div className="flex items-center space-x-4">
             <button className="text-gray-500 hover:text-gray-700">
               <i className="fas fa-bell"></i>

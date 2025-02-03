@@ -63,7 +63,7 @@ const GameSectionFour: React.FC = React.memo(() => {
         />
         <img src={item.img} alt={item.title} className='h-[80px] lg:h-[auto] pt-[20px] lg:pt-[0px] ' />
         <p className="text-center lg:text-[20px] font-bold mt-[10px]">{item.title}</p>
-        <span className="lg:px-[8px] px-[11px] lg:pl-[16px] py-[3px] lg:py-[8px] lg:w-[126px] lg:h-[45px] offer-menu lg:text-[18px] font-medium rounded-[1000px]">
+        <span className="lg:px-[8px] px-[11px] lg:pl-[16px] py-[3px] lg:py-[8px] lg:w-[126px] lg:h-[45px] offer-menu lg:text-[18px] font-medium rounded-full">
           {item.offer}
         </span>
       </section>
