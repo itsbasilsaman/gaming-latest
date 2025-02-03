@@ -6,6 +6,9 @@ import { Loading } from "./Loading";
 import { ToggleProfile } from "./components/pages/user/ToggleProfile";
 import SellerRegistrationForm from "./components/seller/forms/SellerRegistrationForm";
 import LanguageSection from "./components/Header/LanguageSection";
+import CreateOfferPage from "./components/pages/Seller/CreateOfferPage";
+import AddNewOfferSection from "./components/pages/Seller/AddNewOfferSection";
+import OfferDetailPage from "./components/pages/Seller/offerDetailPage";
 // import HorizontalScrollSection from "./components/forms/user/HorizontalScrollSection";
 
 const WelcomePage = lazy(() => import("./components/pages/welcome"))
@@ -53,6 +56,9 @@ export const App: React.FC = React.memo(() => {
         <Route path="/toggle" element={<ToggleProfile/>} />
         <Route path="/user/sellerSignup" element={<SellerRegistrationForm/>} />
         <Route path="/user/languageSelect" element={<LanguageSection/>} />
+        <Route path="/createoffer" element={<CreateOfferPage/>} />
+        <Route path="/addoffer" element={<AddNewOfferSection/>} />
+        <Route path="/offerdetail" element={<OfferDetailPage/>} />
       </Routes>
         </Suspense>
     </Fragment>

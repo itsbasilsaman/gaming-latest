@@ -49,7 +49,7 @@ export const SellerHeader: React.FC = React.memo(() => {
   }, []);
 
   // Calculate the background color based on scroll position
-  const background: string = scrollY > 0 ? `linear-gradient(to bottom left, #030535,rgb(22, 26, 73))` : 'transparent';
+  const background: string = scrollY > 0 ? `linear-gradient(to bottom left, #030535,rgb(22, 26, 73))` : 'linear-gradient(to bottom left, #030535,rgb(22, 26, 73))';
 
   return (
     <>
