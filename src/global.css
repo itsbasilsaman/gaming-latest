@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,11 +7,16 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap'); */
 /* @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap'); */
 
+ 
 
 @font-face {
   font-family: 'Unbounded';
   src: url('./assets/static/Unbounded-Bold.ttf');
   font-style: normal;
+}
+.lato-font {
+  font-family: "Lato", serif;
+  font-weight: 300;
 }
 
 * {
@@ -26,6 +33,16 @@ body {
   font-family: "Roboto", sans-serif;
   background-repeat: no-repeat;
 }
+
+/* Background */
+
+.common-background {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background-color: rgba(255, 255, 255, 0.077);
+  backdrop-filter: blur(5px);
+}
+
+
 
 /* Header  */
 
@@ -156,7 +173,7 @@ button {
 
 .game-slider-home-responsive .box-item {
   flex-shrink: 0; /* Prevent items from shrinking */
-  width: 170px; /* Adjust width for 4-5 items to fit */
+  width: 145px; /* Adjust width for 4-5 items to fit */
 }
 
 .game-slider-home-responsive::-webkit-scrollbar {
@@ -472,6 +489,11 @@ button {
   grid-template-columns: repeat(2,1fr);
   gap: 90px;
 }
+
+.header-background {
+  background-color: #070720;
+}
+
 .counter {
   border: 2px solid rgba(255, 255, 255, 0.671);
 }
