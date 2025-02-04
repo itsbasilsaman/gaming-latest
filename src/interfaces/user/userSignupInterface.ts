@@ -9,3 +9,14 @@ export interface UserSignup {
     gender:string
     
 }
+
+// {
+//     "firstName" : "Najib",
+//     "lastName" : "Nj",
+//     "fcmToken" : "fcm",
+//     "phone" : "+918921992381",
+//     "country" : "India",
+//     "userName" : "userName",
+//     "email" : "najibpt89@gmail.com",
+//     "gender" : "MALE"
+// }

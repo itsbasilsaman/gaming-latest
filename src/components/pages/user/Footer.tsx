@@ -11,7 +11,8 @@ import Logo from '../../../assets/gaminggate-logo.png'
 
 const Footer: React.FC = memo(() => {
   return (
-    <footer className='w-full lg:h-[260px] h-[500px] footer text-white md:px-[80px] px-[20px] pt-[20px] lg:pt-[0px] mt-[200px]'>
+
+    <footer className='w-full lg:h-[260px] h-[500px] footer text-white md:px-[80px] px-[20px] pt-[20px] lg:pt-[0px]  '>
       <div className='flex justify-between items-center footer-section flex-col lg:flex-row'>
         <div className='flex justify-center items-center'>
           <img src={Logo}  className='w-[60px]'/>

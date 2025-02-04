@@ -14,6 +14,7 @@ const SellerPage: React.FC = () => {
      <WhySellWithUs/>
      <Testimonials/>
      {/* <Card/> */}
+     
      </div>
   );
 };

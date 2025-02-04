@@ -1,37 +1,66 @@
+
 import { createSlice } from "@reduxjs/toolkit";
 
-import { loginAdmin } from "../../actions/auth/authAction";
+import { loginUser, userLogout, verifiyOtpUser, SignupUser } from "../../actions/auth/authAction";
+
+
+
 
 export interface UserState {
   userData: UserState | null;
   error: string | null;
   loading: boolean;
-  role: null;
-  status?: string | null;
   isLogged: boolean;
   _id?: string | null;
+  accessToken?: string | null;
+  refreshToken?: string | null;
 }
 
-
 const initialState: UserState = {
-  userData: localStorage.getItem("user")
-    ? JSON.parse(localStorage.getItem("user")!)
-    : null,
+  userData: (() => {
+    try {
+      const user = localStorage.getItem("user");
+      return user ? JSON.parse(user) : null;
+    } catch {
+      return null;
+    }
+  })(),
   error: null,
   loading: false,
-  role: localStorage.getItem("role")
-    ? JSON.parse(localStorage.getItem("role")!)
-    : null,
-  isLogged: localStorage.getItem("isLogged")
-    ? JSON.parse(localStorage.getItem("isLogged")!)
-    : false,
-  status: localStorage.getItem("status")
-    ? JSON.parse(localStorage.getItem("status")!)
-    : null,
-  _id: localStorage.getItem("_id")
-    ? JSON.parse(localStorage.getItem("_id")!)
-    : null,
+  isLogged: (() => {
+    try {
+      const isLogged = localStorage.getItem("isLogged");
+      return isLogged ? JSON.parse(isLogged) : false;
+    } catch {
+      return false;
+    }
+  })(),
+  _id: (() => {
+    try {
+      const _id = localStorage.getItem("_id");
+      return _id ? JSON.parse(_id) : null;
+    } catch {
+      return null;
+    }
+  })(),
+  accessToken: (() => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      return accessToken ? JSON.parse(accessToken) : null;
+    } catch {
+      return null;
+    }
+  })(),
+  refreshToken: (() => {
+    try {
+      const refreshToken = localStorage.getItem("refreshToken");
+      return refreshToken ? JSON.parse(refreshToken) : null;
+    } catch {
+      return null;
+    }
+  })(),
 };
+
 
 export const authSlice = createSlice({
   name: "user",
@@ -43,32 +72,116 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-    .addCase(loginAdmin.pending, (state) => {
+
+      .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(loginAdmin.fulfilled, (state, { payload }) => {
+      .addCase(loginUser.fulfilled, (state, { payload }) => {
+        console.log("user login payload", payload);
+
         state.loading = false;
         state.error = null;
-        state.userData = payload;
-        state.role = payload.role;
         state.isLogged = true;
-        localStorage.setItem("role", JSON.stringify(state.role));
         localStorage.setItem("isLogged", JSON.stringify(state.isLogged));
         localStorage.setItem("user", JSON.stringify(state.userData));
-        localStorage.setItem("status",JSON.stringify(state.status))
-        console.log(payload, "login state inside slice");
       })
-      .addCase(loginAdmin.rejected, (state, { payload }) => {
+      .addCase(loginUser.rejected, (state, { payload }) => {
         state.loading = false;
         state.userData = null;
-        state.role = null;
         state.error = payload as string;
       })
 
+
+
+
+
+
+      .addCase(verifiyOtpUser.pending, (state) => {
+        console.log("the otp verifyng pending ");
+        
+        state.loading = true;
+        state.error = null;
+      }) 
+
+      .addCase(verifiyOtpUser.fulfilled, (state, { payload }) => {
+        console.log("User verify OTP payload:", payload);
+      
+        state.loading = false;
+        state.error = null;
+      
+        if (payload.data) {
+          console.log("User verify OTP access token:", payload.data.accessToken);
+          console.log("User verify OTP refresh token:", payload.data.refreshToken);
+      
+          // If tokens exist, update the state
+          if (payload.data.accessToken) {
+            state.isLogged = true;
+            state.accessToken = payload.data.accessToken;
+            state.refreshToken = payload.data.refreshToken;
+      
+            // Store tokens and login status in local storage
+            localStorage.setItem("accessToken", JSON.stringify(state.accessToken));
+            localStorage.setItem("refreshToken", JSON.stringify(state.refreshToken));
+            localStorage.setItem("isLogged", JSON.stringify(state.isLogged));
+          } else {
+            console.warn("Access token is not provided in the response.");
+            // Do not mark as logged in if tokens are missing
+            state.isLogged = false;
+          }
+        } else {
+          console.warn("No data received in OTP verification response.");
+        }
+      })
+      
+      .addCase(verifiyOtpUser.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.userData = null;
+        state.error = payload as string;
+      })
+
+
+      .addCase(userLogout.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+
+      .addCase(userLogout.fulfilled, (state) => {
+        state.loading = false;
+        state.isLogged = false;
+        state.error = null;
+        state.userData = null;
+        localStorage.clear();
+      })
+      .addCase(userLogout.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload as string;
+      })
+
+
+
+
+      .addCase(SignupUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(SignupUser.fulfilled, (state, { payload }) => { 
+        state.loading = false;
+        state.error = null;
+        state.isLogged = true;
+        state.accessToken = payload.data.accessToken;
+        state.refreshToken = payload.data.refreshToken;
+        localStorage.setItem("accessToken", JSON.stringify(state.accessToken));
+        localStorage.setItem("refreshToken", JSON.stringify(state.refreshToken));
+        localStorage.setItem("isLogged", JSON.stringify(state.isLogged));
+      })
+      .addCase(SignupUser.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.userData = null;
+        state.error = payload as string;
+      });
   },
 });
 
-
-export const {updateError}= authSlice.actions
-export default authSlice
+export const { updateError } = authSlice.actions;
+export default authSlice;

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,11 +7,16 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap'); */
 /* @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap'); */
 
+ 
 
 @font-face {
   font-family: 'Unbounded';
   src: url('./assets/static/Unbounded-Bold.ttf');
   font-style: normal;
+}
+.lato-font {
+  font-family: "Lato", serif;
+  font-weight: 300;
 }
 
 * {
@@ -27,18 +34,32 @@ body {
   background-repeat: no-repeat;
 }
 
+/* Background */
+
+.common-background {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background-color: rgba(255, 255, 255, 0.077);
+  backdrop-filter: blur(5px);
+}
+
+
+
 /* Header  */
 
 
+
 .header-inputbox {
-  
+  outline: none;
   background-color: transparent;
   border: none;
+}
+.header-inputbox:focus {
+  outline: none;
 }
 .header-input-section {
   border: 1px solid  rgba(255, 255, 255, 0.28);
   background-color: rgba(242, 244, 248, 0.13);
-  width: 500px;
+  /* width: 500px; */
   height: 55px;
 }
 .about-inputbox {
@@ -139,14 +160,44 @@ button {
   justify-content: center;
   align-items: center;
 }
+.game-slider-home-responsive {
+  background-color: rgba(255, 255, 255, 0.14);
+  border: 2px solid rgba(255, 255, 255, 0.21);
+  display: flex;
+  overflow-x: auto; /* Enable horizontal scroll */
+  gap: 16px; /* Space between items */
+  padding: 8px;
+  scroll-behavior: smooth; /* Smooth scroll */
+  width: 100%; /* Make it span the full width of its parent container */
+}
+
+.game-slider-home-responsive .box-item {
+  flex-shrink: 0; /* Prevent items from shrinking */
+  width: 145px; /* Adjust width for 4-5 items to fit */
+}
+
+.game-slider-home-responsive::-webkit-scrollbar {
+  display: none; /* Hide default scrollbar */
+}
+
 
 .game-slider-box {
   border: 2px solid  rgba(255, 255, 255, 0);
   cursor: pointer;
 }
-.game-slider-home .game-slider-box:hover {
-  border: 2px solid rgb(255, 255, 255) ;
+.game-slider-home-responsive .game-slider-box:hover {
+   background-color:rgba(255, 255, 255, 0.21);
 }
+
+ /* Hide the scrollbar while keeping scroll functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
 
 
 /* GameCard */
@@ -184,6 +235,9 @@ button {
   background-color: rgba(255, 255, 255, 0.715);
   color: #040635;
 }
+
+
+
 /* AffiliateSection */
 
 .affiliate-section {
@@ -309,6 +363,41 @@ button {
 .chat-input-field:focus {
   border: 2px solid #181b37;
 }
+
+
+/* Animations */
+
+/* animations.css */
+@keyframes fadeScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeScaleOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+.modal-enter {
+  animation: fadeScaleIn 0.5s ease-out forwards;
+}
+
+.modal-exit {
+  animation: fadeScaleOut 0.5s ease-in forwards;
+}
+
  
 
 @media(max-width:745px){
@@ -317,9 +406,7 @@ button {
     width: 100%;
     text-align: center;
   }
-  .game-slider-home {
-    display: none;
-  }
+
 
 }
 
@@ -402,6 +489,11 @@ button {
   grid-template-columns: repeat(2,1fr);
   gap: 90px;
 }
+
+.header-background {
+  background-color: #070720;
+}
+
 .counter {
   border: 2px solid rgba(255, 255, 255, 0.671);
 }
@@ -423,7 +515,7 @@ button {
 
 .profile-main {
   display: grid;
-  grid-template-rows: 1fr         3fr;
+  grid-template-rows: 1fr         5.5fr;
 }
 .profile-section {
   background-color: rgba(255, 255, 255, 0.975);
@@ -445,11 +537,7 @@ button {
   background: url('../src/assets/images/footerbg.png');
   background-size: cover;
 }
-.loading {
-  background: url('../src/assets/images/footerbg.png');
-  background-size: cover;
-  background-position: top;
-}
+ 
 .line {
   border: 1px solid rgba(0, 0, 0, 0.09);
   width: 100%;
@@ -470,6 +558,13 @@ button {
 .primary-color {
   color: #101441;
 }
+.primary-background {
+  background-color:  #181e5a;
+  transition: all ease 0.4s;
+}
+.primary-background:hover {
+  background-color:  #0c0e28;
+}
 .primary-border {
   border: 1px solid rgba(224, 224, 224, 0.671) ;
 }
@@ -477,11 +572,122 @@ button {
   background: linear-gradient(to top right, #04061a, #212987);
 }
 
+
+
+/* userProfile  */
+.banner-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: brightness(95%);
+  background-color: aliceblue;
+ 
+}
+.banner-section:hover {
+   filter: brightness(80%);
+  cursor: pointer; 
+}
+
+
+
+/* UserSignUp & UserLogin */
+
+.user-background {
+  background: linear-gradient(to top right, #10133c, #2c369e);
+}
+
+
+/* Loading */
+
+.loading-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1014413d;  
+  backdrop-filter: blur(10px);  
+  z-index: 1000;  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  33% {
+    opacity: 1;
+  }
+}
+
+.dot-animation {
+  display: inline-block;
+}
+
+.dot-animation span {
+  opacity: 0;
+  animation: blink 1.5s infinite;
+}
+
+.dot-animation span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.dot-animation span:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.dot-animation span:nth-child(3) {
+  animation-delay: 1s;
+}
+
+
+/* notFound */
+
+.primary-background.darkened {
+  background-color: #0c0e28;
+}
+
+
+
+
+/* NotFound401 */
+
+/* Fade-in animation */
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+}
+
+/* Bounce animation for the icon */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.icon-bounce {
+  animation: bounce 1s infinite;
+}
+
+ 
+
  
 @media(max-width:1240px){
   .header-input-section {
-    width: 300px;
+    /* width: 300px; */
   }
+ 
  
 }
 
@@ -513,9 +719,7 @@ button {
   display: grid;
   grid-template-columns: repeat(2,1fr);
 }
-.header-input-section {
-  width: 350px;
-}
+ 
 }
 
 
@@ -545,7 +749,7 @@ button {
     grid-template-columns: 1fr;
   }
   .header-input-section {
-    width: 250px;
+    /* width: 250px; */
   }
 }
 

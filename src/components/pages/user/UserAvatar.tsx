@@ -4,6 +4,8 @@ import Points from '../../../assets/Images/points.png';
 import { MdLogout } from 'react-icons/md';
 import { IoIosArrowDown } from 'react-icons/io';
 import { FiChevronUp } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
+
 
 export const UserAvatar: React.FC = () => {
   interface UserProfile {
@@ -75,25 +77,27 @@ export const UserAvatar: React.FC = () => {
             <div className="absolute mt-2 right-0 py-4 w-[370px] bg-white rounded-lg shadow-md">
               <div className="bg-white rounded-lg max-w-md mx-auto">
                 {/* Header */}
-                <div className="flex items-center space-x-4 border-b pb-4 mb-4 px-4">
-                  <div
-                    className={`${user.profileBgColor} text-white w-12 h-12 flex items-center justify-center rounded-full text-xl font-bold`}
-                  >
-                    {user.text}
-                  </div>
-                  <div>
-                    <h1
-                      className="text-lg font-semibold primary-color"
-                      style={{ fontFamily: 'Unbounded' }}
+                <Link to={'/profile'}>
+                  <div className="flex items-center space-x-4 border-b pb-4 mb-4 px-4">
+                    <div
+                      className={`${user.profileBgColor} text-white w-12 h-12 flex items-center justify-center rounded-full text-xl font-bold`}
                     >
-                      Basilbackup6
-                    </h1>
-                    <p className="text-sm text-gray-500">Level 1</p>
-                    <p className="text-sm text-gray-500">
-                      Account ID 1002098510
-                    </p>
+                      {user.text}
+                    </div>
+                    <div>
+                      <h1
+                        className="text-lg font-semibold primary-color"
+                        style={{ fontFamily: 'Unbounded' }}
+                      >
+                        Basilbackup6
+                      </h1>
+                      <p className="text-sm text-gray-500">Level 1</p>
+                      <p className="text-sm text-gray-500">
+                        Account ID 1002098510
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </Link>
 
                 {/* Balances */}
                 <div className="space-y-4">
@@ -191,9 +195,11 @@ export const UserAvatar: React.FC = () => {
                       </div>
                     </li>
                     <li>
-                      <button className="w-full text-left text-sm primary-color hover:bg-gray-100 py-2 rounded-lg flex justifu-center items-center gap-[6px] px-4">
-                        <MdLogout className="text-[19px]" /> Log Out
-                      </button>
+                    <Link to={'/'}>
+                        <button className="w-full text-left text-sm primary-color hover:bg-gray-100 py-2 rounded-lg flex justifu-center items-center gap-[6px] px-4">
+                          <MdLogout className="text-[19px]" /> Log Out
+                        </button>
+                    </Link>
                     </li>
                   </ul>
                 </div>

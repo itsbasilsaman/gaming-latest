@@ -7,12 +7,14 @@ export default {
   theme: {
     extend: {
       screens: {
-        sm: '490px',  // Adjusted small breakpoint
-        md: '680px',  // Adjusted medium breakpoint
-        lg: '991px', // Adjusted large breakpoint
+        sm: '490px',  
+        md: '680px',   
+        lg: '991px',
+        mediumlg: '1245px',  
         extralg : '1345px',
-        xl: '1400px', // Adjusted extra-large breakpoint
+        xl: '1400px',  
       },
+      
       animation: {
         fadeIn: "fadeIn 1s ease-out",
         slideInLeft: "slideInLeft 0.8s ease-out",

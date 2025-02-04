@@ -7,11 +7,12 @@ export const axiosIn = axios.create({
 
 
   
-export const userServiceAction = createAsyncThunk(
-    "user/userService",
+export const userProfile = createAsyncThunk(
+    "user/userProfile",
     async (_, { rejectWithValue }) => {
       try {
-        const response = await axiosIn.get(`/user/service`,configWithToken());
+        const response = await axiosIn.get(`/user/profile`,configWithToken());
+        console.log("my profile got from api and the data ais the ", response.data)
         return response.data; 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
