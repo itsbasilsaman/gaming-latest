@@ -10,9 +10,9 @@ import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 
   const UserLogin: React.FC = React.memo(() => {
-  const [inputValue, setInputValue] = useState<string>(""); // Phone number or email input value
-  const [countryCode, setCountryCode] = useState<string>(""); // Default country code
-  const [inputType, setInputType] = useState<"email" | "phone" | null>(null); // Track the type of input
+  const [inputValue, setInputValue] = useState<string>("");  
+  const [countryCode, setCountryCode] = useState<string>("");  
+  const [inputType, setInputType] = useState<"email" | "phone" | null>(null);  
   const [errors, setErrors] = useState<{ input?: string }>({});
   const {loading}=useSelector((state:RootState)=> state.auth)
 

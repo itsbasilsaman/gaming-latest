@@ -9,6 +9,8 @@ import LanguageSection from "./components/Header/LanguageSection";
 import CreateOfferPage from "./components/pages/Seller/CreateOfferPage";
 import AddNewOfferSection from "./components/pages/Seller/AddNewOfferSection";
 import OfferDetailPage from "./components/pages/Seller/offerDetailPage";
+import NotFound404 from "./notFound404";
+import NotFound401 from "./notFound401";
 // import HorizontalScrollSection from "./components/forms/user/HorizontalScrollSection";
 
 const WelcomePage = lazy(() => import("./components/pages/welcome"))
@@ -59,6 +61,8 @@ export const App: React.FC = React.memo(() => {
         <Route path="/createoffer" element={<CreateOfferPage/>} />
         <Route path="/addoffer" element={<AddNewOfferSection/>} />
         <Route path="/offerdetail" element={<OfferDetailPage/>} />
+        <Route path="/404" element={<NotFound404/>} />
+        <Route path="/401" element={<NotFound401/>} />
       </Routes>
         </Suspense>
     </Fragment>
