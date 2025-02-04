@@ -165,6 +165,7 @@ const AddNewOfferSection = () => {
               )}
             </div>
           </div>
+          
         )}
  
         {selectedBrand && (
