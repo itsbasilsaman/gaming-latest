@@ -538,9 +538,8 @@ button {
   background-size: cover;
 }
 .loading {
-  background: url('../src/assets/images/footerbg.png');
-  background-size: cover;
-  background-position: top;
+  background-color: transparent;
+  filter: blur(60%);
 }
 .line {
   border: 1px solid rgba(0, 0, 0, 0.09);
