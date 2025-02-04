@@ -1,10 +1,12 @@
-
 import { createSlice } from "@reduxjs/toolkit";
 
-import { loginUser, userLogout, verifiyOtpUser, SignupUser } from "../../actions/auth/authAction";
-
-
-
+import {
+  loginUser,
+  userLogout,
+  verifiyOtpUser,
+  SignupUser,
+  getATKWithRTKUser,
+} from "../../actions/auth/authAction";
 
 export interface UserState {
   userData: UserState | null;
@@ -61,7 +63,6 @@ const initialState: UserState = {
   })(),
 };
 
-
 export const authSlice = createSlice({
   name: "user",
   initialState,
@@ -92,37 +93,44 @@ export const authSlice = createSlice({
         state.error = payload as string;
       })
 
-
-
-
-
-
       .addCase(verifiyOtpUser.pending, (state) => {
         console.log("the otp verifyng pending ");
-        
+
         state.loading = true;
         state.error = null;
-      }) 
+      })
 
       .addCase(verifiyOtpUser.fulfilled, (state, { payload }) => {
         console.log("User verify OTP payload:", payload);
-      
+
         state.loading = false;
         state.error = null;
-      
+
         if (payload.data) {
-          console.log("User verify OTP access token:", payload.data.accessToken);
-          console.log("User verify OTP refresh token:", payload.data.refreshToken);
-      
+          console.log(
+            "User verify OTP access token:",
+            payload.data.accessToken
+          );
+          console.log(
+            "User verify OTP refresh token:",
+            payload.data.refreshToken
+          );
+
           // If tokens exist, update the state
           if (payload.data.accessToken) {
             state.isLogged = true;
             state.accessToken = payload.data.accessToken;
             state.refreshToken = payload.data.refreshToken;
-      
+
             // Store tokens and login status in local storage
-            localStorage.setItem("accessToken", JSON.stringify(state.accessToken));
-            localStorage.setItem("refreshToken", JSON.stringify(state.refreshToken));
+            localStorage.setItem(
+              "accessToken",
+              JSON.stringify(state.accessToken)
+            );
+            localStorage.setItem(
+              "refreshToken",
+              JSON.stringify(state.refreshToken)
+            );
             localStorage.setItem("isLogged", JSON.stringify(state.isLogged));
           } else {
             console.warn("Access token is not provided in the response.");
@@ -133,12 +141,25 @@ export const authSlice = createSlice({
           console.warn("No data received in OTP verification response.");
         }
       })
-      
+
       .addCase(verifiyOtpUser.rejected, (state, { payload }) => {
         state.loading = false;
         state.userData = null;
         state.error = payload as string;
       })
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
       .addCase(userLogout.pending, (state) => {
@@ -160,19 +181,89 @@ export const authSlice = createSlice({
 
 
 
+      .addCase(getATKWithRTKUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+
+      .addCase(getATKWithRTKUser.fulfilled, (state,{payload}) => {
+        state.loading = false;
+        state.isLogged = false;
+        state.error = null;
+        if (payload?.data) {
+          console.log(
+            "User verify OTP access token:",
+            payload.data.data.accessToken
+          );
+          console.log(
+            "User verify OTP refresh token:",
+            payload.data.data.refreshToken
+          );
+
+          // If tokens exist, update the state
+          if (payload.data.data.accessToken) {
+            state.isLogged = true;
+            state.accessToken = payload.data.data.accessToken;
+            state.refreshToken = payload.data.data.refreshToken;
+            // Store tokens and login status in local storage
+            localStorage.setItem(
+              "accessToken",
+              JSON.stringify(state.accessToken)
+            );
+            localStorage.setItem(
+              "refreshToken",
+              JSON.stringify(state.refreshToken)
+            );
+            localStorage.setItem("isLogged", JSON.stringify(state.isLogged));
+          } else {
+            console.warn("Access token is not provided in the response.");
+            // Do not mark as logged in if tokens are missing
+            state.isLogged = false;
+          }
+        } else {
+          console.warn("No data received in OTP verification response.");
+        }
+    
+      })
+      .addCase(getATKWithRTKUser.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload as string;
+        localStorage.clear();
+      })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       .addCase(SignupUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(SignupUser.fulfilled, (state, { payload }) => { 
+      .addCase(SignupUser.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.error = null;
         state.isLogged = true;
         state.accessToken = payload.data.accessToken;
         state.refreshToken = payload.data.refreshToken;
         localStorage.setItem("accessToken", JSON.stringify(state.accessToken));
-        localStorage.setItem("refreshToken", JSON.stringify(state.refreshToken));
+        localStorage.setItem(
+          "refreshToken",
+          JSON.stringify(state.refreshToken)
+        );
         localStorage.setItem("isLogged", JSON.stringify(state.isLogged));
       })
       .addCase(SignupUser.rejected, (state, { payload }) => {
