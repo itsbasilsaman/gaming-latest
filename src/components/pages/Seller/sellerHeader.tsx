@@ -13,13 +13,10 @@ export const SellerHeader: React.FC = React.memo(() => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<string>("");
   const [selectedBoxItem, setSelectedBoxItem] = useState<string>("");
- 
   // const [searchQuery, setSearchQuery] = useState<string>(""); // State for input value
    const [isPanelOpen, setIsPanelOpen] = useState<boolean>(false);
   
   const toggleModal = (): void => setIsModalOpen(!isModalOpen);
-  
- 
 
   const togglePanel = (): void => {
     setIsPanelOpen(!isPanelOpen);

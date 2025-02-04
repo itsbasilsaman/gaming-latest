@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import Logo from '../../../assets/gaminggate-logo.png';
 import { ToggleProfile } from './ToggleProfile';
 // import { AiFillMessage } from "react-icons/ai";
+
 // import { IoMdNotifications } from "react-icons/io";
 // import { UserAvatar } from './UserAvatar';
 export const Navbar: React.FC = React.memo(() => {
@@ -20,6 +21,9 @@ export const Navbar: React.FC = React.memo(() => {
   const searchRef = useRef<HTMLInputElement | null>(null);
   const [isPanelOpen, setIsPanelOpen] = useState<boolean>(false);
   const [isLocalizationOpen, setIsLocalizationOpen] = useState<boolean>(false);
+
+
+
 
   // Handle outside click to close the dropdown
   useEffect(() => {
@@ -210,10 +214,8 @@ export const Navbar: React.FC = React.memo(() => {
             </div>
             <div>
               <select id="items" value={selectedBoxItem} onChange={handleSelectChange} className='text-white py-[4px] px-[8px] rounded-[6px] country-button'>
-                <option value="">Japanese Yen (JPY)</option>
                 <option value="Item 1">United States Dollar (USD)</option>
-                <option value="Item 2">Indian Rupee (INR)</option>
-                <option value="Item 3">Canadian Dollar (CAD)</option>
+                <option value="Item 2">Saudi Riyal (INR)</option>
               </select>
             </div>
           </section>
