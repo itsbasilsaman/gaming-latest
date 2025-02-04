@@ -10,11 +10,16 @@ import LanguageSection from "./components/Header/LanguageSection";
 import CreateOfferPage from "./components/pages/Seller/CreateOfferPage";
 import AddNewOfferSection from "./components/pages/Seller/AddNewOfferSection";
 import OfferDetailPage from "./components/pages/Seller/offerDetailPage";
+
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "./reduxKit/store";
 import { userProfile } from "./reduxKit/actions/user/userProfile";
 import { UserProfileData } from "./interfaces/user/profile";
 import { getATKWithRTKUser } from "./reduxKit/actions/auth/authAction";
+
+import NotFound404 from "./notFound404";
+import NotFound401 from "./notFound401";
+
 // import HorizontalScrollSection from "./components/forms/user/HorizontalScrollSection";
 
 const WelcomePage = lazy(() => import("./components/pages/welcome"))
@@ -106,6 +111,8 @@ const navigate = useNavigate();
         <Route path="/createoffer" element={<CreateOfferPage/>} />
         <Route path="/addoffer" element={<AddNewOfferSection/>} />
         <Route path="/offerdetail" element={<OfferDetailPage/>} />
+        <Route path="/404" element={<NotFound404/>} />
+        <Route path="/401" element={<NotFound401/>} />
       </Routes>
         </Suspense>
     </Fragment>
