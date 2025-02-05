@@ -13,15 +13,13 @@ import OfferDetailPage from "./components/pages/Seller/offerDetailPage";
 
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "./reduxKit/store";
-import { userProfile } from "./reduxKit/actions/user/userProfile";
+import { getUserProfile } from "./reduxKit/actions/user/userProfile";
 import { UserProfileData } from "./interfaces/user/profile";
 import { getATKWithRTKUser } from "./reduxKit/actions/auth/authAction";
 import NotFound404 from "./notFound404";
 import NotFound401 from "./notFound401";
 import { userLoggedAction, userLoggedWithSellerAction } from "./reduxKit/actions/auth/user-seller-main-auth";
-
 // import HorizontalScrollSection from "./components/forms/user/HorizontalScrollSection";
-
 const WelcomePage = lazy(() => import("./components/pages/welcome"))
 const UserLogin = lazy(()=> import('./components/forms/user/userLogin'))
 const UserRegister = lazy(()=> import('./components/forms/user/userSignup'))
@@ -46,9 +44,9 @@ const navigate = useNavigate();
     useEffect(() => {
       const fetchProfile = async () => {
         try {
-          const resultAction = await dispatch(userProfile());
+          const resultAction = await dispatch(getUserProfile());
           // console.log("resutfoterf()()()",resultAction.payload.success);
-          if (userProfile.fulfilled.match(resultAction)) {
+          if (getUserProfile.fulfilled.match(resultAction)) {
             const { data, status } = resultAction.payload;
             console.log("teh status",status);
             if(status===200 && data.data.sellerProfile){
@@ -65,8 +63,8 @@ const navigate = useNavigate();
               console.log('koooooooooooraaaaaaaaa', response);
               if (getATKWithRTKUser.fulfilled.match(response)) {
                 console.log("Access token refreshed: ", response.payload);
-               const reponse = await dispatch(userProfile());
-               if (userProfile.fulfilled.match(reponse)) {
+               const reponse = await dispatch(getUserProfile());
+               if (getUserProfile.fulfilled.match(reponse)) {
                 const { data, status } = reponse.payload;
                 console.log(" status",status);
                 setProfiles(data)
@@ -121,8 +119,8 @@ const navigate = useNavigate();
         <Route path="/toggle" element={<ToggleProfile/>} />
         <Route path="/user/sellerSignup" element={<SellerRegistrationForm/>} />
         <Route path="/user/languageSelect" element={<LanguageSection/>} />
-        <Route path="/user/createOffer" element={<CreateOfferPage/>} />
         <Route path="/user/selectDetailsOffer" element={<AddNewOfferSection/>} />
+        <Route path="/user/createOffer" element={<CreateOfferPage/>} />
         <Route path="/user/offerDetail" element={<OfferDetailPage/>} />
         <Route path="/404" element={<NotFound404/>} />
         <Route path="/401" element={<NotFound401/>} />

@@ -4,6 +4,8 @@ import authSlice from "./reducers/auth/authSlice";
 import { userLanguageSlice } from "./reducers/user/userLanguage";
 import { SellerSlice } from "./reducers/seller/sellerSlice";
 import logAuthSlice from "./reducers/auth/user-seller-main-auth";
+import { ProfileSlice } from "./reducers/user/profileSlice";
+
 
 
 
@@ -12,7 +14,8 @@ export const store = configureStore({
         auth:authSlice.reducer,
         userLanguage:userLanguageSlice.reducer,
         seller:SellerSlice.reducer,
-        logAuth:logAuthSlice.reducer
+        logAuth:logAuthSlice.reducer,
+        profile:ProfileSlice.reducer
         }
 })
 
