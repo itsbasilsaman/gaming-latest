@@ -11,9 +11,6 @@ export const axiosIn = axios.create({
     baseURL: URL,
   });
 
-
-
-
   interface VerifyOtpResponse {
     success: boolean;
     data?: {
@@ -23,6 +20,8 @@ export const axiosIn = axios.create({
     message?: string;
   }
   
+
+
 
   
   export const loginUser = createAsyncThunk( "user/send-otp",
@@ -41,15 +40,47 @@ export const axiosIn = axios.create({
     }
   )
 
+  
+
+  export const getATKWithRTKUser = createAsyncThunk( "user/get access with refresh ",
+    async (__,{rejectWithValue})=>{
+        try {
+           const refreshToken = localStorage.getItem("refreshToken");
+        
+                    // Redirect to user/home if refreshToken is null or undefined
+                    if (!refreshToken) {
+                      console.log("Refresh Token is missing! Navigating to /user/home...");
+                      return; // Stop execution
+                    }
+           
+           const Tdata={
+            refreshToken:refreshToken
+           }
+            const response  = await axiosIn.post(`/admin/refresh-token`,Tdata, config );
+            console.log("the ^%^%^%^% ", response );
+            
+            
+            return response
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          } catch (error: any) {
+            if (error.response && error.response.data) {
+              return rejectWithValue(error.response.data.message);
+            } else {
+              return rejectWithValue({ message: "Something went wrong!" });
+            }
+          }
+    }
+  )
+
   export const verifiyOtpUser = createAsyncThunk( "user/verify-otp",
     async (userCredentials:IVerifyOtp,{rejectWithValue})=>{
         try {
           console.log("this is verify otp action ", userCredentials);
           
           const response = await axiosIn.post<VerifyOtpResponse>(`/user/verify-otp`,userCredentials, config );
-
+           console.log("the status of user ",response.status);
             console.log("verirf action _______sds___***____",response.data);
-            
+        
             return response.data;
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } catch (error: any) {

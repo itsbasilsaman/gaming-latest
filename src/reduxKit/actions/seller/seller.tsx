@@ -1,11 +1,8 @@
-import axios  from "axios";
-import { URL,configWithToken } from "../../../config/constants";
+
+import { configWithToken,axiosIn } from "../../../config/constants";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { SellerDetails } from "../../../interfaces/user/seller";
 
-export const axiosIn = axios.create({
-    baseURL: URL,
-  });
 
   
     export const SellerRegistrationAction= createAsyncThunk( "user/SignupUser",

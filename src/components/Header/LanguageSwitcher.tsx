@@ -6,7 +6,6 @@ const LanguageSwitcher = () => {
   const toggleLanguage = () => {
     setLanguage((prevLang) => (prevLang === 'en' ? 'ar' : 'en'));
   };
-
   return (
     <li className="flex items-center">
       <label

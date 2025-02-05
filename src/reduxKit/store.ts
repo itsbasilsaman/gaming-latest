@@ -3,6 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "./reducers/auth/authSlice";
 import { userLanguageSlice } from "./reducers/user/userLanguage";
 import { SellerSlice } from "./reducers/seller/sellerSlice";
+import logAuthSlice from "./reducers/auth/user-seller-main-auth";
 
 
 
@@ -10,7 +11,8 @@ export const store = configureStore({
     reducer:{
         auth:authSlice.reducer,
         userLanguage:userLanguageSlice.reducer,
-        seller:SellerSlice.reducer
+        seller:SellerSlice.reducer,
+        logAuth:logAuthSlice.reducer
         }
 })
 

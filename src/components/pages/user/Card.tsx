@@ -13,7 +13,6 @@ import ImgThree from '../../../assets/Card/imgThreethree.png';
 import CardFour from '../../../assets/Card/4.png';
 import ImgFour from '../../../assets/Card/imgFour.png';
 
-
 // Type definition for card items
 interface CardItem {
   img: string;    // Path to the icon/image

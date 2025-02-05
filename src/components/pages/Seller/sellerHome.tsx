@@ -19,7 +19,6 @@ export const SellerHome: React.FC = () => {
             </button>
         </Link>
         </div>
-
         {/* Right Section */}
         <div className="lg:w-1/2 mt-10 lg:mt-0 flex justify-center relative">
           {/* <img

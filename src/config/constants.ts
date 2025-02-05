@@ -1,7 +1,12 @@
+import axios from "axios";
 
 
 export const URL="https://api.ggtops.com/api/v1";
 // export const URL="http://localhost:2002";
+
+export const axiosIn = axios.create({
+  baseURL: URL,
+});
 
 
 export const config ={
@@ -15,7 +20,7 @@ export const config ={
 export const configWithToken = () => {
     let token = localStorage.getItem("accessToken");
     token = token ? token.replace(/^"|"$/g, "").trim() : null;
-    console.log("MY TOKEN IS:", token);
+    console.log("MY TOKENx IS:", token);
   
     return {
       headers: {
