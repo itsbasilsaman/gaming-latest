@@ -12,7 +12,6 @@ const services = [
   { name: "Accounts", icon: "🕵️" },
   { name: "Boosting", icon: "🔥" },
 ];
-
 const subServices = ["Digital Pins", "Top Up"];
 const brands = ["Brand A", "Brand B", "Brand C"];
 

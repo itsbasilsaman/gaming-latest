@@ -42,7 +42,6 @@ const CategorySectionOne: React.FC  = React.memo(() => {
       },
     });
   }
-
   return (
     <main className='w-full h-auto pb-[40px]   text-white'> 
       <p className='pt-[120px] md:px-[80px] px-[20px]'>Home / Games / Clash of Clans / Gold Pass </p>
