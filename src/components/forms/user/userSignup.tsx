@@ -72,7 +72,7 @@ const UserRegister: React.FC = () => {
           Swal.fire({
             icon: "error",
             title: "Error!",
-            text: "An unknown error occurred.",
+            text: "Enter the Phone Number with Country Code (ex - +91 9999999999)",
             timer: 3000,
             toast: true,
             showConfirmButton: false,
