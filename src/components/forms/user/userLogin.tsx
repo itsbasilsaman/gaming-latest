@@ -114,7 +114,7 @@ const navigate= useNavigate()
           <div className="mb-6">
             <label
               htmlFor="input"
-              className="block text-[17px] text-gray-600 mb-2"
+              className="block text-[17px] text-gray-100 mb-2"
             >
               {inputType === "phone" ? "Phone Number or Email " : "Email or Phone Number"}
             </label>
