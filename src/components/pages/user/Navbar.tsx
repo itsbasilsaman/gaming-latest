@@ -7,9 +7,10 @@ import { IoMdClose } from "react-icons/io";
 import { Link } from 'react-router-dom';
 import Logo from '../../../assets/gaminggate-logo.png';
 import { ToggleProfile } from './ToggleProfile';
-// import { AiFillMessage } from "react-icons/ai";
+import { UserAvatar } from './UserAvatar';
+import { AiFillMessage } from "react-icons/ai";
 
-// import { IoMdNotifications } from "react-icons/io";
+import { IoMdNotifications } from "react-icons/io";
 // import { UserAvatar } from './UserAvatar';
 export const Navbar: React.FC = React.memo(() => {
   const [scrollY, setScrollY] = useState<number>(0);
@@ -165,7 +166,18 @@ export const Navbar: React.FC = React.memo(() => {
         <div className='flex justify-center items-center lg:gap-[20px] hidden lg:flex'>
           <button className=' w-[92px] pr-[4px] lg:h-[56px] country-button modal-country-button flex justify-center items-center gap-[10px] rounded-[1000px] lg:text-[19px]' onClick={toggleModal}><img src={Flag} alt="" className='w-[43px]' /> IN</button>
           <Link to={'/user/seller'}><button className='lg:w-[188px] lg:h-[56px] country-button rounded-[1000px] lg:text-[19px] '>Become a Seller</button></Link>
-          <Link to={'/user/login'}><button className='lg:w-[228px] lg:h-[56px] login-signup-button rounded-[1000px] lg:text-[19px]'>Login / Signup</button></Link>
+          {/* <Link to={'/user/login'}><button className='lg:w-[228px] lg:h-[56px] login-signup-button rounded-[1000px] lg:text-[19px]'>Login / Signup</button></Link> */}
+          <Link to={'/chat'}>
+            <div className=' p-[15px] rounded-full country-button cursor-pointer'>
+            <AiFillMessage className='text-[22px] ' />
+            </div>
+         </Link>
+          <div className=' p-[15px] rounded-full country-button cursor-pointer'>
+          <IoMdNotifications className='text-[22px]' />
+
+          </div>
+      
+          <UserAvatar/>
         </div>
         <div
           className={`w-[27px] h-[27px] lg:hidden block flex justify-center items-center transition-all duration-300 ease-in-out `}
