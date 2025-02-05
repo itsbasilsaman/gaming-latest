@@ -16,9 +16,9 @@ import { AppDispatch } from "./reduxKit/store";
 import { userProfile } from "./reduxKit/actions/user/userProfile";
 import { UserProfileData } from "./interfaces/user/profile";
 import { getATKWithRTKUser } from "./reduxKit/actions/auth/authAction";
-
 import NotFound404 from "./notFound404";
 import NotFound401 from "./notFound401";
+import { userLoggedAction, userLoggedWithSellerAction } from "./reduxKit/actions/auth/user-seller-main-auth";
 
 // import HorizontalScrollSection from "./components/forms/user/HorizontalScrollSection";
 
@@ -40,29 +40,37 @@ const SellerPage = lazy(()=> import('./components/pages/Seller/sellerPage'))
 
 export const App: React.FC = React.memo(() => {
 const dispatch=useDispatch<AppDispatch>()
+
 const navigate = useNavigate();
     const [formData,setProfiles]= useState<UserProfileData>()
-
     useEffect(() => {
       const fetchProfile = async () => {
         try {
-         
           const resultAction = await dispatch(userProfile());
           // console.log("resutfoterf()()()",resultAction.payload.success);
-          
           if (userProfile.fulfilled.match(resultAction)) {
-  
             const { data, status } = resultAction.payload;
             console.log("teh status",status);
-            setProfiles(data)
+            if(status===200 && data.data.sellerProfile){
+              console.log("logged with action ", );
+              await dispatch(userLoggedWithSellerAction())
+              
+              setProfiles(data)
+            }else if(status===200){
+              console.log("logged with action ", );
+              await dispatch(userLoggedAction())
+            }
           } else  {
               const response= await dispatch(getATKWithRTKUser()) 
               console.log('koooooooooooraaaaaaaaa', response);
               if (getATKWithRTKUser.fulfilled.match(response)) {
                 console.log("Access token refreshed: ", response.payload);
                const reponse = await dispatch(userProfile());
-                 console.log("the response_)((***)) dta ", reponse);
-                 
+               if (userProfile.fulfilled.match(reponse)) {
+                const { data, status } = reponse.payload;
+                console.log(" status",status);
+                setProfiles(data)
+              } 
               } else {
                 console.log("Token refresh failed! Redirecting to login...");
                 navigate("/");
@@ -78,9 +86,7 @@ const navigate = useNavigate();
     
     if(formData){
       console.log("App.tsx",formData);
-      
     }
-
 
   return (
     <Fragment>
@@ -104,13 +110,20 @@ const navigate = useNavigate();
         <Route path="/user/seller" element={<SellerPage/>} />
         {/* <Route path="/mainDetails" element={<MainDetails/>} /> */}
         {/* <Route path="/loading" element={<Loading/>} /> */}
+
+
+
+
+
+        {/* SELLER SIDE  */}
+
         <Route path="/error" element={<Loading/>} />
         <Route path="/toggle" element={<ToggleProfile/>} />
         <Route path="/user/sellerSignup" element={<SellerRegistrationForm/>} />
         <Route path="/user/languageSelect" element={<LanguageSection/>} />
-        <Route path="/createoffer" element={<CreateOfferPage/>} />
-        <Route path="/addoffer" element={<AddNewOfferSection/>} />
-        <Route path="/offerdetail" element={<OfferDetailPage/>} />
+        <Route path="/user/createOffer" element={<CreateOfferPage/>} />
+        <Route path="/user/selectDetailsOffer" element={<AddNewOfferSection/>} />
+        <Route path="/user/offerDetail" element={<OfferDetailPage/>} />
         <Route path="/404" element={<NotFound404/>} />
         <Route path="/401" element={<NotFound401/>} />
       </Routes>

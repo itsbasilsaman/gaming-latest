@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "react-phone-number-input/style.css";
-import { NavLink, useNavigate } from "react-router-dom";
-import { MdAccountCircle } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+
 import { loginUser } from "../../../reduxKit/actions/auth/authAction";
 import { useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../../reduxKit/store";
@@ -125,6 +125,7 @@ const navigate= useNavigate()
                   onChange={(e) => handleCountryCodeChange(e.target.value)}
                   className="px-3 py-2 text-lg border-r border-gray-300 focus:outline-none"
                 >
+
                   <option value="91">+91</option>
                   <option value="1">+1</option>
                   <option value="44">+44</option>
@@ -163,7 +164,7 @@ const navigate= useNavigate()
               <div className="line  text-gray-200"></div>
             </div>
 
-            <span className="mt-4 flex gap-2 justify-center items-center text-white">
+            {/* <span className="mt-4 flex gap-2 justify-center items-center text-white">
               <MdAccountCircle style={{ color: "#24288E" }} className="text-lg" />
               Don't have an account?{" "}
               <NavLink
@@ -172,7 +173,7 @@ const navigate= useNavigate()
               >
                 Sign Up
               </NavLink>
-            </span>
+            </span> */}
           </div>
         </form>
       </div>

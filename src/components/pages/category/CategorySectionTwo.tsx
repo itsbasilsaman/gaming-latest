@@ -25,6 +25,7 @@ const CategorySectionTwo: React.FC = React.memo(() => {
       className={`toggle-container ${isOn ? 'on' : 'off'}`}
       onClick={toggleHandler}
     >
+      
       <div className="toggle-button"></div>
                 </div>
                 <p className='md:text-[17px] text-[15px] lg:mr-[20px]'>Online</p>

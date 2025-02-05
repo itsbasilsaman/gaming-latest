@@ -14,7 +14,6 @@ export const userProfile = createAsyncThunk(
         console.log("my profile got from api and the data ais the ")
         const response = await axiosIn.get(`/user/profile`,configWithToken());
        console.log("response first profile ", response);
-       
         return response; 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {

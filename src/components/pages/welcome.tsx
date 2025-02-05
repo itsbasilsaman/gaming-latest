@@ -7,12 +7,12 @@ import GamingExperiencePage from "./user/GamingExperiencePage";
 import Collection from "./user/Collection";
 import { Navbar } from "./user/Navbar";
 import Footer from "./user/Footer";
-import { Main } from "./user/Main";
+import { Services } from "./user/Services";
  const WelcomePage = React.memo(() => {
   return (
     <Fragment>
       <Navbar/>
-      <Main/>
+      <Services/>
       <GameCard />
       <FeaturedGiftCards />
       <AffiliateProgramSection/>

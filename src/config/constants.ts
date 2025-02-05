@@ -1,7 +1,12 @@
+import axios from "axios";
 
 
 export const URL="https://api.ggtops.com/api/v1";
 // export const URL="http://localhost:2002";
+
+export const axiosIn = axios.create({
+  baseURL: URL,
+});
 
 
 export const config ={
