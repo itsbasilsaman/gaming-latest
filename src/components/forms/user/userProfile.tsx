@@ -6,7 +6,7 @@ import LanguageSwitcher from '../../Header/LanguageSwitcher';
 // import DarkModeSwitcher from '../../Header/DerkModeSwitcher';
 import { SellerHeader } from '../../pages/Seller/sellerHeader';
 import { IoCameraOutline } from "react-icons/io5";
-import { userProfile } from '../../../reduxKit/actions/user/userProfile';
+import { getUserProfile } from '../../../reduxKit/actions/user/userProfile';
 // import ProfileResponsive from './ProfileResponsive';
 import { Link } from 'react-router-dom';
 import { UserProfileData } from '../../../interfaces/user/profile';
@@ -14,10 +14,12 @@ import { UserProfileData } from '../../../interfaces/user/profile';
 
 
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../../reduxKit/store';
+import { AppDispatch, RootState } from '../../../reduxKit/store';
 import LanguageSection from '../../Header/LanguageSection';
 import FollowingModal from './FollowingModal';
 import FollowersModal from './FollowerModal';
+import { useSelector } from 'react-redux';
+import { Loading } from '../../../Loading';
 
 
   const Profile: React.FC = () => {
@@ -32,57 +34,24 @@ import FollowersModal from './FollowerModal';
     // This is Following ModaL ***
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
+  const closeModal = () => setIsModalOpen(false)
   // It is Follower Modal 
   const [isFollowersModalOpen, setIsFollowersModalOpen] = React.useState(false);
   const openFollowersModal = () => setIsFollowersModalOpen(true);
   const closeFollowersModal = () => setIsFollowersModalOpen(false);
-
-
   const dispatch= useDispatch<AppDispatch>()
-
-
-
-//   const [formData, setFormData] = useState( {
-//     email: "najibpt89@gmail.com",
-//     firstName: "Najib",
-//     lastName: "Nj",
-//     languages: [],
-//     avatar: null,
-//     coverPic: null,
-//     memberSince: "2024-12-22T14:18:10.190Z",
-//     userName: "SALEEL",
-//     dob: null,
-//     gender: "MALE",
-//     followersCount: 0,
-//     country: "India",
-//     countryCode: "91",
-//     folowingCount: 0,
-//     description: null,
-//     blockedUsersCount: 0,
-//     succesfullDeliveries: 0,
-//     level: {
-//         level: 1,
-//         criteria: "Noobie",
-//         requiredTransactions: 10
-//     }
-// });
-
-
-  // const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
-
-
+const {GetProfileloading}=useSelector((state:RootState)=>state.profile)
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const resultAction = await dispatch(userProfile());
-        if (userProfile.fulfilled.match(resultAction)) {
-
+        const resultAction = await dispatch(getUserProfile());
+        if (getUserProfile.fulfilled.match(resultAction)) {
           const {data}=resultAction.payload
-          setProfiles(data)
-          setLanguages(data.languages)
+          console.log("kidu profile $#$#$#$#$", data );
+          
+          setProfiles(data.data)
+          setLanguages(data.data.languages)
           console.log("Profile data fetched successfully: ", resultAction.payload);
         } else {
           console.log("Failed to fetch profile: ", resultAction.payload || resultAction.error);
@@ -98,11 +67,8 @@ import FollowersModal from './FollowerModal';
  
 
   useEffect(()=>{
-
     console.log("this is my profiles of in page *****************",formData);
     console.log("my languages are",languages);
-    
-    
   },[formData])
   
 
@@ -134,6 +100,9 @@ import FollowersModal from './FollowerModal';
       setImage(imageUrl);
     }
   };
+  if(GetProfileloading){
+    <Loading/>
+  }
 
   return (
     <div className='w-full h-full bg-gray-300'>
@@ -259,7 +228,7 @@ import FollowersModal from './FollowerModal';
      
           <div className="text-center mb-4">
             <h2 className="text-[16px] primary-color" style={{ fontFamily: 'Unbounded' }}>{formData?.userName}</h2>
-            <p className="text-gray-500">Level {formData?.level.level}</p>
+            <p>Level {formData?.level.level}</p>
             <div className="mb-4">
               <div className="flex justify-between my-[6px]">
                 <p>Level {formData?.level.level}</p>
@@ -301,7 +270,10 @@ import FollowersModal from './FollowerModal';
             </div>
             <div className="flex justify-between items-center w-full">
               <div>
-                <p className="text-sm text-gray-600">Date of Birth : {formData?.dob}</p>
+              <p className="text-sm text-gray-600">
+  Date of Birth : {formData?.dob ? new Date(formData.dob).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : ''}
+</p>
+
               
               </div>
             
