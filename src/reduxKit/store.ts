@@ -5,6 +5,7 @@ import { userLanguageSlice } from "./reducers/user/userLanguage";
 import { SellerSlice } from "./reducers/seller/sellerSlice";
 import logAuthSlice from "./reducers/auth/user-seller-main-auth";
 import { ProfileSlice } from "./reducers/user/profileSlice";
+import {ServiceSlice} from "./reducers/services/serviceSlice"
 
 
 
@@ -15,10 +16,10 @@ export const store = configureStore({
         userLanguage:userLanguageSlice.reducer,
         seller:SellerSlice.reducer,
         logAuth:logAuthSlice.reducer,
-        profile:ProfileSlice.reducer
+        profile:ProfileSlice.reducer,
+        service:ServiceSlice.reducer
         }
 })
-
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch;
 export type ExtendedAppDispatch = (action: any) => any;

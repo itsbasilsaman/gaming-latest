@@ -13,6 +13,7 @@ export const Loading: React.FC = () => {
               <span>.</span>
             </span>
           </p>
+          
           <p className="text-sm text-white mt-2 font-semibold">
             Please wait, your content is on the way.
           </p>
