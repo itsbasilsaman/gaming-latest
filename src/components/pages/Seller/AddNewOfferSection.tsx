@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { GrWaypoint } from "react-icons/gr";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
+import { GetServicesWithSubservices } from "../../../reduxKit/actions/offer/serviceSubServiceBrandSelection";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../reduxKit/store";
 
 const services = [
   { name: "Gift Cards", icon: "🎁" },
@@ -21,9 +24,29 @@ const AddNewOfferSection = () => {
   const [subServiceDropdownOpen, setSubServiceDropdownOpen] = useState(false);
   const [brandDropdownOpen, setBrandDropdownOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<string | null>(null);
-
   const subServiceRef = useRef<HTMLDivElement>(null); // Explicitly define the type
   const brandRef = useRef<HTMLDivElement>(null); // Explicitly define the type
+  const dispatch=useDispatch<AppDispatch>()
+
+
+
+  useEffect(()=>{
+    const getServiceWithSubservices= async ()=>{
+      try {
+        
+        const response=await dispatch(GetServicesWithSubservices())
+
+        console.log("the response of the serrvice wit subservice ", response);
+        
+
+      } catch (error) {
+        console.log("getservice with subservice erorr", error);
+      }
+    }
+
+    getServiceWithSubservices()
+    
+    },[dispatch])
 
   // Close dropdown when clicking outside
   useEffect(() => {

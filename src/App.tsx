@@ -1,5 +1,5 @@
 import React, { Fragment,Suspense,lazy, useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route,Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import ScrollToTop from "./ScrollToTop";
 import { Loading } from "./Loading";
@@ -10,15 +10,15 @@ import LanguageSection from "./components/Header/LanguageSection";
 import CreateOfferPage from "./components/pages/Seller/CreateOfferPage";
 import AddNewOfferSection from "./components/pages/Seller/AddNewOfferSection";
 import OfferDetailPage from "./components/pages/Seller/offerDetailPage";
-
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "./reduxKit/store";
+import { AppDispatch, RootState } from "./reduxKit/store";
 import { getUserProfile } from "./reduxKit/actions/user/userProfile";
 import { UserProfileData } from "./interfaces/user/profile";
 import { getATKWithRTKUser } from "./reduxKit/actions/auth/authAction";
 import NotFound404 from "./notFound404";
 import NotFound401 from "./notFound401";
 import { userLoggedAction, userLoggedWithSellerAction } from "./reduxKit/actions/auth/user-seller-main-auth";
+import { useSelector } from "react-redux";
 // import HorizontalScrollSection from "./components/forms/user/HorizontalScrollSection";
 const WelcomePage = lazy(() => import("./components/pages/welcome"))
 const UserLogin = lazy(()=> import('./components/forms/user/userLogin'))
@@ -38,6 +38,7 @@ const SellerPage = lazy(()=> import('./components/pages/Seller/sellerPage'))
 
 export const App: React.FC = React.memo(() => {
 const dispatch=useDispatch<AppDispatch>()
+const {isLoggedUser,isLoggedUserWithSeller}=useSelector((state:RootState)=>state.logAuth)
 
 const navigate = useNavigate();
     const [formData,setProfiles]= useState<UserProfileData>()
@@ -50,12 +51,11 @@ const navigate = useNavigate();
             const { data, status } = resultAction.payload;
             console.log("teh status",status);
             if(status===200 && data.data.sellerProfile){
-              console.log("logged with action ", );
+          
               await dispatch(userLoggedWithSellerAction())
-              
               setProfiles(data)
             }else if(status===200){
-              console.log("logged with action ", );
+          
               await dispatch(userLoggedAction())
             }
           } else  {
@@ -76,7 +76,6 @@ const navigate = useNavigate();
           }
         } catch (error) {
           console.error("Unexpected error while fetching the profile: ", error);
-
         }
       };
       fetchProfile();
@@ -93,35 +92,31 @@ const navigate = useNavigate();
       <Suspense fallback={<Loading/>}>
       <Routes>
       <Route path='/' element={<WelcomePage/>} />
-        <Route path="/user/login" element={<UserLogin />} />
-        <Route path="/user/signup" element={<UserRegister/>} />
+      {/* <Route path="/login" element={isLogged && role === 'admin' ? <Navigate to="/home" /> : <AdminLogin />} /> */}
+        <Route path="/user/login" element={isLoggedUser ? <Navigate to="/"/> :<UserLogin />} />
+        <Route path="/user/signup" element={isLoggedUser ? <Navigate to="/"/> :<UserRegister />} />
         {/* <Route path="/user/mainVerification" element={<MainVerification/>} /> */}
-        <Route path="/user/register" element={<UserRegister />} />
-        <Route path="/user/changePassword" element={<PasswordChange />} />
-        <Route path="/user/Category" element={<Category />} />
+        <Route path="/user/changePassword" element={isLoggedUser ?<Navigate to="/"/> : <PasswordChange />} />
+        <Route path="/user/Category" element={ <Category />} />
         <Route path="/about" element={<About />} />
         <Route path="/chat" element={<ChatComponent/>} />
         <Route path="/profile" element={<Profile/>} />
-        <Route path="/user/emailVerification" element={<EmailVerification/>} />
-        <Route path="/user/changepassword" element={<PasswordChange/>} />
+        <Route path="/user/emailVerification" element={isLoggedUser ?<Navigate to="/"/> :<EmailVerification/>} />
+        <Route path="/user/changepassword" element={isLoggedUser ?<Navigate to="/"/> :<PasswordChange/>} />
         <Route path="/user/topup" element={<TopUp/>} />
         <Route path="/user/seller" element={<SellerPage/>} />
         {/* <Route path="/mainDetails" element={<MainDetails/>} /> */}
         {/* <Route path="/loading" element={<Loading/>} /> */}
 
-
-
-
-
         {/* SELLER SIDE  */}
-
         <Route path="/error" element={<Loading/>} />
         <Route path="/toggle" element={<ToggleProfile/>} />
-        <Route path="/user/sellerSignup" element={<SellerRegistrationForm/>} />
+
+        <Route path="/user/sellerSignup" element={isLoggedUser ? <Navigate to="/"/> :<SellerRegistrationForm/>} />
         <Route path="/user/languageSelect" element={<LanguageSection/>} />
-        <Route path="/user/selectDetailsOffer" element={<AddNewOfferSection/>} />
-        <Route path="/user/createOffer" element={<CreateOfferPage/>} />
-        <Route path="/user/offerDetail" element={<OfferDetailPage/>} />
+        <Route path="/user/selectDetailsOffer" element={isLoggedUserWithSeller ?<AddNewOfferSection/> : <Navigate to="/"/>} />
+        <Route path="/user/createOffer" element={isLoggedUserWithSeller ? <CreateOfferPage/>   :<Navigate to="/"/> } />
+        <Route path="/user/offerDetail" element={isLoggedUserWithSeller ? <OfferDetailPage/> : <Navigate to="/"/> } />
         <Route path="/404" element={<NotFound404/>} />
         <Route path="/401" element={<NotFound401/>} />
       </Routes>

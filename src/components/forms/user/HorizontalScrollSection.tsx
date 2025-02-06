@@ -51,4 +51,3 @@ const HorizontalScrollSection: React.FC = () => {
 };
 
 export default HorizontalScrollSection;
-  
