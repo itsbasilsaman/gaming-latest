@@ -1,47 +1,54 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { userServiceAction } from '../../actions/user/service';
-
+import { createSlice } from "@reduxjs/toolkit";
+import { userServiceAction } from "../../actions/user/service";
 
 interface Service {
-    icon: string; // Update based on your API response
-    ServiceName: string;
-  }
+  icon: string; // Update based on your API response
+  ServiceName: string;
+}
 
 interface ServicesState {
-    services: Service[];
-    loading: boolean;
-    error: string | null;
-  }
-  
-  const initialState: ServicesState = {
-    services: [],
-    loading: false,
-    error: null,
-  };
+  services: Service[];
+  Serviceloading: boolean;
+  error: string | null;
+}
 
-const servicesSlice = createSlice({
-    name: 'services',
-    initialState,
-    reducers: {},
+const initialState: ServicesState = {
+  services: [],
+  Serviceloading: false,
+  error: null,
+};
 
-    extraReducers: (builder) => {
-      builder
-        .addCase(userServiceAction.pending, (state) => {
-          state.loading = true;
-          state.error = null;
-        })
+ export const ServiceSlice = createSlice({
+  name: "services",
+  initialState,
+  reducers: {
+    updateError: (state, { payload }) => {
+      state.error = payload;
+    },
+  },
 
-        .addCase(userServiceAction.fulfilled, (state, action) => {
-            state.error=null
-          state.loading = false;
-          state.services = action.payload;
-          console.log("this console form service slice , payload ", action.payload);
-        })
-        .addCase(userServiceAction.rejected, (state, action) => {
-          state.loading = false;
-          state.error = action.payload as string;
-        });
-    }
-})
+  extraReducers: (builder) => {
+    builder
+      .addCase(userServiceAction.pending, (state) => {
+        state.Serviceloading = true;
+        state.error = null;
+      })
 
-export default servicesSlice.reducer;
+      .addCase(userServiceAction.fulfilled, (state, action) => {
+        state.error = null;
+        state.Serviceloading = false;
+        state.services = action.payload;
+        console.log(
+          "this console form service slice , payload ",
+          action.payload
+        );
+      })
+      .addCase(userServiceAction.rejected, (state, action) => {
+        state.Serviceloading = false;
+        state.error = action.payload as string;
+      });
+  },
+});
+
+export const { updateError } = ServiceSlice.actions;
+export default ServiceSlice; 
