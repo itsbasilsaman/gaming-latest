@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { GrWaypoint } from "react-icons/gr";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
-import { GetServicesWithSubservices } from "../../../reduxKit/actions/offer/serviceSubServiceBrandSelection";
+import { GetServicesWithSubservices, GetBrandsBySubServiceOrService } from "../../../reduxKit/actions/offer/serviceSubServiceBrandSelection";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../reduxKit/store";
+
 interface Subservice {
   id: string;
   name: string;
@@ -19,46 +20,31 @@ interface Service {
   iconUrl: string;
   subservices: Subservice[];
 }
-const services = [
-  { name: "Gift Cards", icon: "🎁" },
-  { name: "Games", icon: "🎮" },
-  { name: "Software & Apps", icon: "💻" },
-  { name: "Payment Cards", icon: "💳" },
-  { name: "Game coins", icon: "💰" },
-  { name: "Items", icon: "📦" },
-  { name: "Accounts", icon: "🕵️" },
-  { name: "Boosting", icon: "🔥" },
-];
-const subServices = ["Digital Pins", "Top Up"];
-const brands = ["Brand A", "Brand B", "Brand C"];
 
 const AddNewOfferSection = () => {
   const [selectedSubService, setSelectedSubService] = useState("");
   const [selectedBrand, setSelectedBrand] = useState("");
   const [subServiceDropdownOpen, setSubServiceDropdownOpen] = useState(false);
   const [brandDropdownOpen, setBrandDropdownOpen] = useState(false);
-  const [FetchedService,setFetchedServices]=useState<Service[]>()
-  const [selectedService, setSelectedService] = useState<string | null>(null);
-  const subServiceRef = useRef<HTMLDivElement>(null); // Explicitly define the type
-  const brandRef = useRef<HTMLDivElement>(null); // Explicitly define the type
-  const dispatch=useDispatch<AppDispatch>()
-  
+  const [FetchedService, setFetchedServices] = useState<Service[]>([]);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [brands, setBrands] = useState<string[]>([]); // State to store fetched brands
+  const subServiceRef = useRef<HTMLDivElement>(null);
+  const brandRef = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch<AppDispatch>();
 
-  useEffect(()=>{
-    const getServiceWithSubservices= async ()=>{
+  useEffect(() => {
+    const getServiceWithSubservices = async () => {
       try {
-        const response=await dispatch(GetServicesWithSubservices())
-        console.log("the {{{{{{{{{{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}}}}}}}}}} ", response.payload);
-        setFetchedServices(FetchedService)
+        const response = await dispatch(GetServicesWithSubservices());
+        setFetchedServices(response.payload);
       } catch (error) {
-        console.log("getservice with subservice erorr", error);
+        console.log("getservice with subservice error", error);
       }
-    }
-    getServiceWithSubservices()
-    
-    },[dispatch])
+    };
+    getServiceWithSubservices();
+  }, [dispatch]);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (subServiceRef.current && !subServiceRef.current.contains(event.target as Node)) {
@@ -75,18 +61,33 @@ const AddNewOfferSection = () => {
     };
   }, []);
 
-  // Toggle service selection
-  const handleServiceClick = (serviceName: string) => {
-    if (selectedService === serviceName) {
-      setSelectedService(null); // Deselect if already selected
+  const handleServiceClick = async (service: Service) => {
+    console.log("Selected Service ID:", service.id);
+    setSelectedService(service);
+    if (service.subservices && service.subservices.length > 0) {
+      setSelectedSubService("");
+      setSubServiceDropdownOpen(true);
     } else {
-      setSelectedService(serviceName); // Select the service
+      setSelectedSubService("");
+      setSubServiceDropdownOpen(false);
+    }
+  
+    // Fetch brands for the selected service
+    try {
+      const response = await dispatch(GetBrandsBySubServiceOrService(service.id));
+      console.log("Fetched Brands:", response.payload);
+      
+      // Assuming the response payload is an array of brand objects with a 'name' property
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const brandNames = response.payload.map((brand: any) => brand.name);
+      setBrands(brandNames); // Set the brand names in the state
+    } catch (error) {
+      console.log("Error fetching brands:", error);
     }
   };
 
   return (
-    <div className="py-20 px-4 sm:px-6 lg:px-24 w-full mx-auto flex flex-col lg:flex-row gap-6 bg-gray-100 h-auto lato-font">
- 
+    <div className="py-20 px-4 sm:px-6 lg:px-24 w-full mx-auto flex flex-col lg:flex-row gap-6 bg-gray-100 h-auto pb-[300px] lato-font">
       <div className="w-full lg:w-1/4 p-4 sm:px-6 order-1 lg:order-2">
         <ul className="text-xs sm:text-sm text-gray-700 space-y-3 flex flex-col gap-2">
           <li className="flex justify-center items-start gap-2">
@@ -109,22 +110,21 @@ const AddNewOfferSection = () => {
         </ul>
       </div>
 
-      {/* Main content section */}
       <div className="w-full lg:w-3/4 bg-white p-4 sm:p-6 rounded-lg shadow-md order-2 lg:order-1">
         <h2 className="text-xl sm:text-2xl font-semibold mb-4" style={{ fontFamily: "Unbounded" }}>Add new offer</h2>
         <h3 className="text-lg sm:text-xl font-medium mb-2 lato-font">Type of service</h3>
         <p className="text-gray-600 mb-4 lato-font">Select a product or service you want to sell</p>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          {services?.map((service) => (
+          {FetchedService?.map((service) => (
             <div
-              key={service.name}
+              key={service.id}
               className={`flex flex-col items-center justify-center p-4 sm:p-6 border rounded-lg cursor-pointer transition duration-300 ${
-                selectedService === service.name ? "bg-gray-200" : "hover:bg-gray-100"
+                selectedService?.id === service.id ? "bg-gray-200" : "hover:bg-gray-100"
               }`}
-              onClick={() => handleServiceClick(service.name)}
+              onClick={() => handleServiceClick(service)}
             >
-              <span className="text-3xl sm:text-4xl mb-2">{service.icon}</span>
+              <img src={service.iconUrl} alt="" className="w-[100px]" />
               <span className="text-sm sm:text-base font-medium text-center">{service.name}</span>
             </div>
           ))}
@@ -139,70 +139,71 @@ const AddNewOfferSection = () => {
           </p>
         </div>
 
-        <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-700">Sub-services <span className="text-red-500">*</span></label>
-          <div className="relative mt-2" ref={subServiceRef}>
-            <button
-              className="w-full bg-white border p-3 text-left"
-              onClick={() => setSubServiceDropdownOpen(!subServiceDropdownOpen)}
-            >
-              {selectedSubService || "Select sub-services"}
-              <span className="absolute right-[12px] top-[16px]">{subServiceDropdownOpen ? <FaAngleUp /> : <FaAngleDown />}</span>
-            </button>
-            {subServiceDropdownOpen && (
-              <div className="absolute w-full bg-white border z-10">
-                {subServices.map((sub) => (
-                  <div
-                    key={sub}
-                    className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => {
-                      setSelectedSubService(sub);
-                      setSubServiceDropdownOpen(false);
-                    }}
-                  >
-                    {sub}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {selectedSubService && (
+        {selectedService?.subservices && selectedService.subservices.length > 0 && (
           <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-700">Brands <span className="text-red-500">*</span></label>
-            <div className="relative mt-2" ref={brandRef}>
+            <label className="block text-sm font-medium text-gray-700">Sub-services <span className="text-red-500">*</span></label>
+            <div className="relative mt-2" ref={subServiceRef}>
               <button
                 className="w-full bg-white border p-3 text-left"
-                onClick={() => setBrandDropdownOpen(!brandDropdownOpen)}
+                onClick={() => setSubServiceDropdownOpen(!subServiceDropdownOpen)}
               >
-                {selectedBrand || "Select brand"}
-                <span className="absolute right-[12px] top-[16px]">{brandDropdownOpen ? <FaAngleUp /> : <FaAngleDown />}</span>
+                {selectedSubService || "Select sub-services"}
+                <span className="absolute right-[12px] top-[16px]">{subServiceDropdownOpen ? <FaAngleUp /> : <FaAngleDown />}</span>
               </button>
-              {brandDropdownOpen && (
+              {subServiceDropdownOpen && (
                 <div className="absolute w-full bg-white border z-10">
-                  {brands.map((brand) => (
+                  {selectedService.subservices.map((sub) => (
                     <div
-                      key={brand}
+                      key={sub.id}
                       className="p-2 hover:bg-gray-100 cursor-pointer"
                       onClick={() => {
-                        setSelectedBrand(brand);
-                        setBrandDropdownOpen(false);
+                        setSelectedSubService(sub.name);
+                        setSubServiceDropdownOpen(false);
                       }}
                     >
-                      {brand}
+                      {sub.name}
                     </div>
                   ))}
                 </div>
               )}
             </div>
           </div>
-          
         )}
- 
+
+{selectedSubService && (
+  <div className="mt-4">
+    <label className="block text-sm font-medium text-gray-700">Brands <span className="text-red-500">*</span></label>
+    <div className="relative mt-2" ref={brandRef}>
+      <button
+        className="w-full bg-white border p-3 text-left"
+        onClick={() => setBrandDropdownOpen(!brandDropdownOpen)}
+      >
+        {selectedBrand || "Select brand"}
+        <span className="absolute right-[12px] top-[16px]">{brandDropdownOpen ? <FaAngleUp /> : <FaAngleDown />}</span>
+      </button>
+      {brandDropdownOpen && (
+        <div className="absolute w-full bg-white border z-10">
+          {brands.map((brand, index) => (
+            <div
+              key={index}
+              className="p-2 hover:bg-gray-100 cursor-pointer"
+              onClick={() => {
+                setSelectedBrand(brand);
+                setBrandDropdownOpen(false);
+              }}
+            >
+              {brand}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+)}
+
         {selectedBrand && (
-          <div className="mt-6 py-6 bg-white  ">
-            <h2 className="text-lg font-semibold text-gray-800 " style={{ fontFamily: "Unbounded" }}>
+          <div className="mt-6 py-6 bg-white">
+            <h2 className="text-lg font-semibold text-gray-800" style={{ fontFamily: "Unbounded" }}>
               You need to create a offer
             </h2>
             <div className="mt-4 border rounded-lg p-4 flex justify-between items-center">
@@ -210,7 +211,7 @@ const AddNewOfferSection = () => {
                 <h3 className="text-md font-semibold text-gray-800 lato-font">Create single offer</h3>
                 <p className="text-sm text-gray-500 lato-font">Suitable for all sellers.</p>
               </div>
-              <button className="  lato-font text-white px-4 py-2 rounded-md font-medium primary-background">
+              <button className="lato-font text-white px-4 py-2 rounded-md font-medium primary-background">
                 Single offer
               </button>
             </div>
