@@ -11,5 +11,4 @@ const CreateOfferPage = () => {
      </>
   )
 }
-
 export default CreateOfferPage

@@ -1,11 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+
+
+
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
+
 
 import { SignupUser } from "../../../reduxKit/actions/auth/authAction";
 import { userSignupValidationSchema } from "../../../validation/user/userSignupValidationSchema";
@@ -53,10 +58,16 @@ const UserRegister: React.FC = () => {
       setIsSubmitting(true);
       try {
         const response = await dispatch(SignupUser(values)).unwrap();
-        console.log(response);
-        
+
+        console.log("the signup response",response);
         toast.success(response.message);
         navigate("/");
+      } catch (error:any) {
+          // Handle Axios specific error
+          Swal.fire({
+            icon: "error",
+            title: "Error!",
+            text: error.response?.data.message || "Something went wrong",
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error:any) {
        
@@ -64,6 +75,7 @@ const UserRegister: React.FC = () => {
             icon: "error",
             title: "Error!",
             text: error.message,
+
             timer: 3000,
             toast: true,
             showConfirmButton: false,
@@ -78,10 +90,11 @@ const UserRegister: React.FC = () => {
             showClass: { popup: "animate__animated animate__fadeInDown" },
             hideClass: { popup: "animate__animated animate__fadeOutUp" },
           });
-        
-      } 
-    },
-  });
+        }
+    }
+  })
+
+
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {

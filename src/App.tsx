@@ -1,130 +1,149 @@
-import React, { Fragment,Suspense,lazy, useEffect, useState } from "react";
-import { Routes, Route,Navigate } from "react-router-dom";
+import React, { Fragment, Suspense, lazy, useEffect, useState } from "react";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Toaster } from "react-hot-toast";
 import ScrollToTop from "./ScrollToTop";
 import { Loading } from "./Loading";
-import { useNavigate } from "react-router-dom"; 
-import { ToggleProfile } from "./components/pages/user/ToggleProfile";
+import { AppDispatch, RootState } from "./reduxKit/store";
+import { getUserProfile } from "./reduxKit/actions/user/userProfile";
+import { getATKWithRTKUser } from "./reduxKit/actions/auth/authAction";
+import {
+  userLoggedAction,
+  userLoggedWithSellerAction,
+} from "./reduxKit/actions/auth/user-seller-main-auth";
+import NotFound404 from "./notFound404";
+import NotFound401 from "./notFound401";
+import ToggleProfile from "./components/pages/user/ToggleProfile";
 import SellerRegistrationForm from "./components/seller/forms/SellerRegistrationForm";
 import LanguageSection from "./components/Header/LanguageSection";
 import CreateOfferPage from "./components/pages/Seller/CreateOfferPage";
 import AddNewOfferSection from "./components/pages/Seller/AddNewOfferSection";
 import OfferDetailPage from "./components/pages/Seller/offerDetailPage";
-import { useDispatch } from "react-redux";
-import { AppDispatch, RootState } from "./reduxKit/store";
-import { getUserProfile } from "./reduxKit/actions/user/userProfile";
-import { UserProfileData } from "./interfaces/user/profile";
-import { getATKWithRTKUser } from "./reduxKit/actions/auth/authAction";
-import NotFound404 from "./notFound404";
-import NotFound401 from "./notFound401";
-import { userLoggedAction, userLoggedWithSellerAction } from "./reduxKit/actions/auth/user-seller-main-auth";
-import { useSelector } from "react-redux";
-// import HorizontalScrollSection from "./components/forms/user/HorizontalScrollSection";
-const WelcomePage = lazy(() => import("./components/pages/welcome"))
-const UserLogin = lazy(()=> import('./components/forms/user/userLogin'))
-const UserRegister = lazy(()=> import('./components/forms/user/userSignup'))
-const PasswordChange = lazy(()=> import('./components/forms/user/changePassword'))
-const Category = lazy(()=> import('./components/pages/category'))
-const ChatComponent = lazy(()=> import('./components/pages/user/chat'))
-const About = lazy(()=> import('./components/pages/about'))
-const Profile = lazy(()=> import('./components/forms/user/userProfile'))
-const EmailVerification = lazy(()=> import('./components/forms/user/emailVerification'))
-const TopUp = lazy(()=> import('./components/pages/Topup/TopUp'))
-const SellerPage = lazy(()=> import('./components/pages/Seller/sellerPage'))
- 
-// import { MainVerification } from "./components/forms/user/phoneVerification";
-// import { MainDetails } from "./components/forms/user/mainDetails";
-// import UserLogin from './components/forms/user/userLogin';
+
+
+const WelcomePage = lazy(() => import("./components/pages/welcome"));
+const UserLogin = lazy(() => import("./components/forms/user/userLogin"));
+const UserRegister = lazy(() => import("./components/forms/user/userSignup"));
+const PasswordChange = lazy(
+  () => import("./components/forms/user/changePassword")
+);
+const Category = lazy(() => import("./components/pages/category"));
+const ChatComponent = lazy(() => import("./components/pages/user/chat"));
+const About = lazy(() => import("./components/pages/about"));
+const Profile = lazy(() => import("./components/forms/user/userProfile"));
+const EmailVerification = lazy(
+  () => import("./components/forms/user/emailVerification")
+);
+const TopUp = lazy(() => import("./components/pages/Topup/TopUp"));
+const SellerPage = lazy(() => import("./components/pages/Seller/sellerPage"));
+const SellerVerificationPending = lazy(
+  () => import("./sellerVerificationPendingPage")
+);
 
 export const App: React.FC = React.memo(() => {
-const dispatch=useDispatch<AppDispatch>()
-const {isLoggedUser,isLoggedUserWithSeller}=useSelector((state:RootState)=>state.logAuth)
+  const dispatch = useDispatch<AppDispatch>();
+  const [verificationStatus,setVerificationStatus]=useState("")
+  const navigate = useNavigate();
+  const { isLoggedUser, isLoggedUserWithSeller } = useSelector(
+    (state: RootState) => state.logAuth
+  );
+  const [formData, setProfiles] = useState(null);
 
-const navigate = useNavigate();
-    const [formData,setProfiles]= useState<UserProfileData>()
-    useEffect(() => {
-      const fetchProfile = async () => {
-        try {
-          const resultAction = await dispatch(getUserProfile());
-          // console.log("resutfoterf()()()",resultAction.payload.success);
-          if (getUserProfile.fulfilled.match(resultAction)) {
-            const { data, status } = resultAction.payload;
-            console.log("teh status",status);
-            if(status===200 && data.data.sellerProfile){
-          
-              await dispatch(userLoggedWithSellerAction())
-              setProfiles(data)
-            }else if(status===200){
-          
-              await dispatch(userLoggedAction())
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const resultAction = await dispatch(getUserProfile());
+        if (getUserProfile.fulfilled.match(resultAction)) {
+          const { data, status } = resultAction.payload;
+
+          if (status === 200) {
+            setProfiles(data);
+            setVerificationStatus(data.data.sellerProfile.verificationStatus)
+            await dispatch(userLoggedAction());
+
+            if (data.data.sellerProfile.verificationStatus === "APPROVED") {
+              await dispatch(userLoggedWithSellerAction());
             }
-          } else  {
-              const response= await dispatch(getATKWithRTKUser()) 
-              console.log('koooooooooooraaaaaaaaa', response);
-              if (getATKWithRTKUser.fulfilled.match(response)) {
-                console.log("Access token refreshed: ", response.payload);
-               const reponse = await dispatch(getUserProfile());
-               if (getUserProfile.fulfilled.match(reponse)) {
-                const { data, status } = reponse.payload;
-                console.log(" status",status);
-                setProfiles(data)
-              } 
-              } else {
-                console.log("Token refresh failed! Redirecting to login...");
-                navigate("/");
-              }
+           
           }
-        } catch (error) {
-          console.error("Unexpected error while fetching the profile: ", error);
+        } else {
+          const response = await dispatch(getATKWithRTKUser());
+          if (getATKWithRTKUser.fulfilled.match(response)) {
+            console.log("Access token refreshed.");
+            const retryProfile = await dispatch(getUserProfile());
+            if (getUserProfile.fulfilled.match(retryProfile)) {
+              setProfiles(retryProfile.payload.data);
+            }
+          } else {
+            console.log("Token refresh failed. Redirecting to login.");
+            navigate("/");
+          }
         }
-      };
-      fetchProfile();
-    }, [dispatch,navigate]);
-    
-    if(formData){
-      console.log("App.tsx",formData);
-    }
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    };
+    fetchProfile();
+  }, [dispatch, navigate]);
+
+  if (formData) {
+    console.log("App.tsx currend data : ", formData,verificationStatus);
+  }
 
   return (
     <Fragment>
       <Toaster position="top-center" />
-      <ScrollToTop/>
-      <Suspense fallback={<Loading/>}>
-      <Routes>
-      <Route path='/' element={<WelcomePage/>} />
-      {/* <Route path="/login" element={isLogged && role === 'admin' ? <Navigate to="/home" /> : <AdminLogin />} /> */}
-        <Route path="/user/login" element={isLoggedUser ? <Navigate to="/"/> :<UserLogin />} />
-        <Route path="/user/signup" element={isLoggedUser ? <Navigate to="/"/> :<UserRegister />} />
-        {/* <Route path="/user/mainVerification" element={<MainVerification/>} /> */}
-        <Route path="/user/changePassword" element={isLoggedUser ?<Navigate to="/"/> : <PasswordChange />} />
-        <Route path="/user/Category" element={ <Category />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/chat" element={<ChatComponent/>} />
-        <Route path="/profile" element={<Profile/>} />
-        <Route path="/user/emailVerification" element={isLoggedUser ?<Navigate to="/"/> :<EmailVerification/>} />
-        <Route path="/user/changepassword" element={isLoggedUser ?<Navigate to="/"/> :<PasswordChange/>} />
-        <Route path="/user/topup" element={<TopUp/>} />
-        <Route path="/user/seller" element={<SellerPage/>} />
-        {/* <Route path="/mainDetails" element={<MainDetails/>} /> */}
-        {/* <Route path="/loading" element={<Loading/>} /> */}
+      <ScrollToTop />
+      <Suspense fallback={<Loading />}>
+        <Routes>
+          <Route path="/" element={<WelcomePage />} />
+          <Route
+            path="/user/login"
+            element={isLoggedUser ? <Navigate to="/" /> : <UserLogin />}
+          />
+          <Route
+            path="/user/signup"
+            element={isLoggedUser ? <Navigate to="/" /> : <UserRegister />}
+          />
+          <Route
+            path="/user/changePassword"
+            element={isLoggedUser ? <Navigate to="/" /> : <PasswordChange />}
+          />
+          <Route path="/user/Category" element={<Category />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/chat" element={<ChatComponent />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route
+            path="/user/emailVerification"
+            element={isLoggedUser ? <Navigate to="/" /> : <EmailVerification />}
+          />
+          <Route path="/user/topup" element={<TopUp />} />
+          <Route path="/user/seller" element={ verificationStatus==="PENDING" && isLoggedUser ? ( <SellerVerificationPending />  ) : verificationStatus==="APPROVED" && isLoggedUserWithSeller?<SellerPage />: (<Navigate to="/" /> ) } />
+          {/* SELLER ROUTES */}
+          <Route path="/toggle" element={<ToggleProfile />} />
+          <Route path="/user/sellerSignup" element={ isLoggedUser ? <SellerRegistrationForm /> : <Navigate to="/" />
+            }
+          />
+          <Route path="/user/languageSelect" element={<LanguageSection />} />
+          <Route path="/user/selectDetailsOffer" element={ verificationStatus==="PENDING" && isLoggedUser ? ( <SellerVerificationPending />  ) : verificationStatus==="APPROVED" || isLoggedUserWithSeller?<AddNewOfferSection/>: (<Navigate to="/" /> )  } />
+          <Route
+            path="/user/createOffer"
+            element={
+              isLoggedUserWithSeller ? <CreateOfferPage /> : <Navigate to="/" />
+            }
+          />
+          <Route
+            path="/user/offerDetail"
+            element={
+              isLoggedUserWithSeller ? <OfferDetailPage /> : <Navigate to="/" />
+            }
+          />
 
-        {/* SELLER SIDE  */}
-        <Route path="/error" element={<Loading/>} />
-        <Route path="/toggle" element={<ToggleProfile/>} />
-
-        <Route path="/user/sellerSignup" element={isLoggedUser ? <Navigate to="/"/> :<SellerRegistrationForm/>} />
-        <Route path="/user/languageSelect" element={<LanguageSection/>} />
-        <Route path="/user/selectDetailsOffer" element={isLoggedUserWithSeller ?<AddNewOfferSection/> : <Navigate to="/"/>} />
-        <Route path="/user/createOffer" element={isLoggedUserWithSeller ? <CreateOfferPage/>   :<Navigate to="/"/> } />
-        <Route path="/user/offerDetail" element={isLoggedUserWithSeller ? <OfferDetailPage/> : <Navigate to="/"/> } />
-        <Route path="/404" element={<NotFound404/>} />
-        <Route path="/401" element={<NotFound401/>} />
-      </Routes>
-        </Suspense>
+          {/* ERROR HANDLING */}
+          <Route path="/404" element={<NotFound404 />} />
+          <Route path="/401" element={<NotFound401 />} />
+        </Routes>
+      </Suspense>
     </Fragment>
   );
 });
-
-
-
-
