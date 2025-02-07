@@ -116,7 +116,7 @@ const AddNewOfferSection = () => {
         <p className="text-gray-600 mb-4 lato-font">Select a product or service you want to sell</p>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          {FetchedService?.map((service) => (
+          {services?.map((service) => (
             <div
               key={service.name}
               className={`flex flex-col items-center justify-center p-4 sm:p-6 border rounded-lg cursor-pointer transition duration-300 ${
@@ -124,7 +124,7 @@ const AddNewOfferSection = () => {
               }`}
               onClick={() => handleServiceClick(service.name)}
             >
-              <span className="text-3xl sm:text-4xl mb-2">{service.iconUrl}</span>
+              <span className="text-3xl sm:text-4xl mb-2">{service.icon}</span>
               <span className="text-sm sm:text-base font-medium text-center">{service.name}</span>
             </div>
           ))}
