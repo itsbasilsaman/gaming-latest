@@ -9,13 +9,15 @@ import ImgThree from '../../../assets/Card/imgThreethree.png';
 import CardFour from '../../../assets/Card/4.png';
 import ImgFour from '../../../assets/Card/imgFour.png';
 import Icon from '../../../assets/Images/game.png';
-
+import { IoArrowBackCircleSharp } from "react-icons/io5";
+import { IoArrowForwardCircleSharp } from "react-icons/io5";
 interface GameOffer {
   title: string;
   offer: string;
   img: string;
   bg: string;
 }
+
 
 const gamesData: GameOffer[] = [
   { img: ImgOne, bg: CardOne, title: 'Brawl Stars', offer: '150 offers' },
@@ -49,8 +51,8 @@ const gamesData: GameOffer[] = [
 
 ];
 
-const ITEMS_PER_PAGE_BIG_SCREEN = 12; // 4 columns x 3 rows
-const ITEMS_PER_PAGE_SMALL_SCREEN = 8; // 2 columns x 4 rows
+const ITEMS_PER_PAGE_BIG_SCREEN = 12;  
+const ITEMS_PER_PAGE_SMALL_SCREEN = 8;  
 
 const TopUpSection: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -91,7 +93,7 @@ const TopUpSection: React.FC = () => {
     } else {
       setFilteredGames(gamesData);
     }
-    setCurrentPage(1); // Reset to first page after filtering
+    setCurrentPage(1);  
   };
 
   return (
@@ -122,28 +124,29 @@ const TopUpSection: React.FC = () => {
           <h2 className="text-2xl font-bold mb-6 text-white" style={{ fontFamily: "Unbounded" }}>{filteredGames.length} Top Ups</h2>
         </div>
 
-        <div className={`grid gap-4 pt-[30px] ${window.innerWidth >= 750 ? "grid-cols-4" : "grid-cols-1"}`}>
-          {currentItems.map((game, index) => (
-            <div key={index} className="relative text-white rounded-lg overflow-hidden lg:w-[326px] lg:h-[228px] h-[150px] game-card one flex flex-col items-center justify-center">
-              <img src={game.bg} className="absolute inset-0 object-cover w-full h-full" alt="" style={{ zIndex: '-10' }} />
-              <img src={game.img} alt={game.title} className="h-24 mb-4" />
-              <h3 className="text-lg font-bold">{game.title}</h3>
-              <p className="offer-menu lg:text-[18px] font-medium rounded-full px-2 py-1">{game.offer}</p>
-            </div>
-          ))}
-        </div>
+        <div className={`grid gap-4 pt-[30px] grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4`}>
+  {currentItems.map((game, index) => (
+    <div key={index} className="relative text-white rounded-[12px] overflow-hidden extralg:w-[326px] extralg:h-[228px] h-[170px] game-card one flex flex-col items-center justify-center cursor-pointer">
+      <img src={game.bg} className="absolute inset-0 object-cover w-full h-full rounded-[12px]" alt="" style={{ zIndex: '-10' }} />
+      <img src={game.img} alt={game.title} className="h-[80px] extralg:h-[auto] pt-[20px] lg:pt-[0px]" />
+      <h3 className="text-lg font-bold">{game.title}</h3>
+      <p className="lg:px-[8px] px-[11px] lg:pl-[16px] py-[3px] lg:py-[8px] lg:w-[126px] lg:h-[45px] offer-menu lg:text-[18px] font-medium rounded-[1000px]">{game.offer}</p>
+    </div>
+  ))}
+</div>
 
         <div className="flex justify-center items-center gap-4 mt-6">
-          <button onClick={handlePrevious} disabled={currentPage === 1} className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded disabled:opacity-50">
-            Previous
+          <button onClick={handlePrevious} disabled={currentPage === 1} className="   disabled:opacity-50">
+          <IoArrowBackCircleSharp className="text-[26px] text-white" />
           </button>
-          <span className="text-lg font-semibold">
-            Page {currentPage} of {totalPages}
+          <span className="text-lg font-semibold text-white" style={{ fontFamily: 'Unbounded' }}>
+              {currentPage} <span  className="mx-1"  >of</span> {totalPages}
           </span>
-          <button onClick={handleNext} disabled={currentPage === totalPages} className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded disabled:opacity-50">
-            Next
+          <button onClick={handleNext} disabled={currentPage === totalPages} className=" rounded disabled:opacity-50">
+          <IoArrowForwardCircleSharp className="text-[26px] text-white" />
           </button>
         </div>
+
       </div>
     </div>
   );

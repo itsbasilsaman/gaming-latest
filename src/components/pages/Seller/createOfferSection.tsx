@@ -48,9 +48,9 @@ const CreateOfferSection: React.FC = () => {
       <div className="flex items-center p-4   bg-white rounded-lg mb-6 w-full max-w-4xl">
           <span className="text-green-500 text-xl mr-3">ℹ️</span>
           <p className="text-gray-700">
-            Sellers are strictly prohibited from offering any product or services which may violate local laws and regulations. Read more about
-            <a href="#" className="text-red-500 font-semibold"> prohibition of illegal activities.</a>
+            Sellers are strictly prohibited from offering any product or services which may violate local laws and regulations.  
           </p>
+
         </div>
         <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg p-10  ">
           <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center"style={{fontFamily:"Unbounded"}}>Create Offer</h2>
