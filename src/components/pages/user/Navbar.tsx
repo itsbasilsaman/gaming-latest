@@ -274,14 +274,39 @@ const {isLoggedUserWithSeller,isLoggedUser}=useSelector((state:RootState)=>state
          
           <IoMdClose onClick={togglePanel} className='text-[26px]' />
         </div>
-          
-        <div className="p-[25px]  space-y-6">
-          <ToggleProfile/>
-          <div className=' '>
-            <Link to={'/user/seller'}><span className='text-[20px] w-full font-semibold country-button px-[24px] py-[12px] rounded-full'>Become a Seller</span></Link>
-          </div>
 
-          <button className=' pr-[14px] px-[6px] py-[6px] country-button modal-country-button flex justify-center items-center gap-[10px] rounded-full text-[19px]' onClick={toggleLocalization}><img src={Flag} alt="" className='w-[43px]' /> Localization Setting</button>
+          
+       
+    
+    
+        <div className="p-[25px]  space-y-6">
+             { isLoggedUserWithSeller ? 
+            <div className='flex justify-center items-center flex-col'>
+               <ToggleProfile/>
+                <div>
+                  <Link to={'/user/selectDetailsOffer'}><span className='text-[20px] w-full font-semibold country-button px-[24px] py-[15px] rounded-full'>Create Offer</span></Link>
+                </div>
+            </div>
+              :
+            <div>
+               {  isLoggedUser ?
+              <div  className='flex justify-center items-center flex-col'>
+                  <ToggleProfile/>
+                  <div className=' '>
+                    <Link to={'/user/seller'}><span className='text-[20px] w-full font-semibold country-button px-[24px] py-[12px] rounded-full'>Become a Seller</span></Link>
+                  </div>
+              </div> : 
+            <div className='flex w-full justify-center items-center'>  <Link to={'/user/login'}><button className='px-[30px] py-[13px] login-signup-button rounded-[1000px] text-[19px]'>Login / Signup</button></Link></div>
+                }
+            </div>
+            }
+      
+ 
+     
+
+
+
+   { isLoggedUserWithSeller || isLoggedUser && <div className='flex justify-center items-center'>      <button className=' pr-[14px] px-[6px] py-[6px] country-button modal-country-button flex justify-center items-center gap-[10px] rounded-full text-[19px]' onClick={toggleLocalization}><img src={Flag} alt="" className='w-[43px]' /> Localization Setting</button></div>}
           
           <div className={`localization-setting transition-all duration-300 ease-in-out overflow-hidden ${isLocalizationOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
             <div>
