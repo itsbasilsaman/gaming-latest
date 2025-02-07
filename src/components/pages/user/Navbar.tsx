@@ -6,7 +6,7 @@ import Flag from './Images/flag.png';
 import { IoMdClose } from "react-icons/io";
 import { Link } from 'react-router-dom';
 import Logo from '../../../assets/gaminggate-logo.png';
-import { ToggleProfile } from './ToggleProfile';
+import  ToggleProfile  from './ToggleProfile';
 import { UserAvatar } from './UserAvatar';
 import { AiFillMessage } from "react-icons/ai";
 

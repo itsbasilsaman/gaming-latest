@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import { AxiosError } from "axios"; // Import AxiosError for error typing
+
 
 import { SignupUser } from "../../../reduxKit/actions/auth/authAction";
 import { userSignupValidationSchema } from "../../../validation/user/userSignupValidationSchema";
@@ -44,10 +45,10 @@ const UserRegister: React.FC = () => {
       setIsSubmitting(true);
       try {
         const response = await dispatch(SignupUser(values)).unwrap();
+        console.log("the signup response",response);
         toast.success(response.message);
         navigate("/");
-      } catch (error) {
-        if (error instanceof AxiosError) {
+      } catch (error:any) {
           // Handle Axios specific error
           Swal.fire({
             icon: "error",
@@ -67,32 +68,11 @@ const UserRegister: React.FC = () => {
             showClass: { popup: "animate__animated animate__fadeInDown" },
             hideClass: { popup: "animate__animated animate__fadeOutUp" },
           });
-        } else {
-          // Handle other errors
-          Swal.fire({
-            icon: "error",
-            title: "Error!",
-            text: "Enter the Phone Number with Country Code (ex - +91 9999999999)",
-            timer: 3000,
-            toast: true,
-            showConfirmButton: false,
-            timerProgressBar: true,
-            background: "#fff",
-            color: "#721c24",
-            iconColor: "#f44336",
-            didOpen: (toast) => {
-              toast.addEventListener("mouseenter", Swal.stopTimer);
-              toast.addEventListener("mouseleave", Swal.resumeTimer);
-            },
-            showClass: { popup: "animate__animated animate__fadeInDown" },
-            hideClass: { popup: "animate__animated animate__fadeOutUp" },
-          });
+
+
         }
-      } finally {
-        setIsSubmitting(false);
-      }
-    },
-  });
+    }
+  })
 
   return (
     <div className="flex items-center justify-center min-h-screen user-background py-8 px-4 sm:px-6 lg:px-8">

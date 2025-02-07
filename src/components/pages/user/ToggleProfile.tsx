@@ -20,7 +20,7 @@ const userProfiles: UserProfile[] = [
   { text: 'A', profileBgColor: 'bg-red-600', userStatusColor: 'bg-green-500' },
 ];
 
-export const ToggleProfile: React.FC = React.memo(() => {
+ const ToggleProfile: React.FC = React.memo(() => {
   const [isSellingOpen, setIsSellingOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -229,3 +229,4 @@ export const ToggleProfile: React.FC = React.memo(() => {
     </>
   );
 });
+export default ToggleProfile

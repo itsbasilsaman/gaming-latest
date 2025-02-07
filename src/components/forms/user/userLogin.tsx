@@ -60,8 +60,8 @@ const navigate= useNavigate()
 
       const Type=payload.type
       console.log("Payloadhihih:", payload,inputValue);
-         await dispatch(loginUser(payload)).unwrap()
-         toast.success("Otp Sented Successfully");
+        const response= await dispatch(loginUser(payload)).unwrap()
+         toast.success(response.message);
         navigate(`/user/emailVerification?inputValue=${encodeURIComponent(inputValue)}&type=${Type}`);
     
       // Add logic to send the payload to your backend
