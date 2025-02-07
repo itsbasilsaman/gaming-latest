@@ -27,8 +27,8 @@ export const axiosIn = axios.create({
   export const loginUser = createAsyncThunk( "user/send-otp",
     async (userCredentials:ILoginUser,{rejectWithValue})=>{
         try {
-            const data  = await axiosIn.post(`/user/send-otp`,userCredentials, config );
-            return data
+            const response  = await axiosIn.post(`/user/send-otp`,userCredentials, config );
+            return response.data
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } catch (error: any) {
             if (error.response && error.response.data) {

@@ -63,10 +63,13 @@ const navigate= useNavigate()
 
       const Type=payload.type
       console.log("Payloadhihih:", payload,inputValue);
-       const response =   await dispatch(loginUser(payload)).unwrap()
-       console.log('1121213213',response);
+
+        const response= await dispatch(loginUser(payload)).unwrap()
+         toast.success(response.message);
+
        
-        //  toast.success(response);
+    
+
         navigate(`/user/emailVerification?inputValue=${encodeURIComponent(inputValue)}&type=${Type}`);
     
       // Add logic to send the payload to your backend

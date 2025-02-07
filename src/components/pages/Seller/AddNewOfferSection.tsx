@@ -4,7 +4,21 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import { GetServicesWithSubservices } from "../../../reduxKit/actions/offer/serviceSubServiceBrandSelection";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../reduxKit/store";
+interface Subservice {
+  id: string;
+  name: string;
+  nameAr: string;
+  description: string;
+  descriptionAr: string;
+}
 
+interface Service {
+  id: string;
+  name: string;
+  nameAr: string;
+  iconUrl: string;
+  subservices: Subservice[];
+}
 const services = [
   { name: "Gift Cards", icon: "🎁" },
   { name: "Games", icon: "🎮" },
@@ -23,27 +37,23 @@ const AddNewOfferSection = () => {
   const [selectedBrand, setSelectedBrand] = useState("");
   const [subServiceDropdownOpen, setSubServiceDropdownOpen] = useState(false);
   const [brandDropdownOpen, setBrandDropdownOpen] = useState(false);
+  const [FetchedService,setFetchedServices]=useState<Service[]>()
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const subServiceRef = useRef<HTMLDivElement>(null); // Explicitly define the type
   const brandRef = useRef<HTMLDivElement>(null); // Explicitly define the type
   const dispatch=useDispatch<AppDispatch>()
-
-
+  
 
   useEffect(()=>{
     const getServiceWithSubservices= async ()=>{
       try {
-        
         const response=await dispatch(GetServicesWithSubservices())
-
-        console.log("the response of the serrvice wit subservice ", response);
-        
-
+        console.log("the {{{{{{{{{{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}}}}}}}}}} ", response.payload);
+        setFetchedServices(FetchedService)
       } catch (error) {
         console.log("getservice with subservice erorr", error);
       }
     }
-
     getServiceWithSubservices()
     
     },[dispatch])
@@ -106,7 +116,7 @@ const AddNewOfferSection = () => {
         <p className="text-gray-600 mb-4 lato-font">Select a product or service you want to sell</p>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          {services.map((service) => (
+          {services?.map((service) => (
             <div
               key={service.name}
               className={`flex flex-col items-center justify-center p-4 sm:p-6 border rounded-lg cursor-pointer transition duration-300 ${

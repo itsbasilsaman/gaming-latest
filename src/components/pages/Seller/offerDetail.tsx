@@ -16,9 +16,9 @@ const OfferDetail: React.FC = () => {
     lowStockAlertQty: "",
     deliveryMethods: ["EMAIL"],
   });
+  
 
   const [errors, setErrors] = useState<ValidationErrors>({});
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     if (name === "deliveryMethods") {
