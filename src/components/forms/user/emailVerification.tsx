@@ -48,13 +48,16 @@ const EmailVerification: React.FC = () => {
     e: React.KeyboardEvent<HTMLInputElement>,
     index: number
   ): void => {
-    if (e.key === "Backspace" && !otp[index] && index > 0) {
+    if (e.key === "Enter") {
+      handleSubmit(); // Call the submit function when Enter is pressed
+    } else if (e.key === "Backspace" && !otp[index] && index > 0) {
       const prevInput = document.getElementById(
         `otp-input-${index - 1}`
       ) as HTMLInputElement;
       prevInput?.focus();
     }
   };
+  
 
   // Handle paste event
   const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>): void => {
@@ -137,17 +140,18 @@ const EmailVerification: React.FC = () => {
         backgroundPosition: "center",
       }}
     >
-      {/* Background Animation */}
+ 
       <div className="absolute inset-0 animate-pulse"></div>
-      {/* Semi-transparent Overlay */}
+ 
       <div className="absolute inset-0 adminlogin-background">
         <div className="background-one relative inset-0 flex justify-center items-start pt-[60px]">
-          {/* Placeholder for logo */}
+ 
+
         </div>
         <div className="background-two bg-white"></div>
       </div>
 
-      {/* Form Container */}
+   
       <div className="relative z-10 flex flex-col bg-white items-center px-[28px] py-[45px] w-full max-w-md admin-login-box">
         <div className="flex flex-col items-center justify-center">
           <div className="w-full max-w-sm p-8 bg-white rounded-lg">
@@ -168,6 +172,7 @@ const EmailVerification: React.FC = () => {
                   value={digit}
                   onChange={(e) => handleInputChange(e.target.value, index)}
                   onKeyDown={(e) => handleKeyDown(e, index)}
+                  
                   onPaste={handlePaste}
                   className="w-10 h-10 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />

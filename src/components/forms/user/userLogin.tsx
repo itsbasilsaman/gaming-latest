@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import "react-phone-number-input/style.css";
-import { useNavigate } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import Logo from '../../../assets/gaminggate-logo.png'
+import { FaInstagram, FaFacebookF, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
 import { loginUser } from "../../../reduxKit/actions/auth/authAction";
 import { useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../../reduxKit/store";
 import { useSelector } from "react-redux";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 
   const UserLogin: React.FC = React.memo(() => {
@@ -29,6 +30,8 @@ const navigate= useNavigate()
       setInputType(null);
     }
   };
+
+  
 
   const handleCountryCodeChange = (code: string) => {
     setCountryCode(code);
@@ -60,8 +63,13 @@ const navigate= useNavigate()
 
       const Type=payload.type
       console.log("Payloadhihih:", payload,inputValue);
+
         const response= await dispatch(loginUser(payload)).unwrap()
          toast.success(response.message);
+
+       
+    
+
         navigate(`/user/emailVerification?inputValue=${encodeURIComponent(inputValue)}&type=${Type}`);
     
       // Add logic to send the payload to your backend
@@ -96,87 +104,109 @@ const navigate= useNavigate()
 
 
   return (
-    <div
-      className="flex items-center p-2 justify-center min-h-screen user-background relative overflow-hidden"
-    
-    >
-      <div className="absolute inset-0 animate-pulse"></div>
-      <div className="absolute inset-0 adminlogin-background"></div>
-
-      <div className="relative z-10 flex flex-col affiliate-section rounded-[13px] items-center px-6 py-10 w-full max-w-md ">
-        <h2
-          className="text-3xl font-bold mb-6 text-center"
-          style={{ fontFamily: "Unbounded", color: "white" }}
-        >
-          Login
-        </h2>
-        <form onSubmit={handleSubmit} className="w-full">
-          <div className="mb-6">
-            <label
-              htmlFor="input"
-              className="block text-[17px] text-gray-100 mb-2"
+    <div className=" h-[120vh]  grid grid-rows-5 bg-white">
+      <div className="lg:row-span-2  primary-background relative h-[100px] lg:h-auto flex items-center">
+        <div className="flex pl-2 lg:pl-0 lg:justify-center items-center lg:absolute  lg:top-16 lg:left-1/2 lg:-translate-x-1/2">
+          <img src={Logo}   className="w-[80px]   h-[60px]   object-cover" />
+          <span className="lg:text-[24px]" style={{ fontFamily: "Unbounded", color: "white" }}>GAME GATE</span>
+        </div>
+      </div> 
+      <div className="row-span-5 lg:bg-white flex items-center justify-center">
+     
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-[530px] px-4 sm:px-6 py-10">
+          <div className="relative z-10 flex flex-col affiliate-section rounded-[12px] items-center px-4 sm:px-8 pb-[65px] pt-12 w-full bg-white border-gray-300 border">
+            <h2
+              className="text-[20px] sm:text-[24px] font-bold mb-7 mt-3 text-center primary-color"
+              style={{ fontFamily: "Unbounded" }}
             >
-              {inputType === "phone" ? "Phone Number or Email " : "Email or Phone Number"}
-            </label>
-            <div className="flex items-center border border-gray-300 rounded-lg">
-              {inputType === "phone" && (
-                <select
-                  value={countryCode}
-                  onChange={(e) => handleCountryCodeChange(e.target.value)}
-                  className="px-3 py-2 text-lg border-r border-gray-300 focus:outline-none"
+              Welcome back!
+            </h2>
+            <form onSubmit={handleSubmit} className="w-full">
+              <div className="mb-6">
+                <label
+                  htmlFor="input"
+                  className="block text-[15px] sm:text-[17px] text-gray-700 mb-2"
                 >
+                  {inputType === "phone" ? "Phone Number or Email " : "Email or Phone Number"}
+                </label>
+                <div className="flex items-center border border-gray-300 rounded-[6px]">
+                  {inputType === "phone" && (
+                    <select
+                      value={countryCode}
+                      onChange={(e) => handleCountryCodeChange(e.target.value)}
+                      className="px-3 py-2 text-lg border-r border-gray-300 focus:outline-none"
+                    >
+                      <option value="91">+91</option>
+                      <option value="1">+1</option>
+                      <option value="44">+44</option>
+                    </select>
+                  )}
+                  <input
+  type="text"
+  value={inputValue}
+  onChange={(e) => handleInputChange(e.target.value)}
+  onKeyDown={(e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();  
+      handleSubmit(e);  
+    }
+  }}
+  placeholder={inputType === "phone" ? "Enter phone number " : "Enter email address"}
+  className="w-full px-3 py-3 text-lg rounded-[6px]"
+/>
+                </div>
+                {errors.input && (
+                  <div className="text-red-400 text-sm mt-1">{errors.input}</div>
+                )}
+              </div>
 
-                  <option value="91">+91</option>
-                  <option value="1">+1</option>
-                  <option value="44">+44</option>
-                </select>
-              )}
-              {/* Email or Phone Input */}
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => handleInputChange(e.target.value)}
-                placeholder={inputType === "phone" ? "Enter phone number " : "Enter email address"}
-                className="w-full px-3 py-3 text-lg rounded-[6px] focus:outline-none"
-              />
-            </div>
-
-            {errors.input && (
-              <div className="text-red-400 text-sm mt-1">{errors.input}</div>
-            )}
+              <div className="text-center mt-4">
+  <div className="flex flex-col sm:flex-row gap-2">
+    <Link to={'/'} className="w-full order-2 sm:order-1">
+      <button
+        className="w-full px-6 py-3 border border-gray-300 rounded-[6px] font-semibold transform transition"
+        style={{ fontFamily: "Unbounded" }}
+      >
+        Later
+      </button>
+    </Link>
+    <button
+      type="submit"
+      className="w-full px-6 py-3 rounded-[6px] primary-background text-white font-semibold transform transition order-1 sm:order-2"
+      style={{ fontFamily: "Unbounded" }}
+    >
+      {loading ? "Sending OTP..." : "Login"}
+    </button>
+  </div>
+</div>
+            </form>
           </div>
-
-
-         
-          <div className="text-center mt-4">
-            <button
-              type="submit"
-             
-              className="w-full px-6 py-3 rounded-[6px] text-white font-semibold text-lg    transform transition"
-              style={{ backgroundColor: "#24288E", fontFamily: "Unbounded" }}
-            >
-              {loading ? "Logging In..." : "Login"}
-            </button>
-
-            <div className="flex justify-center items-center mt-5">
-              <div className="line text-gray-200"  ></div>
-              <p className="text-[17px] mx-3 text-gray-200">or</p>
-              <div className="line  text-gray-200"></div>
-            </div>
-
-            {/* <span className="mt-4 flex gap-2 justify-center items-center text-white">
-              <MdAccountCircle style={{ color: "#24288E" }} className="text-lg" />
-              Don't have an account?{" "}
-              <NavLink
-                to="/user/signup"
-                className="text-blue-950   text-sm font-medium hover:underline"
-              >
-                Sign Up
-              </NavLink>
-            </span> */}
-          </div>
-        </form>
+        </div>
       </div>
+      <footer className="primary-background text-white py-6 px-4 md:px-10 w-full flex items-center">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center w-full">
+          <div className="text-left mb-4 sm:mb-0">
+            <p className="text-sm lg:text-left text-center max-w-xl">
+              Gaming gate is a comprehensive online marketplace for all things gaming-related. We are dedicated to innovating for the gaming community's benefit.
+            </p>
+            <p className="text-[14px] lg:text-left text-center  md:text-sm mt-1" style={{ fontFamily: "Unbounded" }}>&copy; 2025 ggtops.com</p>
+          </div>
+          <div className="flex space-x-4">
+            <a href="#" className="p-2 border rounded-full hover:bg-white hover:text-blue-950 transition">
+              <FaInstagram size={18} />
+            </a>
+            <a href="#" className="p-2 border rounded-full hover:bg-white hover:text-blue-950 transition">
+              <FaFacebookF size={18} />
+            </a>
+            <a href="#" className="p-2 border rounded-full hover:bg-white hover:text-blue-950 transition">
+              <FaLinkedinIn size={18} />
+            </a>
+            <a href="#" className="p-2 border rounded-full hover:bg-white hover:text-blue-950 transition">
+              <FaXTwitter size={18} />
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 });
