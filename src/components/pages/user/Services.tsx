@@ -26,7 +26,7 @@ export const Services: FC = memo(() => {
         console.error("Error fetching services", error);
       }
     };
-    // getServices();
+    getServices();
   }, [dispatch]);
 
   return (
