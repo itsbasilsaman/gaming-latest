@@ -62,13 +62,8 @@ const UserRegister: React.FC = () => {
         console.log("the signup response",response);
         toast.success(response.message);
         navigate("/");
-      } catch (error:any) {
-          // Handle Axios specific error
-          Swal.fire({
-            icon: "error",
-            title: "Error!",
-            text: error.response?.data.message || "Something went wrong",
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    
+       
       } catch (error:any) {
        
           Swal.fire({
