@@ -62,8 +62,7 @@ const UserRegister: React.FC = () => {
         console.log("the signup response",response);
         toast.success(response.message);
         navigate("/");
-    
-       
+
       } catch (error:any) {
        
           Swal.fire({

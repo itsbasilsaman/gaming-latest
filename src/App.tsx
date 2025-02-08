@@ -30,6 +30,11 @@ const PasswordChange = lazy(
 const Category = lazy(() => import("./components/pages/category"));
 const ChatComponent = lazy(() => import("./components/pages/user/chat"));
 const About = lazy(() => import("./components/pages/about"));
+// Dummy
+const BrawlStars = lazy(() => import("./components/pages/aboutdummy/brawlStars"));
+const LoardsMobile = lazy(() => import("./components/pages/aboutdummy/loardsMobile"));
+const StarRail = lazy(() => import("./components/pages/aboutdummy/starRail"));
+// Dummy
 const Profile = lazy(() => import("./components/forms/user/userProfile"));
 const EmailVerification = lazy(
   () => import("./components/forms/user/emailVerification")
@@ -142,6 +147,13 @@ export const App: React.FC = React.memo(() => {
           {/* ERROR HANDLING */}
           <Route path="/404" element={<NotFound404 />} />
           <Route path="/401" element={<NotFound401 />} />
+
+
+          {/* Dummy Routes */}
+
+          <Route path="/brawlstars" element={<BrawlStars/>} />
+          <Route path="/loardsmobile" element={<LoardsMobile/>} />
+          <Route path="/starrail" element={<StarRail/>} />
         </Routes>
       </Suspense>
     </Fragment>

@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 const EmailVerification: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
-  const [timer, setTimer] = useState<number>(60);
+  // const [timer, setTimer] = useState<number>(0);
   const [Content, setContent] = useState<string | null>("");
   const [Type, setType] = useState<string | null>("");
   const dispatch: AppDispatch = useDispatch();
@@ -76,12 +76,12 @@ const EmailVerification: React.FC = () => {
     nextInput?.focus();
   };
   // Handle timer countdown
-  useEffect(() => {
-    if (timer > 0) {
-      const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
-      return () => clearInterval(interval); // Clear interval on component unmount
-    }
-  }, [timer]);
+  // useEffect(() => {
+  //   if (timer > 0) {
+  //     const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
+  //     return () => clearInterval(interval); // Clear interval on component unmount
+  //   }
+  // }, [timer]);
 
   // Resend OTP
   const handleResend = () => {
@@ -93,6 +93,8 @@ const EmailVerification: React.FC = () => {
       });
       return;
     }
+ 
+    
 
     setOtp(["", "", "", "", "", ""]);
     const payload = {
@@ -179,17 +181,15 @@ const EmailVerification: React.FC = () => {
               ))}
             </div>
             <p className="mb-6 text-center text-sm text-gray-500">
-              Request in{" "}
-              {timer > 0 ? (
-                `${timer} sec`
-              ) : (
+            Verify Your OTP Expires in  15 minutes {" "}
+                <br />
                 <button
                   onClick={handleResend}
                   className="text-blue-600 hover:underline"
                 >
                   Resend
                 </button>
-              )}
+              
             </p>
             <div className="flex justify-between">
               <button

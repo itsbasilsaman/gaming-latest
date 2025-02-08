@@ -19,6 +19,7 @@ interface CardItem {
   bg: string;     // Path to the background image
   title: string;  // Title of the game
   offer: string;  // Offer text
+  link : string
 }
 
 // Props typing (if needed in the future)
@@ -32,24 +33,28 @@ const GameCard: FC = memo(() => {
       bg: CardOne,
       title: 'Brawl Stars',
       offer: '150 offers',
+      link : '/brawlstars'
     },
     {
       img: ImgTwo,
       bg: CardTwo,
       title: 'Clash of Clans',
       offer: '148 offers',
+      link : '/about'
     },
     {
       img: ImgThree,
       bg: CardThree,
       title: 'Lords Mobile',
       offer: '136 offers',
+      link: '/loardsmobile'
     },
     {
       img: ImgFour,
       bg: CardFour,
       title: 'Star Rail',
       offer: '150 offers',
+      link: '/starrail'
     },
   ];
 
@@ -60,26 +65,28 @@ const GameCard: FC = memo(() => {
       <h1 className='lg:text-[40px] text-[30px] font-bold pb-[10px] lg:pb-[0px]' style={{fontFamily:'Unbounded'}}>Trending Games🔥</h1>
       <Link to='/about'><p className='lg:text-[20px] text-[19px] font-medium pb-[23px] lg:pb-[0px]'>Explore All</p></Link>
     </div>
- <Link to='/about'>
+ 
       <div className='lg:flex lg:justify-between grid grid-cols-2 gap-[14px]'>
      
         {cardItems.map((item, index) => (
-          <section
-            key={index}
-            className="lg:w-[326px] lg:h-[228px] h-[150px] game-card one relative cursor-pointer "
-          >
-            <img
-              src={item.bg}
-              alt=""
-              className="absolute top-0 left-0 w-full h-full object-cover rounded-[12px]"
-              style={{ zIndex: '-10' }}
-            />
-            <img src={item.img} alt={item.title} className='h-[80px] lg:h-[auto] pt-[20px] lg:pt-[0px] ' />
-            <p className="text-center lg:text-[20px] font-bold mt-[10px]">{item.title}</p>
-            <span className="lg:px-[8px] px-[11px] lg:pl-[16px] py-[3px] lg:py-[8px] lg:w-[126px] lg:h-[45px] offer-menu lg:text-[18px] font-medium rounded-[1000px]">
-              {item.offer}
-            </span>
-          </section>
+         <Link to={item.link}>
+            <section
+              key={index}
+              className="lg:w-[326px] lg:h-[228px] h-[150px] game-card one relative cursor-pointer "
+            >
+              <img
+                src={item.bg}
+                alt=""
+                className="absolute top-0 left-0 w-full h-full object-cover rounded-[12px]"
+                style={{ zIndex: '-10' }}
+              />
+              <img src={item.img} alt={item.title} className='h-[80px] lg:h-[auto] pt-[20px] lg:pt-[0px] ' />
+              <p className="text-center lg:text-[20px] font-bold mt-[10px]">{item.title}</p>
+              <span className="lg:px-[8px] px-[11px] lg:pl-[16px] py-[3px] lg:py-[8px] lg:w-[126px] lg:h-[45px] offer-menu lg:text-[18px] font-medium rounded-[1000px]">
+                {item.offer}
+              </span>
+            </section>
+         </Link>
         ))}
      
         {/* <section className='lg:w-[306px] lg:h-[228px] game-card one'>
@@ -88,7 +95,7 @@ const GameCard: FC = memo(() => {
         <section className='lg:w-[306px] lg:h-[228px] game-card one'></section>
         <section className='lg:w-[306px] lg:h-[228px] game-card one'></section> */}
       </div>
- </Link>
+ 
   </main>
   );
 });
