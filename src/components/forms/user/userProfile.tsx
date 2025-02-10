@@ -22,8 +22,8 @@ import { useSelector } from "react-redux";
 const Profile: React.FC = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [coverImage, setCoverImage] = useState<string | null>(null);
-
   const [isEditing, setIsEditing] = useState<string | null>(null);
+  const [dots, setDots] = useState("");
   const [formData, setProfiles] = useState<UserProfileData>();
   const [languages, setLanguages] = useState([]);
 
@@ -40,38 +40,7 @@ const Profile: React.FC = () => {
     (state: RootState) => state.profile
   );
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const resultAction = await dispatch(getUserProfile());
-        if (getUserProfile.fulfilled.match(resultAction)) {
-          const { data } = resultAction.payload;
-          console.log("kidu profile $#$#$#$#$", data);
-
-          setProfiles(data.data);
-          setLanguages(data.data.languages);
-          console.log(
-            "Profile data fetched successfully: ",
-            resultAction.payload
-          );
-        } else {
-          console.log(
-            "Failed to fetch profile: ",
-            resultAction.payload || resultAction.error
-          );
-        }
-      } catch (error) {
-        console.error("Unexpected error while fetching the profile: ", error);
-      }
-    };
-
-    fetchProfile();
-  }, [dispatch]);
-
-  useEffect(() => {
-    console.log("this is my profiles of in page *****************", formData);
-    console.log("my languages are", languages);
-  }, [formData]);
+  
 
   const handleEditClick = (field: string) => {
     setIsEditing(field);
@@ -108,6 +77,51 @@ const Profile: React.FC = () => {
   if (GetProfileloading) {
     console.log("the data of the content ");
   }
+
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const resultAction = await dispatch(getUserProfile());
+        if (getUserProfile.fulfilled.match(resultAction)) {
+          const { data } = resultAction.payload;
+          console.log("kidu profile $#$#$#$#$", data);
+
+          setProfiles(data.data);
+          setLanguages(data.data.languages);
+          console.log(
+            "Profile data fetched successfully: ",
+            resultAction.payload
+          );
+        } else {
+          console.log(
+            "Failed to fetch profile: ",
+            resultAction.payload || resultAction.error
+          );
+        }
+      } catch (error) {
+        console.error("Unexpected error while fetching the profile: ", error);
+      }
+    };
+
+    fetchProfile();
+  }, [dispatch]);
+
+  useEffect(() => {
+    console.log("this is my profiles of in page *****************", formData);
+    console.log("my languages are", languages);
+  }, [formData]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDots((prev) => (prev.length < 3 ? prev + "." : ""));
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
+
+
 
   return (
     <div className="w-full h-full bg-gray-300">
@@ -198,41 +212,17 @@ const Profile: React.FC = () => {
           </div>
         </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
 
 
         <section className="absolute w-[380px] h-auto profile-section rounded-[14px] left-[140px] top-[60px] py-[25px] px-[26px] flex flex-col justify-start items-center gap-[30px]">
   <div className="">
     {GetProfileloading ? (
-      <div className="flex justify-center py-4">
-        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-      </div>
+     <div className="flex flex-col items-center py-4">
+     <div className="w-9 h-9 border-[5px] border-[#101441] border-t-transparent rounded-full animate-spin shadow-lg"></div>
+     <p className="mt-2 text-[15px] font-semibold text-[#101441]"  style={{ fontFamily: "Unbounded" }}>Loading{dots}</p>
+   </div>
+    
     ) : (
       <div className="profile-content">
         <div className="flex justify-center mb-4">
@@ -436,6 +426,8 @@ const Profile: React.FC = () => {
     )}
   </div>
 </section>
+
+
 
 
 

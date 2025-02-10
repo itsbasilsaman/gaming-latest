@@ -1,40 +1,37 @@
 import { useState, useEffect, useRef } from 'react';
-import ScoreCard from '../../../assets/Images/sc.png';
-import Points from '../../../assets/Images/points.png';
+ 
 import { MdLogout } from 'react-icons/md';
-import { IoIosArrowDown } from 'react-icons/io';
-import { FiChevronUp } from 'react-icons/fi';
+ 
 import { Link } from 'react-router-dom';
-
+import { getUserProfile } from '../../../reduxKit/actions/user/userProfile';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../reduxKit/store';
+import { UserProfileData } from '../../../interfaces/user/profile';
 
 export const UserAvatar: React.FC = () => {
-  interface UserProfile {
-    text: string; // Text inside the profile bar
-    profileBgColor: string; // Background color for the profile bar
-    userStatusColor: string; // Background color for the user status bar
-  }
+ 
 
-  const userProfiles: UserProfile[] = [
-    { text: 'A', profileBgColor: 'bg-red-600', userStatusColor: 'bg-green-500' },
-  ];
+ 
 
   const [isOpen, setIsOpen] = useState(false);
-  const [isSellingOpen, setIsSellingOpen] = useState(false);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+ 
+  const [profile, setProfile] = useState<UserProfileData | null>(null)
 
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch<AppDispatch>();
 
   const toggleSection = () => {
     setIsOpen((prev) => !prev);
   };
 
-  const toggleSelling = () => {
-    setIsSellingOpen((prev) => !prev);
-  };
 
-  const toggleSettings = () => {
-    setIsSettingsOpen((prev) => !prev);
-  };
+  const formattedDate = profile?.memberSince ?   new Date (profile.memberSince).toLocaleString("en-US", {
+    year:'numeric',
+    month: 'long',
+    day:'numeric'
+  }) : ' '
+
+ 
 
   // Close the dropdown if the user clicks outside
   useEffect(() => {
@@ -53,22 +50,42 @@ export const UserAvatar: React.FC = () => {
     };
   }, []);
 
+
+  useEffect(()=> {
+    const fetchProfile = async () => {
+      try {
+        const getProfile = await dispatch(getUserProfile());
+        if(getUserProfile.fulfilled.match(getProfile)){
+          const {data} = getProfile.payload;
+          setProfile(data.data);
+          console.log("Profile data fetched successfully: " , getProfile.payload);
+        } else {
+          console.log("Failed to fetch profile: ", getProfile.payload || getProfile.error);
+          
+        }
+      } catch (error) {
+        console.error("Unexpected error while fetching the profile: ",error)
+      }
+    }
+    fetchProfile()
+  }, [dispatch])
+
   return (
     <>
-      {userProfiles.map((user, index) => (
-        <div key={index} className="relative" ref={dropdownRef}>
+      
+        <div   className="relative" ref={dropdownRef}>
           {/* Profile Button */}
           <div
             className="relative flex items-center justify-center cursor-pointer"
             onClick={toggleSection}
           >
             <div
-              className={`w-[55px] h-[55px] ${user.profileBgColor} pb-[5px] profile-bar text-white rounded-full flex items-center justify-center text-2xl font-bold`}
+              className={`w-[55px] h-[55px] bg-red-500 pb-[5px] profile-bar text-white rounded-full flex items-center justify-center text-2xl font-bold`}
             >
-              {user.text}
+               {profile?.firstName ? profile.firstName.charAt(0).toUpperCase() : 'X'}
             </div>
             <div
-              className={`absolute bottom-0 right-1 w-4 h-4 userstatus-bar ${user.userStatusColor} border-2 border-white rounded-full`}
+              className={`absolute bottom-0 right-1 w-4 h-4 userstatus-bar   border-2 border-white rounded-full`}
             ></div>
           </div>
 
@@ -80,20 +97,22 @@ export const UserAvatar: React.FC = () => {
                 <Link to={'/profile'}>
                   <div className="flex items-center space-x-4 border-b pb-4 mb-4 px-4">
                     <div
-                      className={`${user.profileBgColor} text-white w-12 h-12 flex items-center justify-center rounded-full text-xl font-bold`}
+                      className={`bg-red-500 text-white w-12 h-12 flex items-center justify-center rounded-full text-xl font-bold`}
                     >
-                      {user.text}
+                      {profile?.firstName ? profile.firstName.charAt(0).toUpperCase() : 'X'}
                     </div>
                     <div>
                       <h1
                         className="text-lg font-semibold primary-color"
                         style={{ fontFamily: 'Unbounded' }}
                       >
-                        Basilbackup6
+                         {profile?.userName}
                       </h1>
-                      <p className="text-sm text-gray-500">Level 1</p>
+                      <p className="text-sm text-gray-500"> 
+                       Level {profile?.level?.level}
+                      </p>
                       <p className="text-sm text-gray-500">
-                        Account ID 1002098510
+                          {profile?.email}
                       </p>
                     </div>
                   </div>
@@ -101,99 +120,41 @@ export const UserAvatar: React.FC = () => {
 
                 {/* Balances */}
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center px-4">
-                    <span className="text-sm font-medium primary-color">
-                      G2G Store Credit
-                    </span>
-                    <span className="text-sm font-medium text-green-600 flex gap-[5px]">
-                      <img src={ScoreCard} className="w-[20px]" /> SC 0.00
-                    </span>
+                  <div className="flex justify-center items-center px-4">
+                      <span className="text-[22px] font-medium text-white">
+                        {profile?.firstName} {profile?.lastName}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center px-4">
+                      <div className="text-sm font-medium text-white  flex flex-col">
+                        <span>Followers </span>  <span className='text-center text-[25px] py-2'>{profile?.followersCount}</span>
+                      </div>
+                      <div className="text-sm font-medium text-white flex flex-col">
+                        <span>Following</span>  <span className='text-center text-[25px] py-2'>{profile?.folowingCount}</span>
+                      </div>
+                    </div>
+                   
+                    <div className="flex justify-between items-center px-4">
+                      <span className="text-sm font-medium text-white">
+                        Member Since 
+                      </span>
+                      <span className="text-sm text-white">
+                      {formattedDate}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center px-4">
+                      <span className="text-sm font-medium text-white">
+                        Country 
+                      </span>
+                      <span className="text-sm text-white">
+                      {profile?.country}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center px-4">
-                    <span className="text-sm font-medium primary-color">
-                      G2G Points
-                    </span>
-                    <span className="text-sm font-medium flex gap-[5px]">
-                      <img src={Points} className="w-[20px]" /> 0
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center px-4">
-                    <span className="text-sm font-medium primary-color">
-                      Available Balance
-                    </span>
-                    <span className="text-[18px] text-black">
-                      0.00 <span className="text-[12px]">USD</span>
-                    </span>
-                  </div>
-                </div>
 
                 {/* Navigation */}
-                <div className="mt-1">
+                <div className="mt-3">
                   <ul className="space-y-2">
-                    <li>
-                      <button className="w-full text-left text-sm primary-color hover:bg-gray-100 py-2 rounded-lg px-4">
-                        Overview
-                      </button>
-                    </li>
-                    <li>
-                      <button className="w-full text-left text-sm primary-color hover:bg-gray-100 rounded-lg px-4">
-                        Purchase Orders
-                      </button>
-                    </li>
-                    <li>
-                      <div>
-                        <button
-                          onClick={toggleSelling}
-                          className="w-full text-left text-sm primary-color hover:bg-gray-100 py-2 rounded-lg flex justify-between items-center px-4"
-                        >
-                          Selling
-                          <span>
-                            {isSellingOpen ? (
-                              <FiChevronUp className="text-[20px]" />
-                            ) : (
-                              <IoIosArrowDown className="text-[18px]" />
-                            )}
-                          </span>
-                        </button>
-                        {isSellingOpen && (
-                          <ul className="space-y-1">
-                            <li className="text-sm text-gray-600 px-4">
-                              Selling Item 1
-                            </li>
-                            <li className="text-sm text-gray-600 px-4">
-                              Selling Item 2
-                            </li>
-                          </ul>
-                        )}
-                      </div>
-                    </li>
-                    <li>
-                      <div>
-                        <button
-                          onClick={toggleSettings}
-                          className="w-full text-left text-sm primary-color hover:bg-gray-100 py-2 rounded-lg flex justify-between items-center px-4"
-                        >
-                          Settings
-                          <span>
-                            {isSettingsOpen ? (
-                              <FiChevronUp className="text-[20px]" />
-                            ) : (
-                              <IoIosArrowDown className="text-[18px]" />
-                            )}
-                          </span>
-                        </button>
-                        {isSettingsOpen && (
-                          <ul className="space-y-1">
-                            <li className="text-sm text-gray-600 px-4">
-                              Setting Item 1
-                            </li>
-                            <li className="text-sm text-gray-600 px-4">
-                              Setting Item 2
-                            </li>
-                          </ul>
-                        )}
-                      </div>
-                    </li>
                     <li>
                     <Link to={'/'}>
                         <button className="w-full text-left text-sm primary-color hover:bg-gray-100 py-2 rounded-lg flex justifu-center items-center gap-[6px] px-4">
@@ -207,7 +168,7 @@ export const UserAvatar: React.FC = () => {
             </div>
           )}
         </div>
-      ))}
+      
     </>
   );
 };
