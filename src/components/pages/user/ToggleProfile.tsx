@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Points from '../../../assets/Images/points.png';
+ 
 import { MdLogout } from 'react-icons/md';
-import { IoIosArrowDown } from 'react-icons/io';
-import { FiChevronUp } from 'react-icons/fi';
+ 
 import { Link } from 'react-router-dom';
 import { UserProfileData } from "../../../interfaces/user/profile";
 import { useDispatch } from 'react-redux';
@@ -11,24 +10,24 @@ import { useSelector } from 'react-redux';
 import { getUserProfile } from '../../../reduxKit/actions/user/userProfile';
 // import Profile from '../../forms/user/userProfile';
 
-interface UserProfile {
-  text: string; // Text inside the profile bar
-  profileBgColor: string; // Background color for the profile bar
-  userStatusColor: string; // Background color for the user status bar
-}
-
-const userProfiles: UserProfile[] = [
-  { text: 'A', profileBgColor: 'bg-red-600', userStatusColor: 'bg-green-500' },
-];
 
 const ToggleProfile: React.FC = React.memo(() => {
-  const [isSellingOpen, setIsSellingOpen] = useState(false);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+ 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const [formData, setProfiles] = useState<UserProfileData | null>(null);
+  const [formData, setformData] = useState<UserProfileData | null>(null);
+
   const dispatch = useDispatch<AppDispatch>();
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const { GetProfileloading } = useSelector((state: RootState) => state.profile);
+
+  const formattedDate = formData?.memberSince? new Date(formData.memberSince).toLocaleDateString("en-US",{
+    year: 'numeric',
+    month:'long',
+    day: 'numeric'
+  }) : ' '
+
+
+ 
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -36,7 +35,7 @@ const ToggleProfile: React.FC = React.memo(() => {
         const resultAction = await dispatch(getUserProfile());
         if (getUserProfile.fulfilled.match(resultAction)) {
           const { data } = resultAction.payload;
-          setProfiles(data.data);
+          setformData(data.data);
           console.log("Profile data fetched successfully: ", resultAction.payload);
         } else {
           console.log("Failed to fetch profile: ", resultAction.payload || resultAction.error);
@@ -53,14 +52,7 @@ const ToggleProfile: React.FC = React.memo(() => {
     console.log("this is my profiles of in page *****************", formData);
   }, [formData]);
 
-  const toggleSelling = () => {
-    setIsSellingOpen((prev) => !prev);
-  };
-
-  const toggleSettings = () => {
-    setIsSettingsOpen((prev) => !prev);
-  };
-
+ 
   const toggleProfile = () => {
     setIsProfileOpen((prev) => !prev);
   };
@@ -72,8 +64,8 @@ const ToggleProfile: React.FC = React.memo(() => {
           <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : (
-        userProfiles.map((user, index) => (
-          <div key={index} className="relative" ref={dropdownRef}>
+       
+          <div   className="relative" ref={dropdownRef}>
             <div className="mt-2 py-4 w-[100%] rounded-lg shadow-md">
               <div className="rounded-lg max-w-md mx-auto">
                 {/* Header */}
@@ -82,9 +74,9 @@ const ToggleProfile: React.FC = React.memo(() => {
                   onClick={toggleProfile}
                 >
                   <div
-                    className={`${user.profileBgColor} text-white w-12 h-12 flex items-center justify-center rounded-full text-xl font-bold`}
+                    className={` bg-red-600 text-white w-12 h-12 flex items-center justify-center rounded-full text-xl font-bold`}
                   >
-                    {formData?.firstName ? formData.firstName.charAt(0).toUpperCase() : user.text}
+                    {formData?.firstName ? formData.firstName.charAt(0).toUpperCase() : 'X'}
                   </div>
                   <div>
                     <h1
@@ -106,96 +98,42 @@ const ToggleProfile: React.FC = React.memo(() => {
                 >
                   {/* Balances */}
                   <div className="space-y-4">
-                    <div className="flex justify-between items-center px-4">
-                      <span className="text-sm font-medium text-white">
+                  <div className="flex justify-center items-center px-4">
+                      <span className="text-[22px] font-medium text-white">
                         {formData?.firstName} {formData?.lastName}
                       </span>
                     </div>
                     <div className="flex justify-between items-center px-4">
+                      <div className="text-sm font-medium text-white  flex flex-col">
+                        <span>Followers </span>  <span className='text-center text-[25px] py-2'>{formData?.followersCount}</span>
+                      </div>
+                      <div className="text-sm font-medium text-white flex flex-col">
+                        <span>Following</span>  <span className='text-center text-[25px] py-2'>{formData?.folowingCount}</span>
+                      </div>
+                    </div>
+                   
+                    <div className="flex justify-between items-center px-4">
                       <span className="text-sm font-medium text-white">
-                        G2G Points
+                        Member Since 
                       </span>
-                      <span className="text-sm font-medium flex gap-[5px]">
-                        <img src={Points} className="w-[20px]" alt="Points" /> 0
+                      <span className="text-sm text-white">
+                      {formattedDate}
                       </span>
                     </div>
                     <div className="flex justify-between items-center px-4">
                       <span className="text-sm font-medium text-white">
-                        Available Balance
+                        Country 
                       </span>
-                      <span className="text-[18px] text-white">
-                        0.00 <span className="text-[12px]">USD</span>
+                      <span className="text-sm text-white">
+                      {formData?.country}
                       </span>
                     </div>
                   </div>
 
                   {/* Navigation */}
-                  <div className="mt-1">
+                  <div className="mt-4">
                     <ul className="space-y-2">
-                      <li>
-                        <button className="w-full text-left text-sm text-white hover:bg-gray-100 py-2 rounded-lg px-4">
-                          Overview
-                        </button>
-                      </li>
-                      <li>
-                        <button className="w-full text-left text-sm text-white hover:bg-gray-100 rounded-lg px-4">
-                          Purchase Orders
-                        </button>
-                      </li>
-                      <li>
-                        <div>
-                          <button
-                            onClick={toggleSelling}
-                            className="w-full text-left text-sm text-white py-2 rounded-lg flex justify-between items-center px-4"
-                          >
-                            Selling
-                            <span>
-                              {isSellingOpen ? (
-                                <FiChevronUp className="text-[20px]" />
-                              ) : (
-                                <IoIosArrowDown className="text-[18px]" />
-                              )}
-                            </span>
-                          </button>
-                          {isSellingOpen && (
-                            <ul className="space-y-1">
-                              <li className="text-sm text-gray-400 px-4">
-                                Clash of Clans
-                              </li>
-                              <li className="text-sm text-gray-400 px-4">
-                                Pub - G
-                              </li>
-                            </ul>
-                          )}
-                        </div>
-                      </li>
-                      <li>
-                        <div>
-                          <button
-                            onClick={toggleSettings}
-                            className="w-full text-left text-sm text-white py-2 rounded-lg flex justify-between items-center px-4"
-                          >
-                            Settings
-                            <span>
-                              {isSettingsOpen ? (
-                                <FiChevronUp className="text-[20px]" />
-                              ) : (
-                                <IoIosArrowDown className="text-[18px]" />
-                              )}
-                            </span>
-                          </button>
-                          {isSettingsOpen && (
-                            <ul className="space-y-1">
-                              <li className="text-sm text-gray-400 px-4">
-                                Setting 1
-                              </li>
-                              <li className="text-sm text-gray-400 px-4">
-                                Setting 2
-                              </li>
-                            </ul>
-                          )}
-                        </div>
-                      </li>
+                       
                       <li>
                         <Link to={'/'}>
                           <button className="w-full text-left text-[19px] font-semibold affiliate-section text-white py-[10px] rounded-full flex justify-center items-center gap-[6px] px-4">
@@ -209,7 +147,7 @@ const ToggleProfile: React.FC = React.memo(() => {
               </div>
             </div>
           </div>
-        ))
+       
       )}
     </>
   );
