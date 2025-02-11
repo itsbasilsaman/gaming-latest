@@ -24,6 +24,7 @@ export const getUserProfile = createAsyncThunk(
       }
     }
   );
+  
 export const PutUserProfilePic = createAsyncThunk(
     "user/PutUserProfilePic",
     async (image:FormData, { rejectWithValue }) => {

@@ -1,17 +1,14 @@
-// import { useState } from 'react';
-// import { FaEdit, FaUserEdit } from 'react-icons/fa';
 import React, { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import LanguageSwitcher from "../../Header/LanguageSwitcher";
 // import DarkModeSwitcher from '../../Header/DerkModeSwitcher';
 import { SellerHeader } from "../../pages/Seller/sellerHeader";
 import { IoCameraOutline } from "react-icons/io5";
-import { getUserProfile } from "../../../reduxKit/actions/user/userProfile";
+import { getUserProfile , PutUserProfilePic , PutUserCoverPic } from "../../../reduxKit/actions/user/userProfile";
 // import ProfileResponsive from './ProfileResponsive';
 import { Link } from "react-router-dom";
 import { UserProfileData } from "../../../interfaces/user/profile";
 // import { Country } from '../../../interfaces/user/profile';
-
 import { useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../../reduxKit/store";
 import LanguageSection from "../../Header/LanguageSection";
@@ -20,12 +17,13 @@ import FollowersModal from "./FollowerModal";
 import { useSelector } from "react-redux";
 
 const Profile: React.FC = () => {
-  const [profileImage, setProfileImage] = useState<string | null>(null);
-  const [coverImage, setCoverImage] = useState<string | null>(null);
+  const [profileImage, setProfileImage] = useState<File | null | string>(null);
+  const [coverImage, setCoverImage] = useState<File | null | string>(null);
   const [isEditing, setIsEditing] = useState<string | null>(null);
   const [dots, setDots] = useState("");
   const [formData, setProfiles] = useState<UserProfileData>();
   const [languages, setLanguages] = useState([]);
+ 
 
   // This is Following ModaL ***
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -52,7 +50,6 @@ const Profile: React.FC = () => {
     >
   ) => {
     const { name, value } = e.target;
-
     setProfiles((prev) => ({
       ...(prev as UserProfileData),
       [name]: value,
@@ -64,19 +61,56 @@ const Profile: React.FC = () => {
     console.log(formData);
   };
 
-  const handleImageChange = (
+  const handleImageChange = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    setImage: React.Dispatch<React.SetStateAction<string | null>>
+ 
+    action: typeof PutUserProfilePic | typeof PutUserCoverPic
   ) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl);
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+     
+      
+  
+      const formData = new FormData();
+      formData.append('file', file);
+
+      for(const [key,value] of formData){
+console.log('1111111111111111111111111ww',key,value);
+
+      }
+      try {
+        const resultAction = await dispatch(action(formData));
+        if (action.fulfilled.match(resultAction)) {
+          console.log("Image uploaded successfully:", resultAction.payload);
+
+          if(action === PutUserProfilePic){
+            setProfileImage(URL.createObjectURL(file))
+          } else if(action === PutUserCoverPic){
+            setCoverImage(URL.createObjectURL(file))
+          }
+
+        } else {
+          console.error("Failed to upload image:", resultAction.error);
+        }
+      } catch (error) {
+        console.error("Unexpected error while uploading image:", error);
+      }
     }
   };
+
+
+ 
+
   if (GetProfileloading) {
     console.log("the data of the content ");
   }
+
+  const getImageSrc = () => {
+    if(profileImage instanceof File){
+      return URL.createObjectURL(profileImage)
+    }
+    return profileImage || ""
+  };
 
 
   useEffect(() => {
@@ -103,13 +137,16 @@ const Profile: React.FC = () => {
         console.error("Unexpected error while fetching the profile: ", error);
       }
     };
-
     fetchProfile();
   }, [dispatch]);
 
   useEffect(() => {
     console.log("this is my profiles of in page *****************", formData);
     console.log("my languages are", languages);
+    if(formData?.coverPic && formData?.avatar) {
+      setProfileImage(formData.avatar)
+      setCoverImage(formData.coverPic)
+    }
   }, [formData]);
 
   useEffect(() => {
@@ -138,7 +175,7 @@ const Profile: React.FC = () => {
               : `url('../../../assets/Images/profile-bg.avif')`,
           }}
         >
-          {!coverImage && (
+          {/* {!coverImage && (
             <div className="flex flex-col  pr-[10px] relative">
               <h1
                 className="text-[21px] font-medium"
@@ -148,7 +185,7 @@ const Profile: React.FC = () => {
               </h1>
               <p className="text-[15px]">Image dimension: 1920px x 200px</p>
             </div>
-          )}
+          )} */}
 
           {coverImage ? (
             <div className="cover-pic-button  absolute right-[10px] bottom-[10px]">
@@ -160,7 +197,7 @@ const Profile: React.FC = () => {
                   type="file"
                   id="cover"
                   className="sr-only"
-                  onChange={(e) => handleImageChange(e, setCoverImage)}
+                  onChange={(e) => handleImageChange(e , PutUserCoverPic)}
                 />
                 <span
                   className="text-white px-[10px] text-[21px] py-[10px] rounded-full"
@@ -172,23 +209,10 @@ const Profile: React.FC = () => {
             </div>
           ) : (
             <div className="cover-pic-button   ">
-              <label
-                htmlFor="cover"
-                className="flex cursor-pointer items-center justify-center gap-2 rounded bg-white py-1 px-2 text-sm font-medium text-primary hover:bg-opacity-90"
-              >
-                <input
-                  type="file"
-                  id="cover"
-                  className="sr-only"
-                  onChange={(e) => handleImageChange(e, setCoverImage)}
-                />
-                <span
-                  className="text-white px-[10px] text-[21px] py-[10px] rounded-full"
-                  style={{ backgroundColor: "#03042F" }}
-                >
-                  <IoCameraOutline />
-                </span>
-              </label>
+               <div className="flex flex-col items-center py-4">
+     <div className="w-9 h-9 border-[5px] border-[#101441] border-t-transparent rounded-full animate-spin shadow-lg"></div>
+     <p className="mt-2 text-[15px] font-semibold text-[#101441]"  style={{ fontFamily: "Unbounded" }}>Loading{dots}</p>
+   </div>
             </div>
           )}
         </div>
@@ -227,15 +251,18 @@ const Profile: React.FC = () => {
       <div className="profile-content">
         <div className="flex justify-center mb-4">
           <div className="h-30 rounded-full bg-black/5 p-1 backdrop-blur sm:p-3">
-            <div className="w-[115px] h-[115px] bg-red-500 text-white flex items-center justify-center rounded-full text-[55px] relative drop-shadow-2">
+            <div className="w-[115px] h-[115px] bg-gray-200 text-white flex items-center justify-center rounded-full text-[55px] relative drop-shadow-2">
               {profileImage ? (
                 <img
-                  src={profileImage}
+                  src={getImageSrc()}
                   alt="Profile"
                   className="w-full h-full rounded-full object-cover"
                 />
               ) : (
-                "B"
+                <div className="flex flex-col items-center py-4">
+                <div className="w-9 h-9 border-[5px] border-[#101441] border-t-transparent rounded-full animate-spin shadow-lg"></div>
+                 
+              </div>
               )}
               <label
                 htmlFor="profile"
@@ -267,7 +294,7 @@ const Profile: React.FC = () => {
                   name="profile"
                   id="profile"
                   className="sr-only"
-                  onChange={(e) => handleImageChange(e, setProfileImage)}
+                  onChange={(e) => handleImageChange(e , PutUserProfilePic )}
                 />
               </label>
             </div>
@@ -467,7 +494,7 @@ const Profile: React.FC = () => {
                     type="file"
                     id="cover"
                     className="sr-only"
-                    onChange={(e) => handleImageChange(e, setCoverImage)}
+                    onChange={(e) => handleImageChange(e,  PutUserCoverPic)}
                   />
                   <span
                     className="text-white px-[6px] text-[18px] py-[6px] rounded-full"
@@ -483,7 +510,7 @@ const Profile: React.FC = () => {
               <div className="w-[115px] h-[115px] bg-red-500 text-white flex items-center justify-center rounded-full text-[55px] relative drop-shadow-2 ">
                 {profileImage ? (
                   <img
-                    src={profileImage}
+                    src={getImageSrc()}
                     alt="Profile"
                     className="w-full h-full rounded-full object-cover"
                   />
@@ -520,7 +547,7 @@ const Profile: React.FC = () => {
                     name="profile"
                     id="profile"
                     className="sr-only"
-                    onChange={(e) => handleImageChange(e, setProfileImage)}
+                    onChange={(e) => handleImageChange(e , PutUserProfilePic)}
                   />
                 </label>
               </div>
