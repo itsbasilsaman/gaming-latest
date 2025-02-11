@@ -62,8 +62,8 @@ const GameCard: FC = memo(() => {
     
     <main className='w-full h-auto card-section text-white pb-[50px] md:px-[80px] px-[20px] lg:pt-[200px] pt-[130px]'> 
     <div className='lg:flex lg:justify-between lg:items-center lg:mb-[49px]'>
-      <h1 className='lg:text-[40px] text-[30px] font-bold pb-[10px] lg:pb-[0px]' style={{fontFamily:'Unbounded'}}>Trending Games🔥</h1>
-      <Link to='/about'><p className='lg:text-[20px] text-[19px] font-medium pb-[23px] lg:pb-[0px]'>Explore All</p></Link>
+      <h1 className='lg:text-[40px] text-[21px] font-bold pb-[6px] lg:pb-[0px]' style={{fontFamily:'Unbounded'}}>Trending Games🔥</h1>
+      <Link to='/about'><p className='lg:text-[20px] text-[17px]   pb-[23px] lg:pb-[0px]'>Explore All</p></Link>
     </div>
  
       <div className='lg:flex lg:justify-between grid grid-cols-2 gap-[14px]'>
