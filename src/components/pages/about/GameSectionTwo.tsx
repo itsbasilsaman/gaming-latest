@@ -30,9 +30,9 @@ const GameSectionTwo: React.FC = React.memo(() => {
     </div>
     </div>
     <div className='lg:flex lg:justify-between lg:pt-[55px] pt-[40px]'>
-        <h1 style={{fontFamily:'Unbounded'}} className='text-[23px]'>15 Top Ups</h1>
+        <h1 style={{fontFamily:'Unbounded'}} className='text-[20px]'>15 Top Ups</h1>
         <div className='flex lg:gap-[50px] lg:flex-row justify-between lg:justify-normal py-[11px] py-[6px]'>
-         <p className='lg:text-[18px]'>Sort by:</p>
+         <p className='lg:text-[18px]'>Sort by</p>
          <div className='flex lg:gap-[20px] gap-[9px]'>
          <label className='lg:text-[18px]'>
      <input
@@ -68,7 +68,7 @@ const GameSectionTwo: React.FC = React.memo(() => {
            </div>
            <div className='flex justify-between items-center'>
              <p className='game-offer-button py-[6px] px-[8px] rounded-[8px]'>12 Offer</p>
-             <p className='font-semibold text-[22px]' style={{color:'rgba(0, 255, 121, 1)'}}>117 USD</p>
+             <p className='font-semibold text-[18px]' style={{color:'rgba(0, 255, 121, 1)'}}>117 USD</p>
            </div>
          </section>
          <section className='lg:h-[125px] rounded-[16px]  top-up-box p-[19px] flex flex-col justify-between'>
@@ -78,7 +78,7 @@ const GameSectionTwo: React.FC = React.memo(() => {
            </div>
            <div className='flex justify-between items-center'>
              <p className='game-offer-button py-[6px] px-[8px] rounded-[8px]'>12 Offer</p>
-             <p className='font-semibold text-[22px]' style={{color:'rgba(0, 255, 121, 1)'}}>114 USD</p>
+             <p className='font-semibold text-[18px]' style={{color:'rgba(0, 255, 121, 1)'}}>114 USD</p>
            </div>
          </section>
          <section className='lg:h-[125px] rounded-[16px]  top-up-box p-[19px] flex flex-col justify-between'>
@@ -88,7 +88,7 @@ const GameSectionTwo: React.FC = React.memo(() => {
            </div>
            <div className='flex justify-between items-center'>
              <p className='game-offer-button py-[6px] px-[8px] rounded-[8px]'>12 Offer</p>
-             <p className='font-semibold text-[22px]' style={{color:'rgba(0, 255, 121, 1)'}}>54 USD</p>
+             <p className='font-semibold text-[18px]' style={{color:'rgba(0, 255, 121, 1)'}}>54 USD</p>
            </div>
          </section>
          <section className='lg:h-[125px] rounded-[16px]  top-up-box p-[19px] flex flex-col justify-between'>
@@ -98,7 +98,7 @@ const GameSectionTwo: React.FC = React.memo(() => {
            </div>
            <div className='flex justify-between items-center'>
              <p className='game-offer-button py-[6px] px-[8px] rounded-[8px]'>12 Offer</p>
-             <p className='font-semibold text-[22px]' style={{color:'rgba(0, 255, 121, 1)'}}>115 USD</p>
+             <p className='font-semibold text-[18px]' style={{color:'rgba(0, 255, 121, 1)'}}>115 USD</p>
            </div>
          </section>
          <section className='lg:h-[125px] rounded-[16px]  top-up-box p-[19px] flex flex-col justify-between'>
@@ -108,7 +108,7 @@ const GameSectionTwo: React.FC = React.memo(() => {
            </div>
            <div className='flex justify-between items-center'>
              <p className='game-offer-button py-[6px] px-[8px] rounded-[8px]'>12 Offer</p>
-             <p className='font-semibold text-[22px]' style={{color:'rgba(0, 255, 121, 1)'}}>12 USD</p>
+             <p className='font-semibold text-[18px]' style={{color:'rgba(0, 255, 121, 1)'}}>12 USD</p>
            </div>
          </section>
          <section className='lg:h-[125px] rounded-[16px]  top-up-box p-[19px] flex flex-col justify-between'>
@@ -118,7 +118,7 @@ const GameSectionTwo: React.FC = React.memo(() => {
            </div>
            <div className='flex justify-between items-center'>
              <p className='game-offer-button py-[6px] px-[8px] rounded-[8px]'>12 Offer</p>
-             <p className='font-semibold text-[22px]' style={{color:'rgba(0, 255, 121, 1)'}}>23 USD</p>
+             <p className='font-semibold text-[18px]' style={{color:'rgba(0, 255, 121, 1)'}}>23 USD</p>
            </div>
          </section>
          <section className='lg:h-[125px] rounded-[16px]  top-up-box p-[19px] flex flex-col justify-between'>
@@ -128,7 +128,7 @@ const GameSectionTwo: React.FC = React.memo(() => {
            </div>
            <div className='flex justify-between items-center'>
              <p className='game-offer-button py-[6px] px-[8px] rounded-[8px]'>12 Offer</p>
-             <p className='font-semibold text-[22px]' style={{color:'rgba(0, 255, 121, 1)'}}>33 USD</p>
+             <p className='font-semibold text-[18px]' style={{color:'rgba(0, 255, 121, 1)'}}>33 USD</p>
            </div>
          </section>
          <section className='lg:h-[125px] rounded-[16px]  top-up-box p-[19px] flex flex-col justify-between'>
@@ -138,7 +138,7 @@ const GameSectionTwo: React.FC = React.memo(() => {
            </div>
            <div className='flex justify-between items-center'>
              <p className='game-offer-button py-[6px] px-[8px] rounded-[8px]'>12 Offer</p>
-             <p className='font-semibold text-[22px]' style={{color:'rgba(0, 255, 121, 1)'}}>111.23 USD</p>
+             <p className='font-semibold text-[18px]' style={{color:'rgba(0, 255, 121, 1)'}}>111.23 USD</p>
            </div>
          </section>
          <section className='lg:h-[125px] rounded-[16px]  top-up-box p-[19px] flex flex-col justify-between'>
@@ -148,7 +148,7 @@ const GameSectionTwo: React.FC = React.memo(() => {
            </div>
            <div className='flex justify-between items-center'>
              <p className='game-offer-button py-[6px] px-[8px] rounded-[8px]'>12 Offer</p>
-             <p className='font-semibold text-[22px]' style={{color:'rgba(0, 255, 121, 1)'}}>115 USD</p>
+             <p className='font-semibold text-[18px]' style={{color:'rgba(0, 255, 121, 1)'}}>115 USD</p>
            </div>
          </section>
       </div>
