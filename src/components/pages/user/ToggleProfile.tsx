@@ -48,6 +48,7 @@ const ToggleProfile: React.FC = React.memo(() => {
     fetchProfile();
   }, [dispatch]);
 
+ 
   useEffect(() => {
     console.log("this is my profiles of in page *****************", formData);
   }, [formData]);
