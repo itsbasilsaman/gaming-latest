@@ -104,7 +104,7 @@ const {isLoggedUserWithSeller,isLoggedUser}=useSelector((state:RootState)=>state
             <div className="flex items-center rounded-full header-input-section   shadow-md p-2 transition-all duration-300 ease-in-out w-full">
               <input
                 type="text"
-                placeholder="Search in Game Gate"
+                placeholder="Game Gate"
                 className="flex-1 header-inputbox pl-[10px] w-full "
               />
               <MdOutlineKeyboardArrowDown
@@ -113,7 +113,7 @@ const {isLoggedUserWithSeller,isLoggedUser}=useSelector((state:RootState)=>state
               />
             </div>
 
-            {dropdownOpen && (
+            {/* {dropdownOpen && (
               <div
                 className={`absolute top-[77px] left-0 right-0 bg-white text-black header-dropdown shadow-lg rounded-lg p-4 z-10 transition-transform duration-300 ease-in-out ${
                   dropdownOpen ? "opacity-100 scale-100" : "opacity-0 scale-90"
@@ -162,7 +162,7 @@ const {isLoggedUserWithSeller,isLoggedUser}=useSelector((state:RootState)=>state
                   </div>
                 )}
               </div>
-            )}
+            )} */}
           </div>
         </div>
 

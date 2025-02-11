@@ -102,6 +102,7 @@ const UserRegister: React.FC = () => {
         <h2 className="text-3xl font-bold text-center primary-color mb-6 py-3" style={{ fontFamily: "Unbounded" }}>
           SignUp Account
         </h2>
+        
         <form onSubmit={formik.handleSubmit} onKeyDown={handleKeyDown} className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {[

@@ -8,6 +8,9 @@ import { useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../../reduxKit/store";
 import { useSelector } from "react-redux";
 // import toast from "react-hot-toast";
+
+
+
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 
@@ -114,8 +117,8 @@ const navigate= useNavigate()
       </div> 
       <div className="row-span-5 lg:bg-white flex items-center justify-center">
      
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-[530px] px-4 sm:px-6 py-12">
-          <div className="relative z-10 flex flex-col affiliate-section rounded-[12px] items-center px-4 sm:px-8 pb-[65px] pt-12 w-full bg-white border-gray-300 border">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-[530px] px-4  sm:px-6 py-12">
+          <div className="relative z-10 flex flex-col affiliate-section rounded-[12px] items-center  px-4 sm:px-8 pb-[65px] pt-12 w-full bg-white border-gray-300 border">
             <h2
               className="text-[20px] sm:text-[24px] font-bold mb-7 mt-3 text-center primary-color"
               style={{ fontFamily: "Unbounded" }}
