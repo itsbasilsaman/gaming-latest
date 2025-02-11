@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { Fragment, Suspense, lazy, useEffect, useState } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,11 +17,9 @@ import NotFound401 from "./notFound401";
 import ToggleProfile from "./components/pages/user/ToggleProfile";
 import SellerRegistrationForm from "./components/seller/forms/SellerRegistrationForm";
 import LanguageSection from "./components/Header/LanguageSection";
-import CreateOfferPage from "./components/pages/Seller/CreateOfferPage";
+import CreateOfferPage from "./components/pages/Seller/CreateOfferComponent.tsx";
 import AddNewOfferSection from "./components/pages/Seller/AddNewOfferSection";
-import OfferDetailPage from "./components/pages/Seller/offerDetailPage";
- 
-
+import OfferDetailPage from "./components/pages/Seller/offerDetailComponent.tsx";
 
 const WelcomePage = lazy(() => import("./components/pages/welcome"));
 const UserLogin = lazy(() => import("./components/forms/user/userLogin"));
@@ -31,7 +30,7 @@ const PasswordChange = lazy(
 const Category = lazy(() => import("./components/pages/category"));
 const ChatComponent = lazy(() => import("./components/pages/user/chat"));
 const About = lazy(() => import("./components/pages/about"));
- 
+
 const Profile = lazy(() => import("./components/forms/user/userProfile"));
 const EmailVerification = lazy(
   () => import("./components/forms/user/emailVerification")
@@ -44,12 +43,13 @@ const SellerVerificationPending = lazy(
 
 export const App: React.FC = React.memo(() => {
   const dispatch = useDispatch<AppDispatch>();
-  const [verificationStatus,setVerificationStatus]=useState("")
+  const [verificationStatus, setVerificationStatus] = useState("");
+  const [userSellerProfile, setUserSellerProfile] = useState<any>(null);
   const navigate = useNavigate();
   const { isLoggedUser, isLoggedUserWithSeller } = useSelector(
     (state: RootState) => state.logAuth
   );
-  const [formData, setProfiles] = useState(null);
+  const [formData, setProfiles] = useState<any>(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -57,16 +57,20 @@ export const App: React.FC = React.memo(() => {
         const resultAction = await dispatch(getUserProfile());
         if (getUserProfile.fulfilled.match(resultAction)) {
           const { data, status } = resultAction.payload;
-
-          if (status === 200) {
-            setProfiles(data);
-            setVerificationStatus(data.data.sellerProfile.verificationStatus)
+          if (status === 200 && data?.success === true) {
             await dispatch(userLoggedAction());
+            await setProfiles(data);
+            if (data.data.sellerProfile === null) {
+              setUserSellerProfile(null);
+            } else {
+              setVerificationStatus(data.data.sellerProfile.verificationStatus);
+            }
 
-            if (data.data.sellerProfile.verificationStatus === "APPROVED") {
+            if (
+              formData?.data?.sellerProfile?.verificationStatus === "APPROVED"
+            ) {
               await dispatch(userLoggedWithSellerAction());
             }
-           
           }
         } else {
           const response = await dispatch(getATKWithRTKUser());
@@ -89,7 +93,12 @@ export const App: React.FC = React.memo(() => {
   }, [dispatch, navigate]);
 
   if (formData) {
-    console.log("App.tsx currend data : ", formData,verificationStatus);
+    console.log(
+      "App.tsx currend data : ",
+      formData,
+      "staaaaaaaaatus: ",
+      verificationStatus,"maanasam",userSellerProfile
+    );
   }
 
   return (
@@ -120,14 +129,35 @@ export const App: React.FC = React.memo(() => {
             element={isLoggedUser ? <Navigate to="/" /> : <EmailVerification />}
           />
           <Route path="/user/topup" element={<TopUp />} />
-          <Route path="/user/seller" element={ verificationStatus==="PENDING" && isLoggedUser ? ( <SellerVerificationPending />  ) : verificationStatus==="APPROVED" && isLoggedUserWithSeller?<SellerPage />: (<Navigate to="/" /> ) } />
-          {/* SELLER ROUTES */}
-          <Route path="/toggle" element={<ToggleProfile />} />
-          <Route path="/user/sellerSignup" element={ isLoggedUser ? <SellerRegistrationForm /> : <Navigate to="/" />
+          <Route
+            path="/user/seller"
+            element={ verificationStatus === "PENDING" && isLoggedUser ? ( <SellerVerificationPending />  ) :
+               verificationStatus === "APPROVED" &&  isLoggedUserWithSeller ? ( <AddNewOfferSection />) : userSellerProfile===null && isLoggedUser?(<SellerPage/>):
+                ( <Navigate to="/" /> )
             }
           />
+
+          {/* SELLER ROUTES */}
+          <Route path="/toggle" element={<ToggleProfile />} />
+          <Route
+            path="/user/sellerSignup"
+            element={ isLoggedUser&&userSellerProfile===null ? <SellerRegistrationForm /> : <Navigate to="/" /> }
+          />
           <Route path="/user/languageSelect" element={<LanguageSection />} />
-          <Route path="/user/selectDetailsOffer" element={ verificationStatus==="PENDING" && isLoggedUser ? ( <SellerVerificationPending />  ) : verificationStatus==="APPROVED" || isLoggedUserWithSeller?<AddNewOfferSection/>: (<Navigate to="/" /> )  } />
+          <Route
+            path="/user/selectDetailsOffer"
+            element={
+              verificationStatus === "PENDING" && isLoggedUser ? (
+                <SellerVerificationPending />
+              ) : verificationStatus === "APPROVED" ||
+                isLoggedUserWithSeller ? (
+                <AddNewOfferSection />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          
           <Route
             path="/user/createOffer"
             element={
@@ -145,10 +175,7 @@ export const App: React.FC = React.memo(() => {
           <Route path="/404" element={<NotFound404 />} />
           <Route path="/401" element={<NotFound401 />} />
 
-
           {/* Dummy Routes */}
-
-           
         </Routes>
       </Suspense>
     </Fragment>
