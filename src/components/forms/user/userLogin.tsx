@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "react-phone-number-input/style.css";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from '../../../assets/gaminggate-logo.png'
-import { FaInstagram, FaFacebookF, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
+ 
 import { loginUser } from "../../../reduxKit/actions/auth/authAction";
 import { useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../../reduxKit/store";
