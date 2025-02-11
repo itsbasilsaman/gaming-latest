@@ -46,8 +46,8 @@ const GameSectionFour: React.FC = React.memo(() => {
   return (
     <main className='w-full h-auto card-section text-white pb-[50px] md:px-[80px] px-[20px] lg:pt-[60px] pt-[50px]'> 
     <div className='lg:flex lg:justify-between lg:items-center lg:mb-[49px]'>
-      <h1 className='lg:text-[40px] text-[30px] font-bold pb-[10px] lg:pb-[0px]' style={{fontFamily:'Unbounded'}}>Related Games</h1>
-      <p className='lg:text-[20px] text-[19px] font-medium pb-[23px] lg:pb-[0px]'>Explore All</p>
+      <h1 className='lg:text-[40px] text-[26px] font-bold pb-[6px] lg:pb-[0px]' style={{fontFamily:'Unbounded'}}>Related Games</h1>
+      <p className='lg:text-[20px] text-[17px]  pb-[23px] lg:pb-[0px]'>Explore All</p>
     </div>
     <div className='lg:flex lg:justify-between grid grid-cols-2 gap-[14px]'>
     {cardItems.map((item, index) => (
@@ -68,11 +68,7 @@ const GameSectionFour: React.FC = React.memo(() => {
         </span>
       </section>
     ))}
-      {/* <section className='lg:w-[306px] lg:h-[228px] game-card one'>
-
-      </section>
-      <section className='lg:w-[306px] lg:h-[228px] game-card one'></section>
-      <section className='lg:w-[306px] lg:h-[228px] game-card one'></section> */}
+      
     </div>
   </main>
   );
