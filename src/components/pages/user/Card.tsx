@@ -33,7 +33,7 @@ const GameCard: FC = memo(() => {
       bg: CardOne,
       title: 'Brawl Stars',
       offer: '150 offers',
-      link : '/brawlstars'
+      link : '/about'
     },
     {
       img: ImgTwo,
@@ -47,14 +47,14 @@ const GameCard: FC = memo(() => {
       bg: CardThree,
       title: 'Lords Mobile',
       offer: '136 offers',
-      link: '/loardsmobile'
+      link: '/about'
     },
     {
       img: ImgFour,
       bg: CardFour,
       title: 'Star Rail',
       offer: '150 offers',
-      link: '/starrail'
+      link: '/about'
     },
   ];
 
