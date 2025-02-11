@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
           <div className='flex lg:justify-center lg:items-left flex-col lg:pl-[50px] px-[30px] '>
             <h1 className='lg:text-[54px] text-[40px] lg:font-bold leading-[47px] lg:leading-none pt-[30px] ' style={{fontFamily:'Unbounded'}}>Join Our Affiliate 
             Program Today!</h1>
-            <p className='text-[18px] lg:pb-[22px] pt-[15px] lg:pt-[10px] pb-[12px]'>Earn commissions on every referral!</p>
+            <p className='text-[17px] lg:pb-[22px]  pt-[10px] pb-[12px]'>Earn commissions on every referral!</p>
            <Link to={'/user/seller'}> <button  className='text-[20px] lg:font-medium seller-button lg:px-[19px] py-[13px] rounded-[1000px] w-[182px] '>Become a Seller</button></Link>
           </div>
           <div className='relative  pt-[25px] lg:pt-[0px]'>
