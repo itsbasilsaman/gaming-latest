@@ -44,7 +44,7 @@ const AddNewOfferSection = () => {
     };
     getServiceWithSubservices();
   }, [dispatch]);
-
+  
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (subServiceRef.current && !subServiceRef.current.contains(event.target as Node)) {

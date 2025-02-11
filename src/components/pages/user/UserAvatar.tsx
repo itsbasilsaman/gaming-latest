@@ -76,23 +76,23 @@ export const UserAvatar: React.FC = () => {
         <div   className="relative" ref={dropdownRef}>
           {/* Profile Button */}
           <div
-            className="relative flex items-center justify-center cursor-pointer"
+            className="relative text-black flex items-center justify-center cursor-pointer"
             onClick={toggleSection}
           >
             <div
-              className={`w-[55px] h-[55px] bg-red-500 pb-[5px] profile-bar text-white rounded-full flex items-center justify-center text-2xl font-bold`}
+              className={`w-[55px] h-[55px] bg-red-500 pb-[5px] profile-bar text-black rounded-full flex items-center justify-center text-2xl font-bold`}
             >
                {profile?.firstName ? profile.firstName.charAt(0).toUpperCase() : 'X'}
             </div>
             <div
-              className={`absolute bottom-0 right-1 w-4 h-4 userstatus-bar   border-2 border-white rounded-full`}
+              className={`absolute bottom-0 right-1 w-4 h-4 userstatus-bar text-black  border-2 border-white rounded-full`}
             ></div>
           </div>
 
           {/* Toggle Section */}
           {isOpen && (
-            <div className="absolute mt-2 right-0 py-4 w-[370px] bg-white rounded-lg shadow-md">
-              <div className="bg-white rounded-lg max-w-md mx-auto">
+            <div className="absolute mt-2 right-0 py-4 text-black w-[370px]  bg-white rounded-lg shadow-md">
+              <div className=" bg-slate-500  rounded-lg  max-w-md mx-auto">
                 {/* Header */}
                 <Link to={'/profile'}>
                   <div className="flex items-center space-x-4 border-b pb-4 mb-4 px-4">
