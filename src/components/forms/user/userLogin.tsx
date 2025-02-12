@@ -21,7 +21,7 @@ import toast from "react-hot-toast";
   const [errors, setErrors] = useState<{ input?: string }>({});
   const {loading}=useSelector((state:RootState)=> state.auth)
 
-const dispatch=useDispatch<AppDispatch>()
+const dispatch = useDispatch<AppDispatch>()
 const navigate= useNavigate()
   // Handle input change (email or phone)
   const handleInputChange = (value: string) => {
@@ -109,9 +109,9 @@ const navigate= useNavigate()
 
   return (
     <div className=" md:h-[100vh] h-full   grid grid-rows-5 bg-white">
-      <div className="lg:row-span-2  primary-background relative h-[100px] lg:h-auto flex items-center">
+      <div className="lg:row-span-2  primary-background relative h-[80px] px-2 lg:h-auto flex items-center">
         <div className="flex pl-2 lg:pl-0 lg:justify-center items-center lg:absolute  lg:top-16 lg:left-1/2 lg:-translate-x-1/2">
-          <img src={Logo}   className="w-[80px]   h-[60px]   object-cover" />
+          <img src={Logo}   className="w-[80px]   h-[60px]   object-cover lg:block hidden" />
           <span className="lg:text-[24px]" style={{ fontFamily: "Unbounded", color: "white" }}>GAME GATE</span>
         </div>
       </div> 

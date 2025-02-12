@@ -34,7 +34,7 @@ export const Services: FC = memo(() => {
       <main className='w-full h-auto home text-white -z-10 md:px-[80px] px-[20px] dlg:pt-[100px] lg:pt-[130px] relative'>
        
         <section className='lg:items-start md:items-center lg:pl-[18px] mt-[170px] lg:mt-[30px] md:flex flex-col justify-center'>
-          <h1 className='text-[30px] md:text-center lg:text-left mediumlg:text-[54px] font-bold w-[100%] leading-[39px] mediumlg:leading-[58px] mb-[5px] lg:mb-[0px]' style={{ fontFamily: "Unbounded" }}>
+          <h1 className='text-[28px] md:text-center lg:text-left mediumlg:text-[54px] font-bold w-[100%] leading-[33px] mediumlg:leading-[58px] mb-[5px] lg:mb-[0px]' style={{ fontFamily: "Unbounded" }}>
             Your One-Stop Shop for Gaming Goodies!
           </h1>
           <p className='lg:w-[520px] md:w-[460px] lg:text-[18px]'>
@@ -53,16 +53,16 @@ export const Services: FC = memo(() => {
           </div>
         )}
         {services.map((item, index) => (
-          <Link to="/about" key={index} className='game-slider-box rounded-[16px]'>
-            <div className="box-item flex flex-col justify-center items-center">
-              <div className="flex flex-col justify-center items-center py-[8px] px-[10px] cursor-pointer">
+          <Link to="/about" key={index} className='game-slider-box relative rounded-[16px]'>
+            <div className="box-item flex flex-col justify-center items-center ">
+              <div className="flex flex-col justify-center items-center   px-[10px] cursor-pointer">
                 <img
                   src={item.iconUrl}
                   alt={item.name}
                   className="box-image w-[110px]"
                   style={{ borderRadius: `${item.rounded}` }}
                 />
-                <p className="box-name text-white flex-1 text-center dlg:text-[16px] lg:text-[14px]">
+                <p className="box-name text-white flex-1 text-center dlg:text-[16px] lg:text-[15px] absolute bottom-2 lg:bottom-4">
                   {item.name}
                 </p>
               </div>

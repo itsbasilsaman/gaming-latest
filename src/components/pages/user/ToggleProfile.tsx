@@ -1,16 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
- 
-import { MdLogout } from 'react-icons/md';
- 
+import { MdLogout } from 'react-icons/md'; 
 import { Link } from 'react-router-dom';
 import { UserProfileData } from "../../../interfaces/user/profile";
 import { useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../../../reduxKit/store';
 import { useSelector } from 'react-redux';
 import { getUserProfile } from '../../../reduxKit/actions/user/userProfile';
-// import Profile from '../../forms/user/userProfile';
-
-
+ 
 const ToggleProfile: React.FC = React.memo(() => {
  
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -99,17 +95,19 @@ const ToggleProfile: React.FC = React.memo(() => {
                 >
                   {/* Balances */}
                   <div className="space-y-4">
-                  <div className="flex justify-center items-center px-4">
-                      <span className="text-[22px] font-medium text-white">
-                        {formData?.firstName} {formData?.lastName}
-                      </span>
-                    </div>
+                 <Link to={'/profile'}>
+                    <div className="flex justify-center items-center px-4">
+                        <span className="text-[22px] font-medium text-white"   style={{ fontFamily: 'Unbounded' }}>
+                          {formData?.firstName} {formData?.lastName}
+                        </span>
+                      </div>
+                 </Link>
                     <div className="flex justify-between items-center px-4">
                       <div className="text-sm font-medium text-white  flex flex-col">
-                        <span>Followers </span>  <span className='text-center text-[25px] py-2'>{formData?.followersCount}</span>
+                        <span>Followers </span>  <span className='text-center text-[25px] py-2'   style={{ fontFamily: 'Unbounded' }}>{formData?.followersCount}</span>
                       </div>
                       <div className="text-sm font-medium text-white flex flex-col">
-                        <span>Following</span>  <span className='text-center text-[25px] py-2'>{formData?.folowingCount}</span>
+                        <span>Following</span>  <span className='text-center text-[25px] py-2'   style={{ fontFamily: 'Unbounded' }}>{formData?.folowingCount}</span>
                       </div>
                     </div>
                    
@@ -135,9 +133,9 @@ const ToggleProfile: React.FC = React.memo(() => {
                   <div className="mt-4">
                     <ul className="space-y-2">
                        
-                      <li>
+                      <li className='my-4'>
                         <Link to={'/'}>
-                          <button className="w-full text-left text-[19px] font-semibold affiliate-section text-white py-[10px] rounded-full flex justify-center items-center gap-[6px] px-4">
+                          <button className="w-full text-left text-[16px] font-semibold affiliate-section text-white py-[10px] rounded-full flex justify-center items-center gap-[6px] px-4"   style={{ fontFamily: 'Unbounded' }}>
                             <MdLogout className="text-[22px]" /> Log Out
                           </button>
                         </Link>

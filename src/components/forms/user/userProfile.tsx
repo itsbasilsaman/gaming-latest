@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import LanguageSwitcher from "../../Header/LanguageSwitcher";
-// import DarkModeSwitcher from '../../Header/DerkModeSwitcher';
 import { SellerHeader } from "../../pages/Seller/sellerHeader";
 import { IoCameraOutline } from "react-icons/io5";
 import { getUserProfile , PutUserProfilePic , PutUserCoverPic } from "../../../reduxKit/actions/user/userProfile";
-// import ProfileResponsive from './ProfileResponsive';
 import { Link } from "react-router-dom";
 import { UserProfileData } from "../../../interfaces/user/profile";
-// import { Country } from '../../../interfaces/user/profile';
 import { useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../../reduxKit/store";
 import LanguageSection from "../../Header/LanguageSection";
@@ -97,6 +94,9 @@ console.log('1111111111111111111111111ww',key,value);
       }
     }
   };
+
+
+ 
 
 
  
