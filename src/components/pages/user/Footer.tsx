@@ -16,7 +16,7 @@ const Footer: React.FC = memo(() => {
       <div className='flex justify-between items-center footer-section flex-col lg:flex-row'>
         <div className='flex justify-center items-center'>
           <img src={Logo}  className='w-[60px]'/>
-          <h1 className='text-[20px] footer-logo-head font-semibold py-[20px] lg:py-[0px]'>GATE</h1>
+          <h1 className='text-[20px]   font-semibold py-[20px] lg:py-[0px]'>GATE</h1>
         </div>
         <div className='hidden lg:flex justify-center lg:gap-[20px] lg:text-[20px]'>
           <FaYoutube />
@@ -25,7 +25,7 @@ const Footer: React.FC = memo(() => {
           <FaInstagram />
           <FaLinkedinIn />
         </div>
-        <div className='flex flex-col justify-center text-center gap-[20px] text-[18px] lg:hidden py-[20px]'>
+        <div className='flex flex-col justify-center text-center lg:gap-[20px] gap-[15px] lg:text-[18px]  lg:hidden py-[20px]'>
           <p>About Us</p>
           <Link to={'/user/Category'}><p>Category</p></Link>
           <p>Terms of Service</p>

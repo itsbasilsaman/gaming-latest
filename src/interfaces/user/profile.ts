@@ -16,8 +16,8 @@ export interface UserProfileData {
     firstName: string;
     lastName: string;
     languages: string[];
-    avatar: string | null;
-    coverPic: string | null;
+    avatar: File | null;
+    coverPic: File | null;
     memberSince: string; // ISO date string
     userName: string;
     dob : string | null; // ISO date string

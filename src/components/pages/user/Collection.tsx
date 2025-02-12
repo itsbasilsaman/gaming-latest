@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import pathofExile from '../../../assets/MainCardImages/pathofexile.png';
 import FirstImage from '../../../assets/MainCardImages/1.png';
 import SecondImage from '../../../assets/MainCardImages/2.png';
@@ -16,7 +16,7 @@ type CollectionItem = {
 };
 
 const Collection: React.FC = React.memo(() => {
-  const [isAnimating, setIsAnimating] = useState<boolean>(false);
+  
 
   const collectionItems: CollectionItem[] = [
     {
@@ -48,20 +48,17 @@ const Collection: React.FC = React.memo(() => {
     },
   ];
 
-  const handleClick = (): void => {
-    setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 300); // Match the animation duration
-  };
+ 
 
   return (
     <div className='text-white md:px-[80px] px-[20px] w-full h-auto pb-[75px]'>
       <h1
-        className='lg:text-[40px] text-[36px] w-[330px] lg:w-auto lg:font-bold lg:pb-[30px]'
+        className='lg:text-[40px] text-[21px] w-[330px] lg:w-auto lg:font-bold lg:pb-[30px]'
         style={{ fontFamily: 'Unbounded' }}
       >
         Top Collections💥
       </h1>
-      <p className='text-[20px] font-medium lg:hidden block pb-[25px]'>Explore All</p>
+      <p className='lg:text-[20px] text-[17px]   lg:hidden block pb-[25px]'>Explore All</p>
       <div className="grid lg:grid-cols-2 extralg:grid-cols-3 lg:gap-[50px]">
         {collectionItems.map((item, index) => (
           <div key={index} className="grid-container lg:w-[399px] lg:h-[328px] gap-[10px] pb-[15px] lg:pb-[0px]">
@@ -89,14 +86,13 @@ const Collection: React.FC = React.memo(() => {
 
             {/* Content and Navigation */}
             <div className="five flex justify-start items-center">
-              <h1 className="lg:text-[29px] text-[22px]">{item.contentTitle}</h1>
+              <h1 className="lg:text-[29px] text-[17px]">{item.contentTitle}</h1>
             </div>
             <div className="six flex justify-end items-center">
               <FaArrowCircleRight
-                className={`lg:text-[35px] text-[28px] cursor-pointer ${
-                  isAnimating ? "animate-move" : ""
-                }`}
-                onClick={handleClick}
+                className={`lg:text-[35px] text-[23px] cursor-pointer
+                  `}
+          
               />
             </div>
           </div>
