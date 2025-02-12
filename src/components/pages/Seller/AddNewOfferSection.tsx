@@ -2,10 +2,12 @@
 import { useState, useEffect, useRef } from "react";
 import { GrWaypoint } from "react-icons/gr";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
-import { GetServicesWithSubservices, GetBrandsBySubServiceOrService,GetProducetsForCreateOffer } from "../../../reduxKit/actions/offer/serviceSubServiceBrandSelection";
+import { GetServicesWithSubservices, GetBrandsBySubServiceOrService } from "../../../reduxKit/actions/offer/serviceSubServiceBrandSelection";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../reduxKit/store";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+
 
 interface Subservice {
   id: string;
@@ -14,12 +16,7 @@ interface Subservice {
   description: string;
   descriptionAr: string;
 }
-export interface getProduct{
-  SelectedServiceId:string
-  SelectedSubServiceId?:string
-  selectedBrandId?:string
 
-}
 
 interface Service {
   id: string;
@@ -43,6 +40,9 @@ const AddNewOfferSection = () => {
   const subServiceRef = useRef<HTMLDivElement>(null);
   const brandRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch<AppDispatch>();
+  const navigate=useNavigate()
+
+
 
   useEffect(() => {
     const getServiceWithSubservices = async () => {
@@ -106,15 +106,32 @@ const AddNewOfferSection = () => {
 
 const handleGetProducetsForCreateOffer =async()=>{
    try {
+   if(selectedBrandId !==""&& SelectedServiceId!==""){
+     
+     navigate(`/user/offerDetail?SelectedServiceId=${SelectedServiceId}&SelectedSubServiceId?=${SelectedSubServiceId}&selectedBrandId=${selectedBrandId}`);
+   }else{
+    Swal.fire({
+      icon: "error",
+      title: "Error!",
+      text: "YOU NEED TO SELECT REQUIERED FIELDS SERVICE & BRAND ",
 
-    const data :getProduct={
-      SelectedServiceId,
-      SelectedSubServiceId,
-      selectedBrandId
-    }
-    const response= await dispatch(GetProducetsForCreateOffer(data))
+      timer: 3000,
+      toast: true,
+      showConfirmButton: false,
+      timerProgressBar: true,
+      background: "#fff",
+      color: "#721c24",
+      iconColor: "#f44336",
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+      showClass: { popup: "animate__animated animate__fadeInDown" },
+      hideClass: { popup: "animate__animated animate__fadeOutUp" },
+    });
+   }
+ 
     
-    console.log("teh create offer functin called and got this  ",response.payload);
     
    } catch (error:any ) {
       Swal.fire({

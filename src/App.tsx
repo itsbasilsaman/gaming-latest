@@ -17,7 +17,6 @@ import NotFound401 from "./notFound401";
 import ToggleProfile from "./components/pages/user/ToggleProfile";
 import SellerRegistrationForm from "./components/seller/forms/SellerRegistrationForm";
 import LanguageSection from "./components/Header/LanguageSection";
-import CreateOfferPage from "./components/pages/Seller/CreateOfferComponent.tsx";
 import AddNewOfferSection from "./components/pages/Seller/AddNewOfferSection";
 import OfferDetailPage from "./components/pages/Seller/offerDetailComponent.tsx";
 
@@ -146,11 +145,9 @@ export const App: React.FC = React.memo(() => {
           <Route
             path="/user/selectDetailsOffer"
             element={
-              verificationStatus === "PENDING" && isLoggedUser ? (
-                <SellerVerificationPending />
-              ) : verificationStatus === "APPROVED" ||
-                isLoggedUserWithSeller ? (
-                <AddNewOfferSection />
+              verificationStatus === "PENDING" && isLoggedUser ? ( <SellerVerificationPending /> ) :
+               verificationStatus === "APPROVED" ||
+                isLoggedUserWithSeller ? ( <AddNewOfferSection />
               ) : (
                 <Navigate to="/" />
               )
@@ -158,15 +155,9 @@ export const App: React.FC = React.memo(() => {
           />
           
           <Route
-            path="/user/createOffer"
-            element={
-              isLoggedUser ? <CreateOfferPage /> : <Navigate to="/" />
-            }
-          />
-          <Route
             path="/user/offerDetail"
             element={
-              isLoggedUser ? <OfferDetailPage /> : <Navigate to="/" />
+            <OfferDetailPage />
             }
           />
 
