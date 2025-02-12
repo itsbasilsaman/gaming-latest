@@ -146,6 +146,7 @@ const UserRegister: React.FC = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className="w-full px-3 py-3 border rounded-[3px] mt-[8px] cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-950"
+                
               >
                 <option value="">Select Country</option>
                 {countries.map((country) => (
