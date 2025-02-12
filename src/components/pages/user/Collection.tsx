@@ -61,7 +61,7 @@ const Collection: React.FC = React.memo(() => {
       <p className='lg:text-[20px] text-[17px]   lg:hidden block pb-[25px]'>Explore All</p>
       <div className="grid lg:grid-cols-2 extralg:grid-cols-3 lg:gap-[50px]">
         {collectionItems.map((item, index) => (
-          <div key={index} className="grid-container lg:w-[399px] lg:h-[328px] gap-[10px] pb-[15px] lg:pb-[0px]">
+          <div key={index} className="grid-container lg:w-[399px] lg:h-[328px] gap-[10px]   lg:pb-[0px]">
             {/* Main Section */}
             <div className="main-child child flex justify-center items-center relative object-cover">
               <img src={item.mainImg} alt={item.mainTitle} />
@@ -85,10 +85,10 @@ const Collection: React.FC = React.memo(() => {
             </div>
 
             {/* Content and Navigation */}
-            <div className="five flex justify-start items-center">
+            <div className="five flex justify-start ">
               <h1 className="lg:text-[29px] text-[17px]">{item.contentTitle}</h1>
             </div>
-            <div className="six flex justify-end items-center">
+            <div className="six flex justify-end  ">
               <FaArrowCircleRight
                 className={`lg:text-[35px] text-[23px] cursor-pointer
                   `}

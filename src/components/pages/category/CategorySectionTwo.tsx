@@ -18,7 +18,7 @@ const CategorySectionTwo: React.FC = React.memo(() => {
   return (
     <div className='w-full h-auto text-white md:px-[80px] px-[20px] lg:pt-[30px]'> 
     <div className='flex lg:flex-row flex-col   lg:items-center lg:justify-between'>
-       <h1 style={{fontFamily:'Unbounded'}} className='lg:py-[17px] py-[10px] text-[27px] '>Other Sellers (8) </h1>
+       <h1 style={{fontFamily:'Unbounded'}} className='lg:py-[17px] py-[10px] lg:text-[27px] text-[24px]'>Other Sellers (8) </h1>
        <div className='flex gap-[20px] justify-between'>
              <div className='flex gap-[10px] justify-center items-center'>
                 <div
@@ -55,28 +55,28 @@ const CategorySectionTwo: React.FC = React.memo(() => {
 
     <div className='category-slider py-[28px] pt-[60px] gap-[45px] lg:gap-[0px]'>
                 <div className='flex gap-[12px]'>
-                   <img src={Shape} alt="" className='w-[70px]' />
+                   <img src={Shape} alt="" className='lg:w-[70px] w-[62px]' />
                    <div >
                     <p className='text-[18px] underline'>Musfiqur Rahman</p>
                     <p>Level 12</p>
                    </div>
                 </div>
                 <div className='flex gap-[12px]'>
-                   <img src={Shape} alt="" className='w-[70px]' />
+                   <img src={Shape} alt="" className='lg:w-[70px] w-[62px]' />
                    <div >
                     <p className='text-[18px] underline'>Musfiqur Rahman</p>
                     <p>Level 12</p>
                    </div>
                 </div>
                 <div className='flex gap-[12px]'>
-                   <img src={Shape} alt="" className='w-[70px]' />
+                   <img src={Shape} alt="" className='lg:w-[70px] w-[62px]' />
                    <div >
                     <p className='text-[18px] underline'>Musfiqur Rahman</p>
                     <p>Level 12</p>
                    </div>
                 </div>
                 <div className='flex gap-[12px]'>
-                   <img src={Shape} alt="" className='w-[70px]' />
+                   <img src={Shape} alt="" className='lg:w-[70px] w-[62px]' />
                    <div >
                     <p className='text-[18px] underline'>Musfiqur Rahman</p>
                     <p>Level 12</p>

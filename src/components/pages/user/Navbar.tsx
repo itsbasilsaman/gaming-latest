@@ -97,8 +97,8 @@ const {isLoggedUserWithSeller,isLoggedUser}=useSelector((state:RootState)=>state
 
   return (
     <>
-      <div className='flex justify-center fixed items-center text-white lg:px-[90px] px-[30px] h-[90px] lg:gap-[20px] gap-[18px] header fixed top-0 left-0 w-full ' style={{ background, zIndex: '10' }}>
-        <Link to={'/'}><div className='text-[19px] font-semibold flex justify-center items-center'><img src={Logo} alt="" className='w-[60px] hidden lg:block' /><span className='text-[22px] '>GATE  </span></div></Link>
+      <div className='flex justify-center fixed items-center text-white lg:px-[90px] px-[25px] h-[90px] lg:gap-[20px] gap-[10px] header fixed top-0 left-0 w-full ' style={{ background, zIndex: '10' }}>
+        <Link to={'/'}><div className='text-[19px] font-semibold flex justify-center items-center'><img src={Logo} alt="" className='w-[60px] hidden lg:block' /><span className='text-[17px] '   style={{ fontFamily: 'Unbounded' }}>GATE  </span></div></Link>
         <div className="lg:relative   w-full lg:mx-[30px] lg:px-0">
           <div ref={searchRef} className="relative w-full">
             <div className="flex items-center rounded-full header-input-section   shadow-md p-2 transition-all duration-300 ease-in-out w-full">

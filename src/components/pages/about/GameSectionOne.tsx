@@ -7,7 +7,7 @@ import ClashofClans from '../../../assets/Card/clashofclans.png';
 const GameSectionOne: React.FC= React.memo(() => {
   return (
     <main className='w-full h-auto   text-white md:px-[80px] px-[20px]  flex    lg:items-center flex-col  pb-[40px]'> 
-      <p className='lg:pt-[130px] pt-[110px]  lg:pb-[40px] pb-[20px]  text-left w-[100%]'>Home / Games / Clash of Clans</p>
+      <p className='lg:pt-[130px] pt-[110px]  lg:pb-[40px] pb-[20px] text-[14px] lg:text-[16px]  text-left w-[100%]'>Home / Games / Clash of Clans</p>
       <div className='  w-[100%] lg:h-[182px] h-[154px] gamecard-box rounded-[13px] relative lg:px-[15px] flex lg:justify-between  ' >
           <img src={CardBackground} className='object-cover absolute top-[0px] left-[0px] w-[100%]  h-[100%] rounded-[12px] ' style={{zIndex:'-10' , objectFit:'cover'}} />
          <div className='flex  lg:flex-row flex-col justify-center lg:items-center pb-[25px] lg:pt-[0px]   pt-[18px] lg:pb-[0px] lg:gap-[25px] gap-[12px] w-[100%] lg:w-auto px-[20px] lg:px-[0px]'>
