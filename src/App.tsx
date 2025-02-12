@@ -46,8 +46,7 @@ export const App: React.FC = React.memo(() => {
   const [verificationStatus, setVerificationStatus] = useState("");
   const [userSellerProfile, setUserSellerProfile] = useState<any>(null);
   const navigate = useNavigate();
-  const { isLoggedUser, isLoggedUserWithSeller } = useSelector(
-    (state: RootState) => state.logAuth
+  const { isLoggedUser, isLoggedUserWithSeller } = useSelector(  (state: RootState) => state.logAuth
   );
   const [formData, setProfiles] = useState<any>(null);
 
@@ -161,13 +160,13 @@ export const App: React.FC = React.memo(() => {
           <Route
             path="/user/createOffer"
             element={
-              isLoggedUserWithSeller ? <CreateOfferPage /> : <Navigate to="/" />
+              isLoggedUser ? <CreateOfferPage /> : <Navigate to="/" />
             }
           />
           <Route
             path="/user/offerDetail"
             element={
-              isLoggedUserWithSeller ? <OfferDetailPage /> : <Navigate to="/" />
+              isLoggedUser ? <OfferDetailPage /> : <Navigate to="/" />
             }
           />
 

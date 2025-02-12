@@ -42,7 +42,7 @@ export const SellerHeader: React.FC = React.memo(() => {
   useEffect(() => {
     const handleScroll = (): void => {
       setScrollY(window.scrollY);
-    };
+    }; 
 
     window.addEventListener("scroll", handleScroll);
 

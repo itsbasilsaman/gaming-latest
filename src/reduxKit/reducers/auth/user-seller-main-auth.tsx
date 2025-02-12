@@ -70,6 +70,8 @@ export interface UserState {
           state.loading = true;
           state.error = null;
         })
+
+        
         .addCase(userLoggedWithSellerAction.fulfilled, (state, { payload }) => {
           console.log("user login payload", payload);
           state.loading = false;

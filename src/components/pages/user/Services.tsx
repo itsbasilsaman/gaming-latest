@@ -28,7 +28,7 @@ export const Services: FC = memo(() => {
     };
     getServices();
   }, [dispatch]);
-
+  
   return (
     <>
       <main className='w-full h-auto home text-white -z-10 md:px-[80px] px-[20px] dlg:pt-[100px] lg:pt-[130px] relative'>

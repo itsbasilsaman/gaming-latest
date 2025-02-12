@@ -29,7 +29,7 @@ interface ServicesState {
         .addCase(SellerRegistrationAction.fulfilled, (state, action) => {
             state.error=null
           state.loading = false;
-
+          
           console.log("this console form service slice , payload ", action.payload);
         })
         .addCase(SellerRegistrationAction.rejected, (state, action) => {

@@ -64,7 +64,7 @@ const UserRegister: React.FC = () => {
         navigate("/");
 
       } catch (error:any) {
-       
+      
           Swal.fire({
             icon: "error",
             title: "Error!",
