@@ -280,7 +280,7 @@ const {isLoggedUserWithSeller,isLoggedUser}=useSelector((state:RootState)=>state
     
     
         <div className="p-[25px]  space-y-6">
-             { isLoggedUserWithSeller ? 
+             { isLoggedUserWithSeller && isLoggedUser ? 
             <div className='flex justify-center items-center flex-col'>
                <ToggleProfile/>
                 <div>

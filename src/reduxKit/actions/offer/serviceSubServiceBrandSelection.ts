@@ -1,12 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { configWithToken,axiosIn } from "../../../config/constants";
+import { getProduct } from "../../../components/pages/Seller/AddNewOfferSection";
 
 
 export const GetServicesWithSubservices= createAsyncThunk(
     "user/offer/services-with-subservices",
     async (__,{rejectWithValue})=>{
         try {
-            console.log( "user get serviceoffer/services-with-subservices ");
+
             const response = await axiosIn.get(`/seller/offer/services-with-subservices`,configWithToken());
             console.log("user offer/services-with-subservices ", response);
             return response.data.data;
@@ -38,3 +39,24 @@ export const GetBrandsBySubServiceOrService= createAsyncThunk(
           }
     }
   )
+export const GetProducetsForCreateOffer= createAsyncThunk(
+    "user/offer/GetProducetsForCreateOffer",
+    async (ids:getProduct,{rejectWithValue})=>{
+        try {
+   
+            console.log( "user get Get Brands By Sub Service Or Service",ids);
+            const response = await axiosIn.get(`/seller/offer/products?serviceId=${ids.SelectedServiceId}&subServiceId=${ids.SelectedSubServiceId}&brandId=${ids.selectedBrandId}`,configWithToken());
+            console.log("user full response of getProductwiht offer ", response);
+            return response.data
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          }  catch (error: any) {
+            if (error.response && error.response.data) {
+              return rejectWithValue(error.response.data.message);
+            } else {
+              return rejectWithValue({ message: "Something went wrong!" });
+            }
+          }
+        }
+    
+  )
+
