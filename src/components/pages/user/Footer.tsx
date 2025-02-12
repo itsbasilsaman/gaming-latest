@@ -25,7 +25,7 @@ const Footer: React.FC = memo(() => {
           <FaInstagram />
           <FaLinkedinIn />
         </div>
-        <div className='flex flex-col justify-center text-center lg:gap-[20px] gap-[15px] lg:text-[18px]  lg:hidden py-[20px]'>
+        <div className='flex flex-col justify-center text-center lg:gap-[20px] gap-[10px] lg:text-[18px]  lg:hidden py-[20px]'>
           <p>About Us</p>
           <Link to={'/user/Category'}><p>Category</p></Link>
           <p>Terms of Service</p>
