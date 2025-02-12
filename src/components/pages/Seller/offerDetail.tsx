@@ -1,8 +1,29 @@
-import React, { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useState } from "react";
 import { GrWaypoint } from "react-icons/gr";
 import { validateOffer, ValidationErrors } from "./validation";
+import { GetProducetsForCreateOffer,CreateOfferWithProduct } from "../../../reduxKit/actions/offer/serviceSubServiceBrandSelection";
 
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../reduxKit/store";
+import { useLocation } from "react-router-dom";
+import toast from "react-hot-toast";
+import Swal from "sweetalert2";
+
+export interface getProduct{
+  SelectedServiceId:string
+  SelectedSubServiceId?:string
+  selectedBrandId?:string
+}
 const OfferDetail: React.FC = () => {
+  const dispatch=useDispatch<AppDispatch>()
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const SelectedServiceId = queryParams.get("SelectedServiceId") || "";
+  const SelectedSubServiceId = queryParams.get("SelectedSubServiceId") || "";
+  const selectedBrandId = queryParams.get("selectedBrandId") || "";
+  const [productData,setProductData]=useState<any[]>([]) 
+
   const [offer, setOffer] = useState({
     productId: "",
     title: "",
@@ -12,10 +33,58 @@ const OfferDetail: React.FC = () => {
     unitPriceUSD: "",
     unitPriceSAR: "",
     minQty: "",
-    maxQty: "",
+    apiQty: "",
     lowStockAlertQty: "",
     deliveryMethods: ["EMAIL"],
+    salesTerritory : {
+      settingsType : "GLOBAL", // 3 values possible here GLOBAL , EXCLUDE , INLCUDE
+      countries : [] // If the user selected EXCLUDE OR INCLUDE this shoudlnt be empty refer g2g
+  }
   });
+
+
+  useEffect(()=>{
+    const getProductDetails=async()=>{
+    try {
+
+      const data :getProduct={
+        SelectedServiceId,
+        SelectedSubServiceId,
+        selectedBrandId
+      } 
+      const response= await dispatch(GetProducetsForCreateOffer(data))
+      console.log("my response of the getProduct () :", response.payload);
+     await setProductData(response.payload.data[0])
+      if(response.payload.success){
+          toast.success(response.payload.message)
+      }else{
+        toast.error(response.payload.message)
+      }
+    } catch (error:any) {
+    Swal.fire({
+        icon: "error",
+        title: "Error!",
+        text: error.message,
+  
+        timer: 3000,
+        toast: true,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        background: "#fff",
+        color: "#721c24",
+        iconColor: "#f44336",
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+        showClass: { popup: "animate__animated animate__fadeInDown" },
+        hideClass: { popup: "animate__animated animate__fadeOutUp" },
+      });
+      
+    }
+  }
+  getProductDetails()
+  },[dispatch])
   
 
   const [errors, setErrors] = useState<ValidationErrors>({});
@@ -149,11 +218,11 @@ const OfferDetail: React.FC = () => {
                 <input
                   type="number"
                   name="maxQty"
-                  value={offer.maxQty}
+                  value={offer.apiQty}
                   onChange={handleChange}
                   className="w-full p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-                {errors.maxQty && <p className="text-red-500 text-sm mt-1">{errors.maxQty}</p>}
+                {errors.apiQty && <p className="text-red-500 text-sm mt-1">{errors.apiQty}</p>}
               </div>
             </div>
             <div>

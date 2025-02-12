@@ -8,7 +8,7 @@ export interface Offer {
   unitPriceUSD: string;
   unitPriceSAR: string;
   minQty: string;
-  maxQty: string;
+  apiQty: string;
   lowStockAlertQty: string;
   deliveryMethods: string[];
 }
@@ -27,7 +27,7 @@ export const validateOffer = (offer: Offer): ValidationErrors => {
   if (!offer.unitPriceUSD) errors.unitPriceUSD = "Unit Price (USD) is required";
   if (!offer.unitPriceSAR) errors.unitPriceSAR = "Unit Price (SAR) is required";
   if (!offer.minQty) errors.minQty = "Min Quantity is required";
-  if (!offer.maxQty) errors.maxQty = "Max Quantity is required";
+  if (!offer.apiQty) errors.apiQty = "Max Quantity is required";
   if (offer.deliveryMethods.length === 0) errors.deliveryMethods = "Delivery Method is required";
 
   return errors;
