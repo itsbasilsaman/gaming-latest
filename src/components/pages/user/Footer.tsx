@@ -16,7 +16,7 @@ const Footer: React.FC = memo(() => {
       <div className='flex justify-between items-center footer-section flex-col lg:flex-row'>
         <div className='flex justify-center items-center'>
           <img src={Logo}  className='w-[60px]'/>
-          <h1 className='text-[20px]   font-semibold py-[20px] lg:py-[0px]'>GATE</h1>
+          <h1 className='text-[20px]   font-semibold py-[20px] lg:py-[0px]'   style={{ fontFamily: 'Unbounded' }}>GATE</h1>
         </div>
         <div className='hidden lg:flex justify-center lg:gap-[20px] lg:text-[20px]'>
           <FaYoutube />

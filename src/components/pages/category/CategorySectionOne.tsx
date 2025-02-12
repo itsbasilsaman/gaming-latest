@@ -44,17 +44,17 @@ const CategorySectionOne: React.FC  = React.memo(() => {
   }
   return (
     <main className='w-full h-auto pb-[40px]   text-white'> 
-      <p className='pt-[120px] md:px-[80px] px-[20px]'>Home / Games / Clash of Clans / Gold Pass </p>
-      <h1 style={{fontFamily:'Unbounded'}} className='lg:py-[17px] py-[10px] text-[27px] md:px-[80px] px-[20px]'>Chest of Gems</h1>
+      <p className='pt-[120px] md:px-[80px] text-[14px] lg:text-[16px] px-[20px]'>Home / Games / Clash of Clans / Gold Pass </p>
+      <h1 style={{fontFamily:'Unbounded'}} className='lg:py-[17px] py-[10px] lg:text-[27px] text-[24px] md:px-[80px] px-[20px]'>Chest of Gems</h1>
       <div className='flex justify-between  lg:hidden py-[14px] md:px-[80px] px-[20px]'>
                   <div className='flex gap-[12px]'>
-                     <img src={Shape} alt="" className='w-[70px]' />
+                     <img src={Shape} alt="" className='lg:w-[70px] w-[62px]' />
                      <div >
                       <p className='text-[18px] underline'>Musfiqur Rahman</p>
                       <p>Level 12</p>
                      </div>
                   </div>
-                   <img src={Vector} alt="" style={{objectFit:'contain'}} className='w-[50px] lg:w-auto' />
+                   <img src={Vector} alt="" style={{objectFit:'contain'}} className='w-[45px] lg:w-auto' />
                </div>
       <section className='w-[100%] h-auto category-section lg:gap-[25px] md:px-[80px] px-[20px] '  >
           <div className='category-section-one rounded-[16px] lg:px-[34px] px-[16px] py-[36px] w-full my-[15px] lg:my-[0px]'>

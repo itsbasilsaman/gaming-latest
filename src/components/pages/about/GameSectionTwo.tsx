@@ -30,7 +30,7 @@ const GameSectionTwo: React.FC = React.memo(() => {
     </div>
     </div>
     <div className='lg:flex lg:justify-between lg:pt-[55px] pt-[40px]'>
-        <h1 style={{fontFamily:'Unbounded'}} className='text-[20px]'>15 Top Ups</h1>
+        <h1 style={{fontFamily:'Unbounded'}} className='text-[20px] py-2 lg:py-0'>15 Top Ups</h1>
         <div className='flex lg:gap-[50px] lg:flex-row justify-between lg:justify-normal py-[11px] py-[6px]'>
          <p className='lg:text-[18px]'>Sort by</p>
          <div className='flex lg:gap-[20px] gap-[9px]'>

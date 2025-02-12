@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
- 
 import { MdLogout } from 'react-icons/md';
- 
 import { Link } from 'react-router-dom';
 import { getUserProfile } from '../../../reduxKit/actions/user/userProfile';
 import { useDispatch } from 'react-redux';
@@ -80,24 +78,24 @@ export const UserAvatar: React.FC = () => {
             onClick={toggleSection}
           >
             <div
-              className={`w-[55px] h-[55px] bg-red-500 pb-[5px] profile-bar text-black rounded-full flex items-center justify-center text-2xl font-bold`}
+              className={`w-[55px] h-[55px] bg-red-800 pb-[5px] profile-bar text-white rounded-full flex items-center justify-center text-2xl font-bold`}
             >
                {profile?.firstName ? profile.firstName.charAt(0).toUpperCase() : 'X'}
             </div>
             <div
-              className={`absolute bottom-0 right-1 w-4 h-4 userstatus-bar text-black  border-2 border-white rounded-full`}
+              className={`absolute bottom-0 right-1 w-4 h-4 userstatus-bar text-black  border-2 border-green-400 bg-green-400 rounded-full`}
             ></div>
           </div>
 
           {/* Toggle Section */}
           {isOpen && (
             <div className="absolute mt-2 right-0 py-4 text-black w-[370px]  bg-white rounded-lg shadow-md">
-              <div className=" bg-slate-500  rounded-lg  max-w-md mx-auto">
+              <div className="  rounded-lg  max-w-md mx-auto">
                 {/* Header */}
                 <Link to={'/profile'}>
                   <div className="flex items-center space-x-4 border-b pb-4 mb-4 px-4">
                     <div
-                      className={`bg-red-500 text-white w-12 h-12 flex items-center justify-center rounded-full text-xl font-bold`}
+                      className={`bg-red-800 text-white w-12 h-12 flex items-center justify-center rounded-full text-xl font-bold`}
                     >
                       {profile?.firstName ? profile.firstName.charAt(0).toUpperCase() : 'X'}
                     </div>
@@ -108,10 +106,10 @@ export const UserAvatar: React.FC = () => {
                       >
                          {profile?.userName}
                       </h1>
-                      <p className="text-sm text-gray-500"> 
+                      <p className="text-sm text-gray-700"> 
                        Level {profile?.level?.level}
                       </p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-700">
                           {profile?.email}
                       </p>
                     </div>
@@ -121,32 +119,32 @@ export const UserAvatar: React.FC = () => {
                 {/* Balances */}
                 <div className="space-y-4">
                   <div className="flex justify-center items-center px-4">
-                      <span className="text-[22px] font-medium text-white">
+                      <span className="text-[20px] font-medium primary-color"   style={{ fontFamily: 'Unbounded' }}>
                         {profile?.firstName} {profile?.lastName}
                       </span>
                     </div>
                     <div className="flex justify-between items-center px-4">
-                      <div className="text-sm font-medium text-white  flex flex-col">
-                        <span>Followers </span>  <span className='text-center text-[25px] py-2'>{profile?.followersCount}</span>
+                      <div className="text-sm font-medium primary-color  flex flex-col">
+                        <span>Followers </span>  <span className='text-center text-[25px] py-2'   style={{ fontFamily: 'Unbounded' }}>{profile?.followersCount}</span>
                       </div>
-                      <div className="text-sm font-medium text-white flex flex-col">
-                        <span>Following</span>  <span className='text-center text-[25px] py-2'>{profile?.folowingCount}</span>
+                      <div className="text-sm font-medium primary-color flex flex-col">
+                        <span>Following</span>  <span className='text-center text-[25px] py-2'   style={{ fontFamily: 'Unbounded' }}>{profile?.folowingCount}</span>
                       </div>
                     </div>
                    
                     <div className="flex justify-between items-center px-4">
-                      <span className="text-sm font-medium text-white">
+                      <span className="text-sm font-medium primary-color">
                         Member Since 
                       </span>
-                      <span className="text-sm text-white">
+                      <span className="text-sm primary-color">
                       {formattedDate}
                       </span>
                     </div>
                     <div className="flex justify-between items-center px-4">
-                      <span className="text-sm font-medium text-white">
+                      <span className="text-sm font-medium primary-color">
                         Country 
                       </span>
-                      <span className="text-sm text-white">
+                      <span className="text-sm primary-color">
                       {profile?.country}
                       </span>
                     </div>
@@ -157,8 +155,8 @@ export const UserAvatar: React.FC = () => {
                   <ul className="space-y-2">
                     <li>
                     <Link to={'/'}>
-                        <button className="w-full text-left text-sm primary-color hover:bg-gray-100 py-2 rounded-lg flex justifu-center items-center gap-[6px] px-4">
-                          <MdLogout className="text-[19px]" /> Log Out
+                        <button className="w-full text-left text-sm primary-color hover:bg-gray-200 py-3 rounded-lg flex justifu-center items-center gap-[6px] px-4"   style={{ fontFamily: 'Unbounded' }}>
+                          <MdLogout className="text-[19px] "  /> Log Out
                         </button>
                     </Link>
                     </li>
