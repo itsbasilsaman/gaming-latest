@@ -168,7 +168,7 @@ const {isLoggedUserWithSeller,isLoggedUser}=useSelector((state:RootState)=>state
 
         <div className='flex justify-center items-center lg:gap-[20px] hidden lg:flex'>
           <button className=' w-[92px] pr-[4px] lg:h-[56px] country-button modal-country-button flex justify-center items-center gap-[10px] rounded-[1000px] lg:text-[19px]' onClick={toggleModal}><img src={Flag} alt="" className='w-[43px]' /> IN</button>
-          { isLoggedUserWithSeller ?
+          { isLoggedUserWithSeller && isLoggedUser ?
          <div className='flex gap-[12px]'>
              <Link to={'/user/selectDetailsOffer'}><button className='lg:w-[188px] lg:h-[56px] country-button rounded-[1000px] lg:text-[19px] '>Create Offer</button></Link>
            
@@ -185,7 +185,7 @@ const {isLoggedUserWithSeller,isLoggedUser}=useSelector((state:RootState)=>state
          </div>
           :
         <div className='flex gap-[12px]'>
-           { isLoggedUser ? 
+           { isLoggedUser && isLoggedUserWithSeller===false ? 
           <div className='flex gap-[12px]'> 
              <Link to={'/user/seller'}><button className='lg:w-[188px] lg:h-[56px] country-button rounded-[1000px] lg:text-[19px] '>Become a Seller</button></Link>
              
@@ -289,7 +289,7 @@ const {isLoggedUserWithSeller,isLoggedUser}=useSelector((state:RootState)=>state
             </div>
               :
             <div>
-               {  isLoggedUser ?
+               {  isLoggedUser && isLoggedUserWithSeller===false ?
               <div  className='flex justify-center items-center flex-col'>
                   <ToggleProfile/>
                   <div className=' '>
