@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useRef } from "react";
 import { GrWaypoint } from "react-icons/gr";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
-import { GetServicesWithSubservices, GetBrandsBySubServiceOrService } from "../../../reduxKit/actions/offer/serviceSubServiceBrandSelection";
+import { GetServicesWithSubservices, GetBrandsBySubServiceOrService,GetProducetsForCreateOffer } from "../../../reduxKit/actions/offer/serviceSubServiceBrandSelection";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../reduxKit/store";
+import Swal from "sweetalert2";
 
 interface Subservice {
   id: string;
@@ -11,6 +13,12 @@ interface Subservice {
   nameAr: string;
   description: string;
   descriptionAr: string;
+}
+export interface getProduct{
+  SelectedServiceId:string
+  SelectedSubServiceId?:string
+  selectedBrandId?:string
+
 }
 
 interface Service {
@@ -22,13 +30,16 @@ interface Service {
 }
 
 const AddNewOfferSection = () => {
-  const [selectedSubService, setSelectedSubService] = useState("");
-  const [selectedBrand, setSelectedBrand] = useState("");
+  const [SelectedServiceId, setSelectedServiceId] = useState("");
+  const [SelectedSubServiceId, setSelectedSubServiceId] = useState("");
+  const [SelectedSubServiceName, setSelectedSubServiceName] = useState("");
+  const [selectedBrandId, setSelectedBrandId] = useState<any>(null);
+  const [selectedBrandName, setSelectedBrandName] = useState<any>(null);
   const [subServiceDropdownOpen, setSubServiceDropdownOpen] = useState(false);
   const [brandDropdownOpen, setBrandDropdownOpen] = useState(false);
   const [FetchedService, setFetchedServices] = useState<Service[]>([]);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
-  const [brands, setBrands] = useState<string[]>([]); // State to store fetched brands
+  const [brands, setBrands] = useState<any[]>([]); // State to store fetched brands
   const subServiceRef = useRef<HTMLDivElement>(null);
   const brandRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch<AppDispatch>();
@@ -62,16 +73,16 @@ const AddNewOfferSection = () => {
   }, []);
 
   const handleServiceClick = async (service: Service) => {
-    console.log("Selected Service ID:", service.id);
+    // console.log("Selected Service ID:", service.id);
+    setSelectedServiceId(service.id)
     setSelectedService(service);
     if (service.subservices && service.subservices.length > 0) {
-      setSelectedSubService("");
+      setSelectedSubServiceId("");
       setSubServiceDropdownOpen(true);
     } else {
-      setSelectedSubService("");
+      setSelectedSubServiceId("");
       setSubServiceDropdownOpen(false);
     }
-  
     // Fetch brands for the selected service
     try {
       const response = await dispatch(GetBrandsBySubServiceOrService(service.id));
@@ -79,12 +90,76 @@ const AddNewOfferSection = () => {
       
       // Assuming the response payload is an array of brand objects with a 'name' property
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const brandNames = response.payload.map((brand: any) => brand.name);
-      setBrands(brandNames); // Set the brand names in the state
+      // const brandNames = response.payload.map((brand: any) => brand);
+      setBrands(response.payload); // Set the brand names in the state
     } catch (error) {
       console.log("Error fetching brands:", error);
     }
   };
+  useEffect(()=>{
+    console.log("my selllllelele", SelectedServiceId,SelectedSubServiceId,selectedBrandId);
+  },[SelectedSubServiceId,selectedBrandId,SelectedServiceId])
+
+
+
+
+
+const handleGetProducetsForCreateOffer =async()=>{
+   try {
+
+    const data :getProduct={
+      SelectedServiceId,
+      SelectedSubServiceId,
+      selectedBrandId
+    }
+    const response= await dispatch(GetProducetsForCreateOffer(data))
+    
+    console.log("teh create offer functin called and got this  ",response.payload);
+    
+   } catch (error:any ) {
+      Swal.fire({
+                icon: "error",
+                title: "Error!",
+                text: error.message,
+    
+                timer: 3000,
+                toast: true,
+                showConfirmButton: false,
+                timerProgressBar: true,
+                background: "#fff",
+                color: "#721c24",
+                iconColor: "#f44336",
+                didOpen: (toast) => {
+                  toast.addEventListener("mouseenter", Swal.stopTimer);
+                  toast.addEventListener("mouseleave", Swal.resumeTimer);
+                },
+                showClass: { popup: "animate__animated animate__fadeInDown" },
+                hideClass: { popup: "animate__animated animate__fadeOutUp" },
+              });
+   }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <div className="py-20 px-4 sm:px-6 lg:px-24 w-full mx-auto flex flex-col lg:flex-row gap-6 bg-gray-100 h-auto pb-[300px] lato-font">
@@ -131,7 +206,7 @@ const AddNewOfferSection = () => {
         </div>
 
         <div className="mt-6 primary-background text-white p-3 sm:p-4 rounded-lg flex items-center">
-          <span className="mr-2">⚠</span>
+          <span className="mr-2 p-1">⚠</span>
           <p className="text-xs sm:text-sm lato-font">
             Sellers are only permitted to sell this product in code format and must upload genuine codes.
             Uploading fake codes is strictly prohibited. Sales of products that require login access to the buyer's account
@@ -147,17 +222,18 @@ const AddNewOfferSection = () => {
                 className="w-full bg-white border p-3 text-left"
                 onClick={() => setSubServiceDropdownOpen(!subServiceDropdownOpen)}
               >
-                {selectedSubService || "Select sub-services"}
+                {SelectedSubServiceName || "Select sub-services"}
                 <span className="absolute right-[12px] top-[16px]">{subServiceDropdownOpen ? <FaAngleUp /> : <FaAngleDown />}</span>
               </button>
               {subServiceDropdownOpen && (
                 <div className="absolute w-full bg-white border z-10">
-                  {selectedService.subservices.map((sub) => (
+                  {selectedService.subservices.map((sub,index) => (
                     <div
-                      key={sub.id}
+                      key={index}
                       className="p-2 hover:bg-gray-100 cursor-pointer"
                       onClick={() => {
-                        setSelectedSubService(sub.name);
+                        setSelectedSubServiceName(sub.name)
+                        setSelectedSubServiceId(sub.id);
                         setSubServiceDropdownOpen(false);
                       }}
                     >
@@ -170,7 +246,7 @@ const AddNewOfferSection = () => {
           </div>
         )}
 
-{selectedSubService && (
+{SelectedSubServiceId && (
   <div className="mt-4">
     <label className="block text-sm font-medium text-gray-700">Brands <span className="text-red-500">*</span></label>
     <div className="relative mt-2" ref={brandRef}>
@@ -178,7 +254,7 @@ const AddNewOfferSection = () => {
         className="w-full bg-white border p-3 text-left"
         onClick={() => setBrandDropdownOpen(!brandDropdownOpen)}
       >
-        {selectedBrand || "Select brand"}
+        {selectedBrandName || "Select brand"}
         <span className="absolute right-[12px] top-[16px]">{brandDropdownOpen ? <FaAngleUp /> : <FaAngleDown />}</span>
       </button>
       {brandDropdownOpen && (
@@ -188,11 +264,13 @@ const AddNewOfferSection = () => {
               key={index}
               className="p-2 hover:bg-gray-100 cursor-pointer"
               onClick={() => {
-                setSelectedBrand(brand);
+                setSelectedBrandId(brand.id);
                 setBrandDropdownOpen(false);
+                setSelectedBrandName(brand.name)
               }}
             >
-              {brand}
+              {brand.name}
+            
             </div>
           ))}
         </div>
@@ -201,7 +279,7 @@ const AddNewOfferSection = () => {
   </div>
 )}
 
-        {selectedBrand && (
+        {selectedBrandId && (
           <div className="mt-6 py-6 bg-white">
             <h2 className="text-lg font-semibold text-gray-800" style={{ fontFamily: "Unbounded" }}>
               You need to create a offer
@@ -211,7 +289,7 @@ const AddNewOfferSection = () => {
                 <h3 className="text-md font-semibold text-gray-800 lato-font">Create single offer</h3>
                 <p className="text-sm text-gray-500 lato-font">Suitable for all sellers.</p>
               </div>
-              <button className="lato-font text-white px-4 py-2 rounded-md font-medium primary-background">
+              <button onClick={handleGetProducetsForCreateOffer} className="lato-font text-white px-4 py-2 rounded-md font-medium primary-background">
                 Single offer
               </button>
             </div>
