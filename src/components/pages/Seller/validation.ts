@@ -5,13 +5,19 @@ export interface Offer {
   titleAr: string;
   description: string;
   descriptionAr: string;
-  unitPriceUSD: string;
-  unitPriceSAR: string;
-  minQty: string;
-  apiQty: string;
-  lowStockAlertQty: string;
-  deliveryMethods: string[];
+  unitPriceUSD: number;
+  unitPriceSAR: number;
+  minQty: number;
+  apiQty: number;
+  lowStockAlertQty: number;
+  deliveryMethods: string[]; // Change this to string[]
+  salesTerritory: {
+    settingsType: "GLOBAL" | "OTHER"; // Adjust "OTHER" if there are other possible values
+    countries: string[];
+  };
 }
+
+ 
 
 export interface ValidationErrors {
   [key: string]: string;
@@ -28,7 +34,9 @@ export const validateOffer = (offer: Offer): ValidationErrors => {
   if (!offer.unitPriceSAR) errors.unitPriceSAR = "Unit Price (SAR) is required";
   if (!offer.minQty) errors.minQty = "Min Quantity is required";
   if (!offer.apiQty) errors.apiQty = "Max Quantity is required";
-  if (offer.deliveryMethods.length === 0) errors.deliveryMethods = "Delivery Method is required";
+  if (offer.deliveryMethods.length === 0) {
+    errors.deliveryMethods = "Delivery Method is required";
+  }
 
   return errors;
 };

@@ -61,8 +61,7 @@ const ToggleProfile: React.FC = React.memo(() => {
           <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : (
-       
-          <div   className="relative" ref={dropdownRef}>
+         <div  className="relative" ref={dropdownRef}>
             <div className="mt-2 py-4 w-[100%] rounded-lg shadow-md">
               <div className="rounded-lg max-w-md mx-auto">
                 {/* Header */}
