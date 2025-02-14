@@ -15,8 +15,8 @@ import ImgFour from '../../../assets/Card/imgFour.png';
 
 // Type definition for card items
 interface CardItem {
-  img: string;    // Path to the icon/image
-  bg: string;     // Path to the background image
+  img: string;     
+  bg: string;      
   title: string;  
   offer: string;   
   link : string
