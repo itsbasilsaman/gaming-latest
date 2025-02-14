@@ -19,6 +19,7 @@ import SellerRegistrationForm from "./components/seller/forms/SellerRegistration
 import LanguageSection from "./components/Header/LanguageSection";
 import AddNewOfferSection from "./components/pages/Seller/AddNewOfferSection";
 import OfferDetailPage from "./components/pages/Seller/offerDetailComponent.tsx";
+import Swal from "sweetalert2";
 
 const WelcomePage = lazy(() => import("./components/pages/welcome"));
 const UserLogin = lazy(() => import("./components/forms/user/userLogin"));
@@ -44,6 +45,7 @@ export const App: React.FC = React.memo(() => {
   const dispatch = useDispatch<AppDispatch>();
   const [verificationStatus, setVerificationStatus] = useState("");
   const [userSellerProfile, setUserSellerProfile] = useState<any>(null);
+
   const navigate = useNavigate();
   const { isLoggedUser, isLoggedUserWithSeller } = useSelector(  (state: RootState) => state.logAuth
   );
@@ -53,9 +55,37 @@ export const App: React.FC = React.memo(() => {
     const fetchProfile = async () => {
       try {
         const resultAction = await dispatch(getUserProfile());
+        console.log("<>,><>",resultAction.payload);
+        if((resultAction.payload as { success: boolean }).success === false){
+          console.log("user Now :", (resultAction.payload as { message: string }).message);       
+          Swal.fire({
+            icon: "error",
+            title: "Error!",
+            text: "User Not Activated" ,
+            timer: 3000,
+            toast: true,
+            showConfirmButton: false,
+            timerProgressBar: true,
+            background: '#fff', // Light red background for an error message
+            color: '#721c24', // Darker red text color for better readability
+            iconColor: '#f44336', // Custom color for the icon
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer); // Pause timer on hover
+              toast.addEventListener('mouseleave', Swal.resumeTimer); // Resume timer on mouse leave
+            },
+            showClass: {
+              popup: 'animate__animated animate__fadeInDown' // Animation when the toast appears
+            },
+            hideClass: {
+              popup: 'animate__animated animate__fadeOutUp' // Animation when the toast disappears
+            }
+          });
+        }
+        
+        
         if (getUserProfile.fulfilled.match(resultAction)) {
           const { data, status } = resultAction.payload;
-          if (status === 200 && data?.success === true) {
+          if (status === 200 ) {
             await dispatch(userLoggedAction());
             await setProfiles(data);
             if (data.data.sellerProfile === null) {
@@ -113,7 +143,7 @@ export const App: React.FC = React.memo(() => {
           <Route
             path="/user/signup"
             element={isLoggedUser ? <Navigate to="/" /> : <UserRegister />}
-          />
+          /> 
           <Route
             path="/user/changePassword"
             element={isLoggedUser ? <Navigate to="/" /> : <PasswordChange />}

@@ -27,7 +27,7 @@ export const configWithToken = () => {
         "Content-Type": "application/json",
         Authorization: token ? `Bearer ${token}` : "",
       },
-      withCredentials: false,
+      withCredentials: false
     };
   };
     

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Shape from '../../../assets/Images/Shape.png';
 
 
-
+ 
 const CategorySectionTwo: React.FC = React.memo(() => {
   const [isOn, setIsOn] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>("");
@@ -58,27 +58,27 @@ const CategorySectionTwo: React.FC = React.memo(() => {
                    <img src={Shape} alt="" className='lg:w-[70px] w-[62px]' />
                    <div >
                     <p className='text-[18px] underline'>Musfiqur Rahman</p>
-                    <p>Level 12</p>
+                    <p>Level 8</p>
                    </div>
                 </div>
                 <div className='flex gap-[12px]'>
                    <img src={Shape} alt="" className='lg:w-[70px] w-[62px]' />
                    <div >
-                    <p className='text-[18px] underline'>Musfiqur Rahman</p>
-                    <p>Level 12</p>
+                    <p className='text-[18px] underline'>Mohammed Saleel vt </p>
+                    <p>Level 24</p>
                    </div>
                 </div>
                 <div className='flex gap-[12px]'>
                    <img src={Shape} alt="" className='lg:w-[70px] w-[62px]' />
                    <div >
-                    <p className='text-[18px] underline'>Musfiqur Rahman</p>
-                    <p>Level 12</p>
+                    <p className='text-[18px] underline'>Nasih k </p>
+                    <p>Level 45</p>
                    </div>
                 </div>
                 <div className='flex gap-[12px]'>
                    <img src={Shape} alt="" className='lg:w-[70px] w-[62px]' />
                    <div >
-                    <p className='text-[18px] underline'>Musfiqur Rahman</p>
+                    <p className='text-[18px] underline'>Amna sherin k</p>
                     <p>Level 12</p>
                    </div>
                 </div>

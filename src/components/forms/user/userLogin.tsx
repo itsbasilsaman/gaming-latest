@@ -63,7 +63,7 @@ const navigate= useNavigate()
       const payload = {
         contact: inputType === "phone" ? `+${countryCode}${inputValue}` : inputValue,
         type: inputType === "phone" ? "PHONE" : "EMAIL",
-      };
+      }; 
 
       const Type=payload.type
       console.log("Payloadhihih:", payload,inputValue);
