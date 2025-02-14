@@ -34,6 +34,9 @@ export default {
           "100%": { transform: "translateX(0)", opacity: 1 },
         },
       },
+      colors : {
+        grayShade : "#ffffff49",
+      }
     },
   },
   plugins: [],
