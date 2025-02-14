@@ -18,7 +18,7 @@ interface BoxItem {
 
 export const Services: FC = memo(() => {
   const dispatch = useDispatch<AppDispatch>();
-  const navigate=useNavigate()
+  // const navigate=useNavigate()
   const [services, setServices] = useState<BoxItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -38,16 +38,16 @@ export const Services: FC = memo(() => {
 
 
 
-    const handleServiceNested=async(item:BoxItem)=>{
-      try {
-        if (item.id) {
-          navigate(`/user/topup?serviceId=${item.id}&name=${item.name}&nameAr=${item.nameAr}&iconUrl=${item.iconUrl}`)
-        }
-      } catch (error) {
-          console.log(error);
+    // const handleServiceNested=async(item:BoxItem)=>{
+    //   try {
+    //     if (item.id) {
+    //       navigate(`/user/topup?serviceId=${item.id}&name=${item.name}&nameAr=${item.nameAr}&iconUrl=${item.iconUrl}`)
+    //     }
+    //   } catch (error) {
+    //       console.log(error);
        
-      }
-    }
+    //   }
+    // }
 
 
 
