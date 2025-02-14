@@ -17,8 +17,8 @@ import ImgFour from '../../../assets/Card/imgFour.png';
 interface CardItem {
   img: string;    // Path to the icon/image
   bg: string;     // Path to the background image
-  title: string;  // Title of the game
-  offer: string;  // Offer text
+  title: string;  
+  offer: string;   
   link : string
 }
 
