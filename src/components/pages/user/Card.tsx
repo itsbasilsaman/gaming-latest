@@ -15,10 +15,10 @@ import ImgFour from '../../../assets/Card/imgFour.png';
 
 // Type definition for card items
 interface CardItem {
-  img: string;    // Path to the icon/image
-  bg: string;     // Path to the background image
-  title: string;  // Title of the game
-  offer: string;  // Offer text
+  img: string;     
+  bg: string;      
+  title: string;  
+  offer: string;   
   link : string
 }
 
