@@ -26,6 +26,7 @@ export const Navbar: React.FC = React.memo(() => {
   const [isLocalizationOpen, setIsLocalizationOpen] = useState<boolean>(false);
 const {isLoggedUserWithSeller,isLoggedUser}=useSelector((state:RootState)=>state.logAuth)
 
+console.log("Navbar things : isLoggedUser:",isLoggedUser,"isLoggedWithSeller : ",isLoggedUserWithSeller);
 
 
 

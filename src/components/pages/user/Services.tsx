@@ -1,3 +1,4 @@
+
 import { FC, memo, useEffect, useState } from "react";
 import HomeImg from "../../../assets/Images/homebg.png";
 import { Link } from "react-router-dom";
@@ -6,7 +7,9 @@ import { AppDispatch } from "../../../reduxKit/store";
 import { GetServiceAction } from "../../../reduxKit/actions/service/serviceAction";
 import SkeletonBox from "./SkeltonBox"; // Import the skeleton component
 
+
 interface BoxItem {
+  id:string
   iconUrl: string;
   name: string;
   nameAr: string;
@@ -15,6 +18,7 @@ interface BoxItem {
 
 export const Services: FC = memo(() => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate=useNavigate()
   const [services, setServices] = useState<BoxItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -31,6 +35,25 @@ export const Services: FC = memo(() => {
     };
     getServices();
   }, [dispatch]);
+
+
+
+    const handleServiceNested=async(item:BoxItem)=>{
+      try {
+        if (item.id) {
+          navigate(`/user/topup?serviceId=${item.id}&name=${item.name}&nameAr=${item.nameAr}&iconUrl=${item.iconUrl}`)
+        }
+      } catch (error) {
+          console.log(error);
+       
+      }
+    }
+
+
+
+
+
+  
 
   return (
     <>
@@ -52,6 +75,7 @@ export const Services: FC = memo(() => {
       </main>
 
       <div className="game-slider-home-responsive md:h-[168px] h-[155px] w-[100%] lg:w-auto lg:rounded-[28px] lg:mx-[80px]">
+
         {loading
           ? Array.from({ length: 12 }).map((_, index) => <SkeletonBox key={index} />) // Show skeletons when loading
           : services.map((item, index) => (
@@ -66,6 +90,7 @@ export const Services: FC = memo(() => {
                 </div>
               </Link>
             ))}
+
       </div>
     </>
   );

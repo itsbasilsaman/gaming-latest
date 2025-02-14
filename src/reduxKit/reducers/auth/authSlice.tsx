@@ -136,12 +136,12 @@ export const authSlice = createSlice({
             console.warn("Access token is not provided in the response.");
             // Do not mark as logged in if tokens are missing
             state.isLogged = false;
+       
           }
         } else {
           console.warn("No data received in OTP verification response.");
         }
       })
-
       .addCase(verifiyOtpUser.rejected, (state, { payload }) => {
         state.loading = false;
         state.userData = null;
@@ -172,7 +172,7 @@ export const authSlice = createSlice({
         state.isLogged = false;
         state.error = null;
         state.userData = null;
-        localStorage.clear();
+     
       })
       .addCase(userLogout.rejected, (state, { payload }) => {
         state.loading = false;
@@ -228,7 +228,7 @@ export const authSlice = createSlice({
       .addCase(getATKWithRTKUser.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload as string;
-        localStorage.clear();
+     
       })
 
 

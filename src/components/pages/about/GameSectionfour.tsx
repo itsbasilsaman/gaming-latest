@@ -48,7 +48,7 @@ const GameSectionFour: React.FC = React.memo(() => {
     <div className='lg:flex lg:justify-between lg:items-center lg:mb-[49px]'>
       <h1 className='lg:text-[40px] text-[26px] font-bold pb-[6px] lg:pb-[0px]' style={{fontFamily:'Unbounded'}}>Related Games</h1>
       <p className='lg:text-[20px] text-[17px]  pb-[23px] lg:pb-[0px]'>Explore All</p>
-    </div>
+    </div> 
     <div className='lg:flex lg:justify-between grid grid-cols-2 gap-[14px]'>
     {cardItems.map((item, index) => (
       <section
