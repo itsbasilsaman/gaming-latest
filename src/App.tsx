@@ -19,7 +19,7 @@ import SellerRegistrationForm from "./components/seller/forms/SellerRegistration
 import LanguageSection from "./components/Header/LanguageSection";
 import AddNewOfferSection from "./components/pages/Seller/AddNewOfferSection";
 import OfferDetailPage from "./components/pages/Seller/offerDetailComponent.tsx";
-import Swal from "sweetalert2";
+ 
 
 const WelcomePage = lazy(() => import("./components/pages/welcome"));
 const UserLogin = lazy(() => import("./components/forms/user/userLogin"));
@@ -49,31 +49,7 @@ export const App: React.FC = React.memo(() => {
       try {
         const resultAction = await dispatch(getUserProfile());
         console.log("<>,><>",resultAction.payload);
-        if((resultAction.payload as { success: boolean }).success === false){
-          console.log("user Now :", (resultAction.payload as { message: string }).message);       
-          Swal.fire({
-            icon: "error",
-            title: "Error!",
-            text: "User Not Activated" ,
-            timer: 3000,
-            toast: true,
-            showConfirmButton: false,
-            timerProgressBar: true,
-            background: '#fff', // Light red background for an error message
-            color: '#721c24', // Darker red text color for better readability
-            iconColor: '#f44336', // Custom color for the icon
-            didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer); // Pause timer on hover
-              toast.addEventListener('mouseleave', Swal.resumeTimer); // Resume timer on mouse leave
-            },
-            showClass: {
-              popup: 'animate__animated animate__fadeInDown' // Animation when the toast appears
-            },
-            hideClass: {
-              popup: 'animate__animated animate__fadeOutUp' // Animation when the toast disappears
-            }
-          });
-        }
+     
         
         
         if (getUserProfile.fulfilled.match(resultAction)) {

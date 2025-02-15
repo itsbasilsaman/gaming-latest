@@ -1,11 +1,10 @@
-
 import { FC, memo, useEffect, useState } from "react";
 import HomeImg from "../../../assets/Images/homebg.png";
 import {  useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../reduxKit/store";
 import { GetServiceAction } from "../../../reduxKit/actions/service/serviceAction";
-import SkeletonBox from "./SkeltonBox"; // Import the skeleton component
+import SkeletonBox from "./SkeltonBox";  
 
 
 interface BoxItem {
@@ -18,9 +17,19 @@ interface BoxItem {
 
 export const Services: FC = memo(() => {
   const dispatch = useDispatch<AppDispatch>();
-  const navigate=useNavigate()
+  const navigate = useNavigate()
   const [services, setServices] = useState<BoxItem[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const handleServiceNested=async(item:BoxItem)=>{
+    try {
+      if (item.id) {
+        navigate(`/user/topup?serviceId=${item.id}&name=${item.name}&nameAr=${item.nameAr}&iconUrl=${item.iconUrl}`)
+      }
+    } catch (error) {
+        console.log(error);
+    }
+  }
 
   useEffect(() => {
     const getServices = async () => {
@@ -38,23 +47,8 @@ export const Services: FC = memo(() => {
 
 
 
-    const handleServiceNested=async(item:BoxItem)=>{
-      try {
-        if (item.id) {
-          navigate(`/user/topup?serviceId=${item.id}&name=${item.name}&nameAr=${item.nameAr}&iconUrl=${item.iconUrl}`)
-        }
-      } catch (error) {
-          console.log(error);
-       
-      }
-    }
-
-
-
-
-
-  
-
+ 
+ 
   return (
     <>
       <main className="w-full h-auto home text-white -z-10 md:px-[80px] px-[20px] dlg:pt-[100px] lg:pt-[130px] relative">
@@ -95,3 +89,4 @@ export const Services: FC = memo(() => {
     </>
   );
 });
+

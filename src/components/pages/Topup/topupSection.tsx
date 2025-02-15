@@ -38,6 +38,7 @@ const TopUpSection: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredGames, setFilteredGames] = useState<GameBrands[]>([]);
   const [itemsPerPage, setItemsPerPage] = useState(ITEMS_PER_PAGE_BIG_SCREEN);
+  const [loading, setLoading] = useState(true); // Add loading state
   const navigate=useNavigate()
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
@@ -82,6 +83,8 @@ console.log("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
         }
       } catch (error) {
         console.log("saleel", error);
+      } finally {
+        setLoading(false); 
       }
     };
     GetProductsWithServiceOrService()
@@ -117,7 +120,7 @@ console.log("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
   return (
     <div className="pt-[100px] ">
       <div className="flex items-center py-2 px-6 pb-8">
-        <img src={iconUrl} alt="Game Icon" />
+        <img src={iconUrl} alt="Game Icon" className="lg:w-[150px] w-[100px]" />
         <h4
           className="text-[27px] text-white"
           style={{ fontFamily: "Unbounded" }}
@@ -171,38 +174,41 @@ console.log("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
           </h2>
         </div>
 
+
         <div
-       
-          className={`grid gap-4 pt-[30px] grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4`}
-        >
-          {currentItems.map((game, index) => (
-        
-            
-            <div
-            onClick={() => {handleOfferByProduct(game)}}
-              key={index}
-              className="relative text-white rounded-[12px] overflow-hidden extralg:w-[326px] extralg:h-[228px] h-[170px] game-card one flex flex-col items-center justify-center cursor-pointer"
-            >
-              <img
-                src={game.brand.image}
-                className="absolute inset-0 object-cover w-full h-full rounded-[12px]"
-                alt=""
-                style={{ zIndex: "-10" }}
-              /> 
-             
-              {/* <img
-                src={game.brand.image}
-                alt={game.brand.name}
-                className="h-[80px] extralg:h-[auto] pt-[20px] lg:pt-[0px]"
-              /> */}
-              <h3 className="text-lg font-bold"> {game.brand.name} </h3>  
-              <p className="lg:px-[8px] px-[11px] lg:pl-[16px] py-[3px] lg:py-[8px] lg:w-[126px] lg:h-[45px] offer-menu lg:text-[18px] font-medium rounded-[1000px]">
-               {filteredGames.length} Offers
-              </p>
-              
-            </div>
-          ))}
-        </div>
+    className={`grid gap-4 pt-[30px] grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4`}
+  >
+    {loading
+      ?  
+        Array.from({ length: itemsPerPage }).map((_, index) => (
+          <div
+            key={index}
+            className="relative   rounded-[12px] overflow-hidden extralg:w-[326px] extralg:h-[228px] h-[170px]   animate-pulse flex flex-col items-center justify-center cursor-pointer"
+          >
+            <div className="absolute inset-0 bg-grayShade rounded-[12px]"></div>
+          
+          </div>
+        ))
+      :  
+        currentItems.map((game, index) => (
+          <div
+            onClick={() => handleOfferByProduct(game)}
+            key={index}
+            className="relative text-white rounded-[12px] overflow-hidden extralg:w-[326px] extralg:h-[228px] h-[170px] game-card one flex flex-col items-center justify-center cursor-pointer"
+          >
+            <img
+              src={game.brand.image}
+              className="absolute inset-0 object-cover w-full h-full rounded-[12px]"
+              alt=""
+              style={{ zIndex: "-10" }}
+            />
+            <h3 className="text-lg font-bold"> {game.brand.name} </h3>
+            <p className="lg:px-[8px] px-[11px] lg:pl-[16px] py-[3px] lg:py-[8px] lg:w-[126px] lg:h-[45px] offer-menu lg:text-[18px] font-medium rounded-[1000px]">
+              {filteredGames.length} Offers
+            </p>
+          </div>
+        ))}
+  </div>
 
         <div className="flex justify-center items-center gap-4 mt-6">
           <button

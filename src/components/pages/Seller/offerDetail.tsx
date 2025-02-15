@@ -131,6 +131,24 @@ const OfferDetail: React.FC = () => {
         const response = await dispatch(CreateOfferWithProduct(formData));
         if (response.payload.success) {
           toast.success(response.payload.message);
+          setOffer({
+            productId: "",
+            title: "",
+            titleAr: "",
+            description: "",
+            descriptionAr: "",
+            unitPriceUSD: 0,
+            unitPriceSAR: 0,
+            minQty: 0,
+            apiQty: 0,
+            lowStockAlertQty: 1,
+            deliveryMethods: ["EMAIL"],
+            salesTerritory : {
+              settingsType : "GLOBAL",  
+              countries : []  
+          }
+          })
+         
         } else {
           toast.error(response.payload.message);
         }
