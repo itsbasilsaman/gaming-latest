@@ -1,7 +1,7 @@
 
 import { FC, memo, useEffect, useState } from "react";
 import HomeImg from "../../../assets/Images/homebg.png";
-import { Link } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../reduxKit/store";
 import { GetServiceAction } from "../../../reduxKit/actions/service/serviceAction";
@@ -79,7 +79,7 @@ export const Services: FC = memo(() => {
         {loading
           ? Array.from({ length: 12 }).map((_, index) => <SkeletonBox key={index} />) // Show skeletons when loading
           : services.map((item, index) => (
-              <Link to="/about" key={index} className="game-slider-box relative rounded-[16px]">
+              <div onClick={()=>{handleServiceNested(item)}} key={index} className="game-slider-box relative rounded-[16px]">
                 <div className="box-item flex flex-col justify-center items-center">
                   <div className="flex flex-col justify-center items-center px-[10px] cursor-pointer">
                     <img src={item.iconUrl} alt={item.name} className="box-image w-[110px]" style={{ borderRadius: `${item.rounded}` }} />
@@ -88,7 +88,7 @@ export const Services: FC = memo(() => {
                     </p>
                   </div>
                 </div>
-              </Link>
+              </div>
             ))}
 
       </div>

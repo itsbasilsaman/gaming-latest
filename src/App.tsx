@@ -24,28 +24,21 @@ import Swal from "sweetalert2";
 const WelcomePage = lazy(() => import("./components/pages/welcome"));
 const UserLogin = lazy(() => import("./components/forms/user/userLogin"));
 const UserRegister = lazy(() => import("./components/forms/user/userSignup"));
-const PasswordChange = lazy(
-  () => import("./components/forms/user/changePassword")
-);
+const PasswordChange = lazy(() => import("./components/forms/user/changePassword"));
 const Category = lazy(() => import("./components/pages/category"));
 const ChatComponent = lazy(() => import("./components/pages/user/chat"));
 const About = lazy(() => import("./components/pages/about"));
 
 const Profile = lazy(() => import("./components/forms/user/userProfile"));
-const EmailVerification = lazy(
-  () => import("./components/forms/user/emailVerification")
-);
+const EmailVerification = lazy(() => import("./components/forms/user/emailVerification"));
 const TopUp = lazy(() => import("./components/pages/Topup/TopUp"));
 const SellerPage = lazy(() => import("./components/pages/Seller/sellerPage"));
-const SellerVerificationPending = lazy(
-  () => import("./sellerVerificationPendingPage")
-);
+const SellerVerificationPending = lazy( () => import("./sellerVerificationPendingPage"));
 
 export const App: React.FC = React.memo(() => {
   const dispatch = useDispatch<AppDispatch>();
   const [verificationStatus, setVerificationStatus] = useState("");
   const [userSellerProfile, setUserSellerProfile] = useState<any>(null);
-
   const navigate = useNavigate();
   const { isLoggedUser, isLoggedUserWithSeller } = useSelector(  (state: RootState) => state.logAuth
   );
@@ -192,7 +185,7 @@ export const App: React.FC = React.memo(() => {
           />
 
           {/* ERROR HANDLING */}
-          <Route path="/404" element={<NotFound404 />} />
+          <Route path="/*" element={<NotFound404 />} />
           <Route path="/401" element={<NotFound401 />} />
 
           {/* Dummy Routes */}
