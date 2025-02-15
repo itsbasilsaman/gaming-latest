@@ -40,7 +40,7 @@ const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, i
           const response = await dispatch(GetOffersByBrand(productId))
           const data = response.payload as { data: { data: any } };
             console.log("response of the GetOffersByBrand ", data.data.data.data);
-            setOffers(data.data.data.data)
+            setOffers(data.data.data.data.offers)
         }
       } catch (error:any) {
         Swal.fire({

@@ -25,7 +25,7 @@ export const GetOffersByBrand = createAsyncThunk(
     "user/GetOffersByBrand",
     async (productId:string, { rejectWithValue }) => {
       try {
-        const response = await axiosIn.get(`/user/offer-listing/products/offers?productId=${productId}`,configWithToken());
+        const response = await axiosIn.get(`/user/offer-listing/products/offers?productId=${productId}&deliveryTypes=EMAIL`,configWithToken());
 
         return response; 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

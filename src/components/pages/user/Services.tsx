@@ -53,16 +53,17 @@ export const Services: FC = memo(() => {
  
   return (
     <>
-      <main className="w-full h-auto home text-white -z-10 md:px-[80px] px-[20px] dlg:pt-[100px] lg:pt-[130px] relative">
-        <section className="lg:items-start md:items-center lg:pl-[18px] mt-[170px] lg:mt-[30px] md:flex flex-col justify-center">
+      <main dir={userLanguage==="Arabic"?"rtl" :"ltr"} className="w-full h-auto home text-white -z-10 md:px-[80px] px-[20px] dlg:pt-[100px] lg:pt-[130px] relative">
+        <section  className="lg:items-start md:items-center lg:pl-[18px] mt-[170px] lg:mt-[30px] md:flex flex-col justify-center">
           <h1
+          
             className="text-[28px] md:text-center lg:text-left mediumlg:text-[54px] font-bold w-[100%] leading-[33px] mediumlg:leading-[58px] mb-[5px] lg:mb-[0px]"
             style={{ fontFamily: "Unbounded" }}
           >
-            Your One-Stop Shop for Gaming Goodies!
+           {userLanguage ==="Arabic" ?"وجهتك الشاملة لكل ما يخص عالم الألعاب!":"Your One-Stop Shop for Gaming Goodies!"}
           </h1>
           <p className="lg:w-[520px] md:w-[460px] lg:text-[18px]">
-            Buy and sell gaming products securely—gift cards, game coins, accounts, and more. Trusted by millions of gamers worldwide.
+           {userLanguage ==="Arabic" ?"اشترِ وبِع منتجات الألعاب بأمان – بطاقات الهدايا، عملات الألعاب، الحسابات، والمزيد. موثوق به من قبل ملايين اللاعبين حول العالم.":"Buy and sell gaming products securely--gift cards game coins, accounts and more Trusted by millions of gamers worldwide"}
           </p>
         </section>
         <section className="lg:relative">
@@ -70,7 +71,7 @@ export const Services: FC = memo(() => {
         </section>
       </main>
 
-      <div className="game-slider-home-responsive md:h-[168px] h-[155px] w-[100%] lg:w-auto lg:rounded-[28px] lg:mx-[80px]">
+      <div dir={userLanguage==="Arabic"?"rtl" :"ltr"} className="game-slider-home-responsive md:h-[168px] h-[155px] w-[100%] lg:w-auto lg:rounded-[28px] lg:mx-[80px]">
 
         {loading
           ? Array.from({ length: 12 }).map((_, index) => <SkeletonBox key={index} />) // Show skeletons when loading

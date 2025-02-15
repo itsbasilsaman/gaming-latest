@@ -4,6 +4,7 @@ interface Seller {
     userName: string;
     firstName: string;
     lastName: string;
+    profileImage:string
   }
   
   interface Service {

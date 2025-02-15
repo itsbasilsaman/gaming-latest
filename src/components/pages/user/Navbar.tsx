@@ -16,6 +16,8 @@ import { useDispatch } from 'react-redux';
 import { GetServiceAction } from '../../../reduxKit/actions/service/serviceAction';
 import { userLanguageChange } from '../../../reduxKit/actions/user/userLanguage';
 import { userCurrencyChange } from '../../../reduxKit/actions/user/userCurrency';
+import { getUserProfile } from '../../../reduxKit/actions/user/userProfile';
+import { userLoggedWithSellerAction } from '../../../reduxKit/actions/auth/user-seller-main-auth';
 
 
 interface Items {
@@ -29,7 +31,6 @@ interface Items {
 export const Navbar: React.FC = React.memo(() => {
   const [service, setService] = useState<Items[]>([])
   const [loading , setLoading] = useState(true)
-  const [scrollY, setScrollY] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedLanguage, setSelectedItem] = useState<string>("English");
   const [selectedBoxItem, setSelectedBoxItem] = useState<string>("");
@@ -46,6 +47,32 @@ export const Navbar: React.FC = React.memo(() => {
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
 
+
+
+  useEffect(()=>{
+    const getProfile=async ()=>{
+      try {
+        const AccessToken=localStorage.getItem("accessToken")
+        if(AccessToken){
+          const response=await dispatch(getUserProfile()) 
+           if (getUserProfile.fulfilled.match(response)) {
+                      const { data } = response.payload;
+                      if(data.data.sellerProfile.verificationStatus==="APPROVED"){
+ await dispatch(userLoggedWithSellerAction())
+                      }
+                      
+           }
+          
+        }
+
+      } catch (error) {
+        console.log("nav profile",error);
+        
+      }
+
+    }
+    getProfile()
+  },[dispatch])
 
   const items: string[] = ["English", "Arabic"];
 
@@ -127,18 +154,7 @@ export const Navbar: React.FC = React.memo(() => {
     }
   }
 
-  useEffect(() => {
-    const handleScroll = (): void => {
-      setScrollY(window.scrollY);
-    };
 
-    window.addEventListener('scroll', handleScroll);
-
-    // Clean up the event listener when the component unmounts
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
 
   useEffect(() => {
     if (isPanelOpen) {
