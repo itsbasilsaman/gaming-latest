@@ -34,9 +34,7 @@ const navigate= useNavigate()
       setInputType(null);
     }
   };
-
-  
-
+ 
   const handleCountryCodeChange = (code: string) => {
     setCountryCode(code);
   };
@@ -147,43 +145,43 @@ const navigate= useNavigate()
                     </select>
                   )}
                   <input
-  type="text"
-  value={inputValue}
-  onChange={(e) => handleInputChange(e.target.value)}
-  onKeyDown={(e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();  
-      handleSubmit(e);  
-    }
-  }}
-  placeholder={inputType === "phone" ? "Enter phone number " : "Enter email address"}
-  className="w-full px-3 py-3 text-lg rounded-[6px]"
-/>
-                </div>
-                {errors.input && (
-                  <div className="text-red-400 text-sm mt-1">{errors.input}</div>
-                )}
-              </div>
+                    type="text"
+                    value={inputValue}
+                    onChange={(e) => handleInputChange(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();  
+                        handleSubmit(e);  
+                      }
+                    }}
+                    placeholder={inputType === "phone" ? "Enter phone number " : "Enter email address"}
+                    className="w-full px-3 py-3 text-lg rounded-[6px]"
+          />
+                          </div>
+                          {errors.input && (
+                            <div className="text-red-400 text-sm mt-1">{errors.input}</div>
+                          )}
+                        </div>
 
-              <div className="text-center mt-4">
-  <div className="flex flex-col sm:flex-row gap-2">
-    <Link to={'/'} className="w-full order-2 sm:order-1">
-      <button
-        className="w-full px-6 py-3 border border-gray-300 rounded-[6px] font-semibold transform transition"
-        style={{ fontFamily: "Unbounded" }}
-      >
-        Later
-      </button>
-    </Link>
-    <button
-      type="submit"
-      className="w-full px-6 py-3 rounded-[6px] primary-background text-white font-semibold transform transition order-1 sm:order-2"
-      style={{ fontFamily: "Unbounded" }}
-    >
-      {loading ? "Sending OTP..." : "Login"}
-    </button>
-  </div>
-</div>
+                        <div className="text-center mt-4">
+            <div className="flex flex-col sm:flex-row gap-2">
+              <Link to={'/'} className="w-full order-2 sm:order-1">
+                <button
+                  className="w-full px-6 py-3 border border-gray-300 rounded-[6px] font-semibold transform transition"
+                  style={{ fontFamily: "Unbounded" }}
+                >
+                  Later
+                </button>
+              </Link>
+              <button
+                type="submit"
+                className="w-full px-6 py-3 rounded-[6px] primary-background text-white font-semibold transform transition order-1 sm:order-2"
+                style={{ fontFamily: "Unbounded" }}
+              >
+                {loading ? "Sending OTP..." : "Login"}
+              </button>
+            </div>
+          </div>
             </form>
           </div>
         </div>
