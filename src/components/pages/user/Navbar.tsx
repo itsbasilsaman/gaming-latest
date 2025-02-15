@@ -27,12 +27,18 @@ interface Items {
 }
  
 export const Navbar: React.FC = React.memo(() => {
+
+  const {userCurrency}=useSelector((state:RootState)=>state.userCurrency)
+  const {userLanguage}=useSelector((state:RootState)=>state.userLanguage)
+
   const [service, setService] = useState<Items[]>([])
   const [loading , setLoading] = useState(true)
   const [scrollY, setScrollY] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [selectedLanguage, setSelectedItem] = useState<string>("English");
-  const [selectedBoxItem, setSelectedBoxItem] = useState<string>("");
+  const [selectedLanguage, setSelectedItem] = useState<string>(userLanguage || "English");
+  const [selectedBoxItem, setSelectedBoxItem] = useState<string>(
+    userCurrency === 'USD' ? 'United States Dollar (USD)' : 'Saudi Riyal (SAR)'
+  );
   const [showWarning, setShowWarning] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
@@ -41,8 +47,7 @@ export const Navbar: React.FC = React.memo(() => {
   const [isPanelOpen, setIsPanelOpen] = useState<boolean>(false);
   const [isLocalizationOpen, setIsLocalizationOpen] = useState<boolean>(false);
   const { isLoggedUserWithSeller, isLoggedUser } = useSelector((state: RootState) => state.logAuth);
-  // const {userCurrency}=useSelector((state:RootState)=>state.userCurrency)
-  // const {userLanguage}=useSelector((state:RootState)=>state.userLanguage)
+
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
 
@@ -63,7 +68,14 @@ export const Navbar: React.FC = React.memo(() => {
     };
   }, []);
 
-  const toggleModal = (): void => setIsModalOpen(!isModalOpen);
+  const toggleModal = (): void => {
+    if (!isModalOpen) {
+      // Set initial values when modal opens
+      setSelectedItem(userLanguage || "English");
+      setSelectedBoxItem(userCurrency === 'USD' ? 'United States Dollar (USD)' : 'Saudi Riyal (SAR)');
+    }
+    setIsModalOpen(!isModalOpen);
+  };
   const toggleDropdown = (): void => {
     if (!dropdownOpen) {
       setDropdownOpen(true);
@@ -149,6 +161,8 @@ export const Navbar: React.FC = React.memo(() => {
   }, [isPanelOpen]);
 
 
+  
+
   useEffect(() => {
     const getServices = async () => {
       try {
@@ -188,7 +202,7 @@ export const Navbar: React.FC = React.memo(() => {
                   dropdownOpen ? "opacity-100 scale-100" : "opacity-0 scale-90"
                 }`}
               >
-                {showCategories ? (
+                {showCategories && (
                   <div>
                     <h3 className="text-lg font-semibold mb-4">Search in service</h3>
                     <div className="grid grid-cols-4 gap-4">
@@ -200,24 +214,26 @@ export const Navbar: React.FC = React.memo(() => {
                       ))}
                     </div>
                   </div>
-                ) : (
-                  <div>
-                    <h3 className="text-lg font-semibold mb-4">Popular searches</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {["vandal", "free fire id", "skins", "sell", "pc"].map(
-                        (item, index) => (
-                          <span
-                            key={index}
+                )
+                //  : (
+                //   <div>
+                //     <h3 className="text-lg font-semibold mb-4">Popular searches</h3>
+                //     <div className="flex flex-wrap gap-2">
+                //       {["vandal", "free fire id", "skins", "sell", "pc"].map(
+                //         (item, index) => (
+                //           <span
+                //             key={index}
                           
-                            className="px-4 py-2 bg-gray-200 rounded-[16px] cursor-pointer game-offer-button"
-                          >
-                            {item}
-                          </span>
-                        )
-                      )}
-                    </div>
-                  </div>
-                )}
+                //             className="px-4 py-2 bg-gray-200 rounded-[16px] cursor-pointer game-offer-button"
+                //           >
+                //             {item}
+                //           </span>
+                //         )
+                //       )}
+                //     </div>
+                //   </div>
+                // )
+                }
               </div>
             )}
           </div>
