@@ -19,7 +19,7 @@ import SellerRegistrationForm from "./components/seller/forms/SellerRegistration
 import LanguageSection from "./components/Header/LanguageSection";
 import AddNewOfferSection from "./components/pages/Seller/AddNewOfferSection";
 import OfferDetailPage from "./components/pages/Seller/offerDetailComponent.tsx";
- 
+
 
 const WelcomePage = lazy(() => import("./components/pages/welcome"));
 const UserLogin = lazy(() => import("./components/forms/user/userLogin"));
@@ -48,10 +48,9 @@ export const App: React.FC = React.memo(() => {
     const fetchProfile = async () => {
       try {
         const resultAction = await dispatch(getUserProfile());
-        console.log("<>,><>",resultAction.payload);
-     
-        
-        
+
+        console.log("<>,><>",resultAction.payload); 
+
         if (getUserProfile.fulfilled.match(resultAction)) {
           const { data, status } = resultAction.payload;
           if (status === 200 ) {
