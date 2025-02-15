@@ -12,7 +12,9 @@ import { useDispatch } from "react-redux";
 import { GetOffersDetail } from "../../../reduxKit/actions/user/userOfferListing";
 import { AppDispatch } from "../../../reduxKit/store";
 interface OfferDetailsProps {
+
   offerId?: string | undefined;
+
 }
 
 const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
