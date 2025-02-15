@@ -11,8 +11,6 @@ import { useDispatch } from 'react-redux';
 
 import { GetOffersDetail } from '../../../reduxKit/actions/user/userOfferListing';
 import { AppDispatch } from '../../../reduxKit/store';
-
-
 interface OfferDetailsProps {
   offerId?:string|undefined
 }
@@ -35,7 +33,10 @@ const CategorySectionOne: React.FC<OfferDetailsProps>  = React.memo(({offerId}) 
         console.log("hte response of the data ", response.payload);
         if(response.payload.success===true){
           await setOfferDetails(response.payload.data)
-          await setTotalAmount(offerDetail?.unitPriceSAR)
+          if(offerDetail?.unitPriceSAR){
+            await setTotalAmount(offerDetail?.unitPriceSAR)
+
+          }
         }
       } catch (error) {
           console.log(error);   
@@ -84,7 +85,7 @@ console.log("my last offer details : ",offerDetail);
                    <img src={Vector} alt="" style={{objectFit:'contain'}} className='w-[45px] lg:w-auto' />
                </div>
       <section className='w-[100%] h-auto category-section lg:gap-[25px] md:px-[80px] px-[20px] '  >
-          <div className='category-section-one rounded-[16px] lg:px-[34px] px-[16px] py-[36px] w-full my-[15px] lg:my-[0px]'>
+          <div   className='category-section-one rounded-[16px] lg:px-[34px] px-[16px] py-[36px] w-full my-[15px] lg:my-[0px]'>
               <h1 className='lg:text-[20px] text-[18px] font-bold'>Product Info </h1>
               <div className='line pt-[29px]  '></div>
               <div className='w-full outline-section py-[20px]'>

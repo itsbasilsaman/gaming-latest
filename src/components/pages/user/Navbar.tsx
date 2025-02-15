@@ -114,7 +114,7 @@ console.log("Navbar things : isLoggedUser:",isLoggedUser,"isLoggedWithSeller : "
               />
             </div>
 
-            {/* {dropdownOpen && (
+            {dropdownOpen && (
               <div
                 className={`absolute top-[77px] left-0 right-0 bg-white text-black header-dropdown shadow-lg rounded-lg p-4 z-10 transition-transform duration-300 ease-in-out ${
                   dropdownOpen ? "opacity-100 scale-100" : "opacity-0 scale-90"
@@ -163,7 +163,7 @@ console.log("Navbar things : isLoggedUser:",isLoggedUser,"isLoggedWithSeller : "
                   </div>
                 )}
               </div>
-            )} */}
+            )}
           </div>
         </div>
 
