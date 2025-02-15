@@ -2,9 +2,10 @@ import { FC, memo, useEffect, useState } from "react";
 import HomeImg from "../../../assets/Images/homebg.png";
 import {  useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../reduxKit/store";
+import { AppDispatch, RootState } from "../../../reduxKit/store";
 import { GetServiceAction } from "../../../reduxKit/actions/service/serviceAction";
 import SkeletonBox from "./SkeltonBox";  
+import { useSelector } from "react-redux";
 
 
 interface BoxItem {
@@ -17,6 +18,7 @@ interface BoxItem {
 
 export const Services: FC = memo(() => {
   const dispatch = useDispatch<AppDispatch>();
+  const {userLanguage}=useSelector((state:RootState)=>state.userLanguage)
   const navigate = useNavigate()
   const [services, setServices] = useState<BoxItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -78,8 +80,8 @@ export const Services: FC = memo(() => {
                   <div className="flex flex-col justify-center items-center px-[10px] cursor-pointer">
                     <img src={item.iconUrl} alt={item.name} className="box-image w-[110px]" style={{ borderRadius: `${item.rounded}` }} />
                     <p className="box-name text-white flex-1 text-center dlg:text-[16px] lg:text-[15px] absolute bottom-2 lg:bottom-4">
-                    {/* {userLanguage ==="Arabic" ? item.nameAr:item.name} */}
-                    {item.name}
+                    {userLanguage ==="Arabic" ? item.nameAr:item.name}
+                    {/* {item.name} */}
                     </p>
                   </div>
                 </div>

@@ -39,54 +39,68 @@ export const App: React.FC = React.memo(() => {
   const dispatch = useDispatch<AppDispatch>();
   const [verificationStatus, setVerificationStatus] = useState("");
   const [userSellerProfile, setUserSellerProfile] = useState<any>(null);
+
   const navigate = useNavigate();
-  const { isLoggedUser, isLoggedUserWithSeller } = useSelector(  (state: RootState) => state.logAuth
-  );
+  const { isLoggedUser, isLoggedUserWithSeller } = useSelector(  (state: RootState) => state.logAuth);
+  const { userCurrency } = useSelector(  (state: RootState) => state.userCurrency);
+  const { userLanguage } = useSelector(  (state: RootState) => state.userLanguage);
   const [formData, setProfiles] = useState<any>(null);
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const resultAction = await dispatch(getUserProfile());
 
-        console.log("<>,><>",resultAction.payload); 
+  useEffect(()=>{
 
-        if (getUserProfile.fulfilled.match(resultAction)) {
-          const { data, status } = resultAction.payload;
-          if (status === 200 ) {
-            await dispatch(userLoggedAction());
-            await setProfiles(data);
-            if (data.data.sellerProfile === null) {
-              setUserSellerProfile(null);
-            } else {
-              setVerificationStatus(data.data.sellerProfile.verificationStatus);
-            }
+    console.log("The current UserLanguage ",userLanguage," Current Currency : ",userCurrency);
+    console.log("The current isLoggedUser ",isLoggedUser," Current isLoggedUserWithSeller : ",isLoggedUserWithSeller);
 
-            if (
-              formData?.data?.sellerProfile?.verificationStatus === "APPROVED"
-            ) {
-              await dispatch(userLoggedWithSellerAction());
-            }
-          }
-        } else {
-          const response = await dispatch(getATKWithRTKUser());
-          if (getATKWithRTKUser.fulfilled.match(response)) {
-            console.log("Access token refreshed.");
-            const retryProfile = await dispatch(getUserProfile());
-            if (getUserProfile.fulfilled.match(retryProfile)) {
-              setProfiles(retryProfile.payload.data);
+    },[userCurrency,userLanguage])
+
+
+    useEffect(() => {
+      const fetchProfile = async () => {
+        try {
+          const resultAction = await dispatch(getUserProfile());
+  
+          console.log("<>,><>",resultAction.payload); 
+  
+          if (getUserProfile.fulfilled.match(resultAction)) {
+            const { data, status } = resultAction.payload;
+            if (status === 200 ) {
+              await dispatch(userLoggedAction());
+              await setProfiles(data);
+              if (data.data.sellerProfile === null) {
+                setUserSellerProfile(null);
+              } else {
+                setVerificationStatus(data.data.sellerProfile.verificationStatus);
+              }
+  
+              if (
+                formData?.data?.sellerProfile?.verificationStatus === "APPROVED"
+              ) {
+                await dispatch(userLoggedWithSellerAction());
+              }
             }
           } else {
-            console.log("Token refresh failed. Redirecting to login.");
-            navigate("/");
+            const response = await dispatch(getATKWithRTKUser());
+            if (getATKWithRTKUser.fulfilled.match(response)) {
+              console.log("Access token refreshed.");
+              const retryProfile = await dispatch(getUserProfile());
+              if (getUserProfile.fulfilled.match(retryProfile)) {
+                setProfiles(retryProfile.payload.data);
+              }
+            } else {
+              console.log("Token refresh failed. Redirecting to login.");
+              navigate("/");
+            }
           }
+        } catch (error) {
+          console.error("Error fetching profile:", error);
         }
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      }
-    };
-    fetchProfile();
-  }, [dispatch, navigate]);
+      };
+      fetchProfile();
+    }, [dispatch, navigate,isLoggedUser]);
+  
+
+ 
 
   if (formData) {
     console.log(
@@ -96,6 +110,7 @@ export const App: React.FC = React.memo(() => {
       verificationStatus,"maanasam",userSellerProfile
     );
   }
+
 
   return (
     <Fragment>

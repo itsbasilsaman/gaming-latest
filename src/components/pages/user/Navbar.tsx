@@ -14,6 +14,8 @@ import { useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../reduxKit/store';
 import { useDispatch } from 'react-redux';
 import { GetServiceAction } from '../../../reduxKit/actions/service/serviceAction';
+import { userLanguageChange } from '../../../reduxKit/actions/user/userLanguage';
+import { userCurrencyChange } from '../../../reduxKit/actions/user/userCurrency';
 
 
 interface Items {
@@ -29,7 +31,7 @@ export const Navbar: React.FC = React.memo(() => {
   const [loading , setLoading] = useState(true)
   const [scrollY, setScrollY] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<string>("English");
+  const [selectedLanguage, setSelectedItem] = useState<string>("English");
   const [selectedBoxItem, setSelectedBoxItem] = useState<string>("");
   const [showWarning, setShowWarning] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -39,8 +41,8 @@ export const Navbar: React.FC = React.memo(() => {
   const [isPanelOpen, setIsPanelOpen] = useState<boolean>(false);
   const [isLocalizationOpen, setIsLocalizationOpen] = useState<boolean>(false);
   const { isLoggedUserWithSeller, isLoggedUser } = useSelector((state: RootState) => state.logAuth);
-
-
+  // const {userCurrency}=useSelector((state:RootState)=>state.userCurrency)
+  // const {userLanguage}=useSelector((state:RootState)=>state.userLanguage)
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
 
@@ -92,24 +94,22 @@ export const Navbar: React.FC = React.memo(() => {
     setSelectedItem(event.target.value);
   };
 
-  const handleSave = () => {
+  const handleSave = async() => {
     if (!selectedBoxItem) {
       setShowWarning(true); // Show warning if no currency is selected
       return;
     }
-
     setIsLoading(true); // Show loader
-
     // Extract the currency code from the selected option
     const currencyCode = selectedBoxItem === 'United States Dollar (USD)' ? 'USD' : 'SAR';
-
     // Simulate an async operation (e.g., API call) with a delay
-    setTimeout(() => {
-      console.log('Selected Language:', selectedItem);
+      console.log('Selected Language:', selectedLanguage);
       console.log('Selected Currency Code:', currencyCode); // Log the currency code
+      await dispatch(userLanguageChange(selectedLanguage))
+      await dispatch(userCurrencyChange(currencyCode))
       setIsLoading(false);
       toggleModal(); // Close modal after saving
-    }, 2000); // 2-second delay for the loader
+  // 2-second delay for the loader
   };
 
   
@@ -292,7 +292,7 @@ export const Navbar: React.FC = React.memo(() => {
                       type="radio"
                       name="items"
                       value={item}
-                      checked={selectedItem === item}
+                      checked={selectedLanguage === item}
                       onChange={handleChange}
                       style={{ width: "20px", height: "20px", accentColor: "blue" }}
                     />
@@ -308,7 +308,7 @@ export const Navbar: React.FC = React.memo(() => {
               <select id="items" value={selectedBoxItem} onChange={handleSelectChange} className='text-white py-[4px] px-[8px] rounded-[6px] country-button'>
                 <option value="">Select Currency</option>
                 <option value="United States Dollar (USD)">United States Dollar (USD)</option>
-                <option value="Saudi Riyal (INR)">Saudi Riyal (INR)</option>
+                <option value="Saudi Riyal (SAR)">Saudi Riyal (SAR)</option>
               </select>
               {showWarning && <p className='text-red-500 text-sm mt-1'>Please select a currency.</p>}
             </div>
@@ -384,7 +384,7 @@ export const Navbar: React.FC = React.memo(() => {
                       type="radio"
                       name="items"
                       value={item}
-                      checked={selectedItem === item}
+                      checked={selectedLanguage === item}
                       onChange={handleChange}
                       style={{ width: "20px", height: "20px", accentColor: "blue" }}
                     />
