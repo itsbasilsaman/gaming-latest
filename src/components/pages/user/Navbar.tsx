@@ -71,6 +71,10 @@ export const Navbar: React.FC = React.memo(() => {
     }
   };
 
+
+  console.log(loading);
+  
+
   const togglePanel = (): void => {
     setIsPanelOpen(!isPanelOpen);
   };

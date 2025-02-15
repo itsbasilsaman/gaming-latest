@@ -68,6 +68,7 @@ const EmailVerification: React.FC = () => {
     const newOtp = pasteData.split("").concat(otp.slice(pasteData.length));
     setOtp(newOtp.slice(0, otp.length));
 
+    
     // Automatically focus on the last filled input
     const lastFilledIndex = pasteData.length - 1;
     const nextInput = document.getElementById(
