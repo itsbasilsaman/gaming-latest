@@ -14,7 +14,7 @@ export const store = configureStore({
     reducer:{
         auth:authSlice.reducer,
         userLanguage:userLanguageSlice.reducer,
-        userCurrencyS:userCurrencySlice.reducer,
+        userCurrency:userCurrencySlice.reducer,
         seller:SellerSlice.reducer,
         logAuth:logAuthSlice.reducer,
         profile:ProfileSlice.reducer,
