@@ -26,7 +26,7 @@ export const Services: FC = memo(() => {
   const handleServiceNested=async(item:BoxItem)=>{
     try {
       if (item.id) {
-        navigate(`/user/topup?serviceId=${item.id}&name=${item.name}&nameAr=${item.nameAr}&iconUrl=${item.iconUrl}`)
+        navigate(`/user/offer-list?serviceId=${item.id}&name=${item.name}&nameAr=${item.nameAr}&iconUrl=${item.iconUrl}`)
       }
     } catch (error) {
         console.log(error);

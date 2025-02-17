@@ -82,7 +82,7 @@ const CategorySectionTwo: React.FC = React.memo(() => {
                     <p>Level 12</p>
                    </div>
                 </div>
-    </div>
+                   </div>
    
   </div>
   );

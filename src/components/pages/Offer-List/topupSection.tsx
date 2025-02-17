@@ -39,7 +39,7 @@ const TopUpSection: React.FC = () => {
   const [filteredGames, setFilteredGames] = useState<GameBrands[]>([]);
   const [itemsPerPage, setItemsPerPage] = useState(ITEMS_PER_PAGE_BIG_SCREEN);
   const [loading, setLoading] = useState(true); // Add loading state
-  const navigate=useNavigate()
+  const navigate = useNavigate()
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     const handleResize = () => {
@@ -160,7 +160,7 @@ console.log("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
             <div className="relative extralg:w-[912px] lg:w-[492px] h-[48px] w-[100%]">
               <input
                 type="text"
-                className="extralg:w-[912px] lg:w-[492px] h-[48px] about-inputbox rounded-[1000px] w-[100%]"
+                className="extralg:w-[912px] lg:w-[492px] h-[48px] about-inputbox rounded-[1000px] w-[100%] text-white"
                 placeholder="Search for"
               />
               <IoSearchSharp className="absolute right-[14px] text-[22px] top-[13px] text-white" />
@@ -202,10 +202,10 @@ console.log("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
               alt=""
               style={{ zIndex: "-10" }}
             />
-            <h3 className="text-lg font-bold"> {game.brand.name} </h3>
-            <p className="lg:px-[8px] px-[11px] lg:pl-[16px] py-[3px] lg:py-[8px] lg:w-[126px] lg:h-[45px] offer-menu lg:text-[18px] font-medium rounded-[1000px]">
+            {/* <h3 className="text-lg font-bold"> {game.brand.name} </h3> */}
+           { filteredGames.length > 0 && (<p className="lg:px-[8px] px-[11px] lg:pl-[16px] py-[3px] lg:py-[8px] lg:w-[126px] lg:h-[45px] offer-menu lg:text-[18px] font-medium rounded-[1000px]">
               {filteredGames.length} Offers
-            </p>
+            </p>)}
           </div>
         ))}
   </div>

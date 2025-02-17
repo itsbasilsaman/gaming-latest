@@ -31,7 +31,7 @@ const About = lazy(() => import("./components/pages/about"));
 
 const Profile = lazy(() => import("./components/forms/user/userProfile"));
 const EmailVerification = lazy(() => import("./components/forms/user/emailVerification"));
-const TopUp = lazy(() => import("./components/pages/Topup/TopUp"));
+const TopUp = lazy(() => import("./components/pages/Offer-List/OfferList.tsx"));
 const SellerPage = lazy(() => import("./components/pages/Seller/sellerPage"));
 const SellerVerificationPending = lazy( () => import("./sellerVerificationPendingPage"));
 
@@ -139,7 +139,7 @@ export const App: React.FC = React.memo(() => {
             path="/user/emailVerification"
             element={isLoggedUser ? <Navigate to="/" /> : <EmailVerification />}
           />
-          <Route path="/user/topup" element={<TopUp />} />
+          <Route path="/user/offer-list" element={<TopUp />} />
           <Route
             path="/user/seller"
             element={ verificationStatus === "PENDING" && isLoggedUser ? ( <SellerVerificationPending />  ) :
