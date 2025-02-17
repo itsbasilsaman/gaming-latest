@@ -150,6 +150,8 @@ const EmailVerification: React.FC = () => {
         <div className="background-one relative inset-0 flex justify-center items-start pt-[60px]">
  
 
+ 
+
         </div>
         <div className="background-two bg-white"></div>
       </div>
