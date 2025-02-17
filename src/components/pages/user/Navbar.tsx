@@ -63,7 +63,7 @@ export const Navbar: React.FC = React.memo(() => {
            if (getUserProfile.fulfilled.match(response)) {
                       const { data } = response.payload;
                       if(data.data.sellerProfile.verificationStatus==="APPROVED"){
- await dispatch(userLoggedWithSellerAction())
+                          await dispatch(userLoggedWithSellerAction())
                       }
                       
            }
@@ -126,7 +126,7 @@ export const Navbar: React.FC = React.memo(() => {
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     setSelectedBoxItem(event.target.value);
-    setShowWarning(false); // Hide warning when user selects a currency
+    setShowWarning(false);  
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -135,7 +135,7 @@ export const Navbar: React.FC = React.memo(() => {
 
   const handleSave = async() => {
     if (!selectedBoxItem) {
-      setShowWarning(true); // Show warning if no currency is selected
+      setShowWarning(true);  
       return;
     }
     setIsLoading(true); // Show loader
@@ -159,7 +159,7 @@ export const Navbar: React.FC = React.memo(() => {
   const handleServiceNested = async(item:Items) => {
     try {
       if(item.id){
-        navigate(`/user/topup?serviceId=${item.id}&name=${item.name}&nameAr=${item.nameAr}&iconUrl=${item.iconUrl}`)
+        navigate(`/user/offer-list?serviceId=${item.id}&name=${item.name}&nameAr=${item.nameAr}&iconUrl=${item.iconUrl}`)
       }
     } catch (error) {
         console.error(error);
