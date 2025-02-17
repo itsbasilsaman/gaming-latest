@@ -182,7 +182,7 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
                 <img
                   src={offerDetail?.seller.profileImage}
                   alt=""
-                  className="lg:w-[70px] rounded-full border   "
+                  className="lg:w-[65px] lg:h-[65px]  rounded-full border   "
                 />
                 <div>
                   <p className="lg:text-[18px] underline">
@@ -194,9 +194,9 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
               <img src={Vector} alt="" style={{ objectFit: "contain" }} />
             </div>
             <div className=" justify-center flex  ">
-              <div className=" items-center lg:text-[18px] flex justify-between  lg:py-[12px] h-10  rounded-lg w-full ">
-                <h2>Minimum PQT : {offerDetail?.minQty} </h2>
-                <h2>Available : {offerDetail?.apiQty} </h2>
+              <div className=" items-center lg:text-[18px] flex    lg:py-[12px] h-10  rounded-lg w-full ">
+               
+                <h2>Available  {offerDetail?.apiQty} </h2>
               </div>
             </div>
             <h1 className="lg:text-[18px] lg:py-[20px] font-semibold">
