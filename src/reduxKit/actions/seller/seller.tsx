@@ -8,7 +8,6 @@ import { SellerDetails } from "../../../interfaces/user/seller";
     export const SellerRegistrationAction= createAsyncThunk( "user/SignupUser",
       async (userCredentials:SellerDetails,{rejectWithValue})=>{
           try {
-    
               const  response = await axiosIn.post(`/seller/registeration`,userCredentials, configWithToken() );
               console.log("the filled data of the seller {}{}[}{}", response );
               return response.data;

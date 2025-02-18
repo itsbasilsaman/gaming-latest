@@ -172,7 +172,10 @@ export const authSlice = createSlice({
         state.isLogged = false;
         state.error = null;
         state.userData = null;
-     
+        state.accessToken=null;
+        state.refreshToken=null
+        localStorage.clear()
+        console.log("The user Logouted Successfull ");
       })
       .addCase(userLogout.rejected, (state, { payload }) => {
         state.loading = false;
