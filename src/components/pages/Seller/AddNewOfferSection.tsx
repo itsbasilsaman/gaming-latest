@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useRef } from "react";
 import { GrWaypoint } from "react-icons/gr";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
@@ -6,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../reduxKit/store";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners"; // Import a loading spinner
 
 interface Subservice {
   id: string;
@@ -24,6 +26,7 @@ interface Service {
 }
 
 const AddNewOfferSection = () => {
+
   const [SelectedServiceId, setSelectedServiceId] = useState("");
   const [SelectedSubServiceId, setSelectedSubServiceId] = useState("");
   const [SelectedSubServiceName, setSelectedSubServiceName] = useState("");
@@ -34,6 +37,7 @@ const AddNewOfferSection = () => {
   const [FetchedService, setFetchedServices] = useState<Service[]>([]);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [brands, setBrands] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
   const subServiceRef = useRef<HTMLDivElement>(null);
   const brandRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch<AppDispatch>();
@@ -41,11 +45,14 @@ const AddNewOfferSection = () => {
 
   useEffect(() => {
     const getServiceWithSubservices = async () => {
+      setIsLoading(true); // Set loading to true before fetching data
       try {
         const response = await dispatch(GetServicesWithSubservices());
         setFetchedServices(response.payload);
       } catch (error) {
         console.log("getservice with subservice error", error);
+      } finally {
+        setIsLoading(false); // Set loading to false after fetching data
       }
     };
     getServiceWithSubservices();
@@ -72,19 +79,17 @@ const AddNewOfferSection = () => {
     setSelectedService(service);
   
     if (service.subservices && service.subservices.length > 0) {
-      // If the service has subservices, show the subservice dropdown
       setSelectedSubServiceId("");
       setSelectedSubServiceName("");
       setSubServiceDropdownOpen(true);
-      setBrandDropdownOpen(false); // Ensure brand dropdown is closed
+      setBrandDropdownOpen(false);
     } else {
-      // If the service does not have subservices, fetch brands directly
       setSelectedSubServiceId("");
       setSubServiceDropdownOpen(false);
       try {
         const response = await dispatch(GetBrandsBySubServiceOrService(service.id));
         setBrands(response.payload);
-        setBrandDropdownOpen(true); // Show brand dropdown
+        setBrandDropdownOpen(true);
       } catch (error) {
         console.log("Error fetching brands:", error);
       }
@@ -96,7 +101,6 @@ const AddNewOfferSection = () => {
     setSelectedSubServiceName(subservice.name);
     setSubServiceDropdownOpen(false);
 
-    // Fetch brands for the selected subservice
     try {
 
       
@@ -160,7 +164,7 @@ const AddNewOfferSection = () => {
   };
 
   return (
-    <div className="py-20 px-4 sm:px-6 lg:px-24 w-full mx-auto flex flex-col lg:flex-row gap-6 bg-gray-100 h-auto pb-[300px] lato-font">
+    <div className="py-20 px-4 sm:px-6 lg:px-24 w-full mx-auto flex flex-col lg:flex-row gap-6 bg-gray-100 h-auto pb-[300px] lg:pb-[450px] lato-font">
       <div className="w-full lg:w-1/4 p-4 sm:px-6 order-1 lg:order-2">
         <ul className="text-xs sm:text-sm text-gray-700 space-y-3 flex flex-col gap-2">
           <li className="flex justify-center items-start gap-2">
@@ -188,20 +192,26 @@ const AddNewOfferSection = () => {
         <h3 className="text-lg sm:text-xl font-medium mb-2 lato-font">Type of service</h3>
         <p className="text-gray-600 mb-4 lato-font">Select a product or service you want to sell</p>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          {FetchedService?.map((service) => (
-            <div
-              key={service.id}
-              className={`flex flex-col items-center justify-center p-4 sm:p-6 border rounded-lg cursor-pointer transition duration-300 ${
-                selectedService?.id === service.id ? "bg-gray-200" : "hover:bg-gray-100"
-              }`}
-              onClick={() => handleServiceClick(service)}
-            >
-              <img src={service.iconUrl} alt="" className="w-[100px]" />
-              <span className="text-sm sm:text-base font-medium text-center">{service.name}</span>
-            </div>
-          ))}
-        </div>
+        {isLoading ? (  
+          <div className="flex justify-center items-center h-40">
+            <ClipLoader color="#101441" size={40} />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {FetchedService?.map((service) => (
+              <div
+                key={service.id}
+                className={`flex flex-col items-center justify-center p-4 sm:p-6 border rounded-lg cursor-pointer transition duration-300 ${
+                  selectedService?.id === service.id ? "bg-gray-200" : "hover:bg-gray-100"
+                }`}
+                onClick={() => handleServiceClick(service)}
+              >
+                <img src={service.iconUrl} alt="" className="w-[100px]" />
+                <span className="text-sm sm:text-base font-medium text-center">{service.name}</span>
+              </div>
+            ))}
+          </div>
+        )}
 
         <div className="mt-6 primary-background text-white p-3 sm:p-4 rounded-lg flex items-center">
           <span className="mr-2 p-1">⚠</span>
@@ -213,65 +223,64 @@ const AddNewOfferSection = () => {
         </div>
 
         {selectedService && selectedService.subservices && selectedService.subservices.length > 0 && (
-  <div className="mt-4">
-    <label className="block text-sm font-medium text-gray-700">Sub-services <span className="text-red-500">*</span></label>
-    <div className="relative mt-2" ref={subServiceRef}>
-      <button
-        className="w-full bg-white border p-3 text-left"
-        onClick={() => setSubServiceDropdownOpen(!subServiceDropdownOpen)}
-      >
-        {SelectedSubServiceName || "Select sub-services"}
-        <span className="absolute right-[12px] top-[16px]">{subServiceDropdownOpen ? <FaAngleUp /> : <FaAngleDown />}</span>
-      </button>
-      {subServiceDropdownOpen && (
-        <div className="absolute w-full bg-white border z-10">
-          {selectedService.subservices.map((sub, index) => (
-            <div
-              key={index}
-              className="p-2 hover:bg-gray-100 cursor-pointer"
-              onClick={() => handleSubServiceClick(sub)}
-            >
-              {sub.name}
+          <div className="mt-4">
+            <label className="block text-sm font-medium text-gray-700">Sub-services <span className="text-red-500">*</span></label>
+            <div className="relative mt-2" ref={subServiceRef}>
+              <button
+                className="w-full bg-white border p-3 text-left"
+                onClick={() => setSubServiceDropdownOpen(!subServiceDropdownOpen)}
+              >
+                {SelectedSubServiceName || "Select sub-services"}
+                <span className="absolute right-[12px] top-[16px]">{subServiceDropdownOpen ? <FaAngleUp /> : <FaAngleDown />}</span>
+              </button>
+              {subServiceDropdownOpen && (
+                <div className="absolute w-full bg-white border z-10">
+                  {selectedService.subservices.map((sub, index) => (
+                    <div
+                      key={index}
+                      className="p-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => handleSubServiceClick(sub)}
+                    >
+                      {sub.name}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-          ))}
-        </div>
-      )}
-    </div>
-  </div>
-)}
+          </div>
+        )}
 
-{/* Show brand dropdown if subservice is selected or if the service has no subservices */}
-{(SelectedSubServiceId || (selectedService && (!selectedService.subservices || selectedService.subservices.length === 0))) && (
-  <div className="mt-4">
-    <label className="block text-sm font-medium text-gray-700">Brands <span className="text-red-500">*</span></label>
-    <div className="relative mt-2" ref={brandRef}>
-      <button
-        className="w-full bg-white border p-3 text-left"
-        onClick={() => setBrandDropdownOpen(!brandDropdownOpen)}
-      >
-        {selectedBrandName || "Select brand"}
-        <span className="absolute right-[12px] top-[16px]">{brandDropdownOpen ? <FaAngleUp /> : <FaAngleDown />}</span>
-      </button>
-      {brandDropdownOpen && (
-        <div className="absolute w-full bg-white border z-10">
-          {brands.map((brand, index) => (
-            <div
-              key={index}
-              className="p-2 hover:bg-gray-100 cursor-pointer"
-              onClick={() => {
-                setSelectedBrandId(brand.id);
-                setBrandDropdownOpen(false);
-                setSelectedBrandName(brand.name);
-              }}
-            >
-              {brand.name}
+        {(SelectedSubServiceId || (selectedService && (!selectedService.subservices || selectedService.subservices.length === 0))) && (
+          <div className="mt-4">
+            <label className="block text-sm font-medium text-gray-700">Brands <span className="text-red-500">*</span></label>
+            <div className="relative mt-2" ref={brandRef}>
+              <button
+                className="w-full bg-white border p-3 text-left"
+                onClick={() => setBrandDropdownOpen(!brandDropdownOpen)}
+              >
+                {selectedBrandName || "Select brand"}
+                <span className="absolute right-[12px] top-[16px]">{brandDropdownOpen ? <FaAngleUp /> : <FaAngleDown />}</span>
+              </button>
+              {brandDropdownOpen && (
+                <div className="absolute w-full bg-white border z-10">
+                  {brands.map((brand, index) => (
+                    <div
+                      key={index}
+                      className="p-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => {
+                        setSelectedBrandId(brand.id);
+                        setBrandDropdownOpen(false);
+                        setSelectedBrandName(brand.name);
+                      }}
+                    >
+                      {brand.name}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-          ))}
-        </div>
-      )}
-    </div>
-  </div>
-)}
+          </div>
+        )}
 
         {selectedBrandId && (
           <div className="mt-6 py-6 bg-white">

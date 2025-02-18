@@ -1,5 +1,5 @@
  
-import "react-phone-number-input/style.css"; // Add styles for the phone input
+import "react-phone-number-input/style.css";  
 // import BgImg from "../../../assets/images/logo.png";
 import { useState } from "react";
 
