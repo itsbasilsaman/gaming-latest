@@ -86,7 +86,7 @@ const AddNewOfferSection = () => {
     // Fetch brands for the selected service
     try {
       const response = await dispatch(GetBrandsBySubServiceOrService(service.id));
-      console.log("Fetched Brands:", response.payload);
+      console.log("Fetched Brands !!!!:", response.payload);
       
       // Assuming the response payload is an array of brand objects with a 'name' property
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
