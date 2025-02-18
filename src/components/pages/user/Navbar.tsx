@@ -298,6 +298,7 @@ export const Navbar: React.FC = React.memo(() => {
         </div>
       </div>
 
+
       {/* Localization Modal */}
       <div
         className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 transition-all duration-300 ease-in-out ${isModalOpen ? "scale-100 opacity-100" : "scale-75 opacity-0 pointer-events-none"}`}

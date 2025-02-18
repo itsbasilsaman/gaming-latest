@@ -85,6 +85,7 @@ const EmailVerification: React.FC = () => {
   // }, [timer]);
 
   // Resend OTP
+
   const handleResend = () => {
     if (!Content || !Type) {
       Swal.fire({
@@ -103,7 +104,7 @@ const EmailVerification: React.FC = () => {
       type: Type,
     };
     dispatch(loginUser(payload));
-    toast.success("OTP Resend Successfull");
+    toast.success("OTP Resend Successfully");
   };
   // Handle OTP submission
   const handleSubmit = async (): Promise<void> => {
@@ -132,6 +133,12 @@ const EmailVerification: React.FC = () => {
       });
     }
   };
+
+
+  const handleCancel = () => {
+    Swal.fire("Cancelled", "OTP submission cancelled.", "info")
+    navigate("/user/login")
+  }
 
   return (
     <div
@@ -197,9 +204,7 @@ const EmailVerification: React.FC = () => {
             <div className="flex justify-between">
               <button
                 className="px-4 py-2 font-semibold text-gray-700 bg-gray-200 rounded hover:bg-gray-300"
-                onClick={() =>
-                  Swal.fire("Cancelled", "OTP submission cancelled.", "info")
-                }
+                onClick={handleCancel}
               >
                 Cancel
               </button>

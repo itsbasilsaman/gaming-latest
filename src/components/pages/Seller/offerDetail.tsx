@@ -20,6 +20,7 @@ export interface getProduct{
 
 
 
+
 const OfferDetail: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>()
   const location = useLocation();
