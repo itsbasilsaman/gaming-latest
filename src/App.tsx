@@ -19,8 +19,8 @@ import SellerRegistrationForm from "./components/seller/forms/SellerRegistration
 import LanguageSection from "./components/Header/LanguageSection";
 import AddNewOfferSection from "./components/pages/Seller/AddNewOfferSection";
 import OfferDetailPage from "./components/pages/Seller/offerDetailComponent.tsx";
-import GetOffer from "./components/pages/Seller/getOffer.tsx";
-import GetOfferById from "./components/pages/Seller/getOfferById.tsx";
+// import GetOffer from "./components/pages/Seller/getOffer.tsx";
+// import GetOfferById from "./components/pages/Seller/getOfferById.tsx";
 
 
 const WelcomePage = lazy(() => import("./components/pages/welcome"));
@@ -179,8 +179,8 @@ export const App: React.FC = React.memo(() => {
           {/* ERROR HANDLING */}
           <Route path="/*" element={<NotFound404 />} />
           <Route path="/401" element={<NotFound401 />} />
-          <Route path="/seller/offer" element={<GetOffer/>} />
-          <Route path="/seller/offer/:id" element={<GetOfferById/>} />
+          {/* <Route path="/seller/offer" element={<GetOffer/>} />
+          <Route path="/seller/offer/:id" element={<GetOfferById/>} /> */}
         </Routes>
       </Suspense>
     </Fragment>

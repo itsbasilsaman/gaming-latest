@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useRef } from "react";
 import { GrWaypoint } from "react-icons/gr";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
@@ -8,7 +7,6 @@ import { AppDispatch } from "../../../reduxKit/store";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
-
 interface Subservice {
   id: string;
   name: string;
@@ -16,7 +14,6 @@ interface Subservice {
   description: string;
   descriptionAr: string;
 }
-
 
 interface Service {
   id: string;
@@ -36,13 +33,11 @@ const AddNewOfferSection = () => {
   const [brandDropdownOpen, setBrandDropdownOpen] = useState(false);
   const [FetchedService, setFetchedServices] = useState<Service[]>([]);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
-  const [brands, setBrands] = useState<any[]>([]); // State to store fetched brands
+  const [brands, setBrands] = useState<any[]>([]);
   const subServiceRef = useRef<HTMLDivElement>(null);
   const brandRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch<AppDispatch>();
-  const navigate=useNavigate()
-
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getServiceWithSubservices = async () => {
@@ -55,7 +50,7 @@ const AddNewOfferSection = () => {
     };
     getServiceWithSubservices();
   }, [dispatch]);
-  
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (subServiceRef.current && !subServiceRef.current.contains(event.target as Node)) {
@@ -73,110 +68,89 @@ const AddNewOfferSection = () => {
   }, []);
 
   const handleServiceClick = async (service: Service) => {
-    // console.log("Selected Service ID:", service.id);
-    setSelectedServiceId(service.id)
+    setSelectedServiceId(service.id);
     setSelectedService(service);
+  
     if (service.subservices && service.subservices.length > 0) {
+      // If the service has subservices, show the subservice dropdown
       setSelectedSubServiceId("");
+      setSelectedSubServiceName("");
       setSubServiceDropdownOpen(true);
+      setBrandDropdownOpen(false); // Ensure brand dropdown is closed
     } else {
+      // If the service does not have subservices, fetch brands directly
       setSelectedSubServiceId("");
       setSubServiceDropdownOpen(false);
+      try {
+        const response = await dispatch(GetBrandsBySubServiceOrService(service.id));
+        setBrands(response.payload);
+        setBrandDropdownOpen(true); // Show brand dropdown
+      } catch (error) {
+        console.log("Error fetching brands:", error);
+      }
     }
-    // Fetch brands for the selected service
+  };
+
+  const handleSubServiceClick = async (subservice: Subservice) => {
+    setSelectedSubServiceId(subservice.id);
+    setSelectedSubServiceName(subservice.name);
+    setSubServiceDropdownOpen(false);
+
+    // Fetch brands for the selected subservice
     try {
-      const response = await dispatch(GetBrandsBySubServiceOrService(service.id));
-      console.log("Fetched Brands:", response.payload);
-      
-      // Assuming the response payload is an array of brand objects with a 'name' property
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      // const brandNames = response.payload.map((brand: any) => brand);
-      setBrands(response.payload); // Set the brand names in the state
+      const response = await dispatch(GetBrandsBySubServiceOrService(subservice.id));
+      setBrands(response.payload);
+      setBrandDropdownOpen(true);
     } catch (error) {
       console.log("Error fetching brands:", error);
     }
   };
-  useEffect(()=>{
-    console.log("my selllllelele", SelectedServiceId,SelectedSubServiceId,selectedBrandId);
-  },[SelectedSubServiceId,selectedBrandId,SelectedServiceId])
 
-
-
-
-
-const handleGetProducetsForCreateOffer =async()=>{
-   try {
-   if(selectedBrandId !==""&& SelectedServiceId!==""){
-     
-     navigate(`/user/offerDetail?SelectedServiceId=${SelectedServiceId}&SelectedSubServiceId?=${SelectedSubServiceId}&selectedBrandId=${selectedBrandId}`);
-   }else{
-    Swal.fire({
-      icon: "error",
-      title: "Error!",
-      text: "YOU NEED TO SELECT REQUIERED FIELDS SERVICE & BRAND ",
-
-      timer: 3000,
-      toast: true,
-      showConfirmButton: false,
-      timerProgressBar: true,
-      background: "#fff",
-      color: "#721c24",
-      iconColor: "#f44336",
-      didOpen: (toast) => {
-        toast.addEventListener("mouseenter", Swal.stopTimer);
-        toast.addEventListener("mouseleave", Swal.resumeTimer);
-      },
-      showClass: { popup: "animate__animated animate__fadeInDown" },
-      hideClass: { popup: "animate__animated animate__fadeOutUp" },
-    });
-   }
- 
-    
-    
-   } catch (error:any ) {
+  const handleGetProducetsForCreateOffer = async () => {
+    try {
+      if (selectedBrandId !== "" && SelectedServiceId !== "") {
+        navigate(`/user/offerDetail?SelectedServiceId=${SelectedServiceId}&SelectedSubServiceId?=${SelectedSubServiceId}&selectedBrandId=${selectedBrandId}`);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: "YOU NEED TO SELECT REQUIRED FIELDS SERVICE & BRAND ",
+          timer: 3000,
+          toast: true,
+          showConfirmButton: false,
+          timerProgressBar: true,
+          background: "#fff",
+          color: "#721c24",
+          iconColor: "#f44336",
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+          showClass: { popup: "animate__animated animate__fadeInDown" },
+          hideClass: { popup: "animate__animated animate__fadeOutUp" },
+        });
+      }
+    } catch (error: any) {
       Swal.fire({
-                icon: "error",
-                title: "Error!",
-                text: error.message,
-    
-                timer: 3000,
-                toast: true,
-                showConfirmButton: false,
-                timerProgressBar: true,
-                background: "#fff",
-                color: "#721c24",
-                iconColor: "#f44336",
-                didOpen: (toast) => {
-                  toast.addEventListener("mouseenter", Swal.stopTimer);
-                  toast.addEventListener("mouseleave", Swal.resumeTimer);
-                },
-                showClass: { popup: "animate__animated animate__fadeInDown" },
-                hideClass: { popup: "animate__animated animate__fadeOutUp" },
-              });
-   }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        icon: "error",
+        title: "Error!",
+        text: error.message,
+        timer: 3000,
+        toast: true,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        background: "#fff",
+        color: "#721c24",
+        iconColor: "#f44336",
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+        showClass: { popup: "animate__animated animate__fadeInDown" },
+        hideClass: { popup: "animate__animated animate__fadeOutUp" },
+      });
+    }
+  };
 
   return (
     <div className="py-20 px-4 sm:px-6 lg:px-24 w-full mx-auto flex flex-col lg:flex-row gap-6 bg-gray-100 h-auto pb-[300px] lato-font">
@@ -231,39 +205,36 @@ const handleGetProducetsForCreateOffer =async()=>{
           </p>
         </div>
 
-        {selectedService?.subservices && selectedService.subservices.length > 0 && (
-          <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-700">Sub-services <span className="text-red-500">*</span></label>
-            <div className="relative mt-2" ref={subServiceRef}>
-              <button
-                className="w-full bg-white border p-3 text-left"
-                onClick={() => setSubServiceDropdownOpen(!subServiceDropdownOpen)}
-              >
-                {SelectedSubServiceName || "Select sub-services"}
-                <span className="absolute right-[12px] top-[16px]">{subServiceDropdownOpen ? <FaAngleUp /> : <FaAngleDown />}</span>
-              </button>
-              {subServiceDropdownOpen && (
-                <div className="absolute w-full bg-white border z-10">
-                  {selectedService.subservices.map((sub,index) => (
-                    <div
-                      key={index}
-                      className="p-2 hover:bg-gray-100 cursor-pointer"
-                      onClick={() => {
-                        setSelectedSubServiceName(sub.name)
-                        setSelectedSubServiceId(sub.id);
-                        setSubServiceDropdownOpen(false);
-                      }}
-                    >
-                      {sub.name}
-                    </div>
-                  ))}
-                </div>
-              )}
+        {selectedService && selectedService.subservices && selectedService.subservices.length > 0 && (
+  <div className="mt-4">
+    <label className="block text-sm font-medium text-gray-700">Sub-services <span className="text-red-500">*</span></label>
+    <div className="relative mt-2" ref={subServiceRef}>
+      <button
+        className="w-full bg-white border p-3 text-left"
+        onClick={() => setSubServiceDropdownOpen(!subServiceDropdownOpen)}
+      >
+        {SelectedSubServiceName || "Select sub-services"}
+        <span className="absolute right-[12px] top-[16px]">{subServiceDropdownOpen ? <FaAngleUp /> : <FaAngleDown />}</span>
+      </button>
+      {subServiceDropdownOpen && (
+        <div className="absolute w-full bg-white border z-10">
+          {selectedService.subservices.map((sub, index) => (
+            <div
+              key={index}
+              className="p-2 hover:bg-gray-100 cursor-pointer"
+              onClick={() => handleSubServiceClick(sub)}
+            >
+              {sub.name}
             </div>
-          </div>
-        )}
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+)}
 
-{SelectedSubServiceId && (
+{/* Show brand dropdown if subservice is selected or if the service has no subservices */}
+{(SelectedSubServiceId || (selectedService && (!selectedService.subservices || selectedService.subservices.length === 0))) && (
   <div className="mt-4">
     <label className="block text-sm font-medium text-gray-700">Brands <span className="text-red-500">*</span></label>
     <div className="relative mt-2" ref={brandRef}>
@@ -283,11 +254,10 @@ const handleGetProducetsForCreateOffer =async()=>{
               onClick={() => {
                 setSelectedBrandId(brand.id);
                 setBrandDropdownOpen(false);
-                setSelectedBrandName(brand.name)
+                setSelectedBrandName(brand.name);
               }}
             >
               {brand.name}
-            
             </div>
           ))}
         </div>
