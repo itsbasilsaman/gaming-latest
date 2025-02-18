@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import CardBackground from '../../../assets/Card/gamecardbg.png';
-
- 
 import React, { useEffect, useState } from 'react';
 import { IoSearchSharp } from "react-icons/io5";
 import Icon from '../../../assets/Images/chevron-down.png';
@@ -22,7 +20,7 @@ interface GameSectionOneProps {
 }
 
 const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, image, name, ServiceName }) => {
-  const dispatch =useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>()
   const navigate=useNavigate()
   const [offers,setOffers]=useState<any[]>([])
   const [selectedOption, setSelectedOption] = useState<string>("");
@@ -103,13 +101,16 @@ console.log('the offers ', offers);
                   <h1 className='lg:text-[40px] text-[28px] font-bold' style={{ fontFamily: 'Unbounded' }}>Clash of Clans</h1>
                   <p className='offer-box px-[12px] py-[8px] w-[120px] cursor-pointer'>148 Offers</p>
               </div>
-              <img src ={image} alt="" className='lg:h-[140px] hidden lg:block' />
+             <div className='flex justify-center items-center h-full'>
+               <img src ={image} alt="" className='lg:h-[140px] hidden lg:block' />
+             </div>
+            
           </div>
 
           {/* Remove the incorrect extra closing main here */}
  
-          <div className='md:px-[80px] px-[20px] w-full h-auto mt-12 text-white'>
-              <div className='flex lg:justify-between items-center lg:flex-row flex-col gap-[20px] lg:gap-[0px]'>
+          <div className='w-full h-auto mt-12 text-white'>
+              <div className='flex lg:justify-between items-center  lg:flex-row flex-col gap-[20px] lg:gap-[0px]'>
                   <div className='relative extralg:w-[912px] lg:w-[492px] h-[48px] w-[100%]'>
                       <input type="text" className='extralg:w-[912px] lg:w-[492px] h-[48px] about-inputbox rounded-[1000px] w-[100%]' placeholder='Search for' />
                       <IoSearchSharp className='absolute right-[14px] text-[22px] top-[13px]' />

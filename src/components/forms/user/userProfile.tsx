@@ -65,14 +65,12 @@ const Profile: React.FC = () => {
   ) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-     
-      
-  
+ 
       const formData = new FormData();
       formData.append('file', file);
 
       for(const [key,value] of formData){
-console.log('1111111111111111111111111ww',key,value);
+       console.log('1111111111111111111111111ww',key,value);
 
       }
       try {
