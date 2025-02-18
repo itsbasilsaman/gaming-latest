@@ -13,4 +13,5 @@ const SkeletonBox: React.FC = () => {
   );
 };
 
+
 export default SkeletonBox;

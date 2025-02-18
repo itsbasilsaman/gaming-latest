@@ -5,6 +5,11 @@ import { getUserProfile } from '../../../reduxKit/actions/user/userProfile';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../reduxKit/store';
 import { UserProfileData } from '../../../interfaces/user/profile';
+import { userLogout } from '../../../reduxKit/actions/auth/authAction';
+
+
+
+
 
 export const UserAvatar: React.FC = () => {
  
@@ -21,6 +26,7 @@ export const UserAvatar: React.FC = () => {
   const toggleSection = () => {
     setIsOpen((prev) => !prev);
   };
+
 
 
   const formattedDate = profile?.memberSince ?   new Date (profile.memberSince).toLocaleString("en-US", {
@@ -154,7 +160,7 @@ export const UserAvatar: React.FC = () => {
                 <div className="mt-3">
                   <ul className="space-y-2">
                     <li>
-                    <Link to={'/'}>
+                    <Link to={'/'} onClick={()=> dispatch(userLogout())}>
                         <button className="w-full text-left text-sm primary-color hover:bg-gray-200 py-3 rounded-lg flex justifu-center items-center gap-[6px] px-4"   style={{ fontFamily: 'Unbounded' }}>
                           <MdLogout className="text-[19px] "  /> Log Out
                         </button>

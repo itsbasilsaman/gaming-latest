@@ -1,6 +1,6 @@
 
 import axios  from "axios";
-import { URL,config } from "../../../config/constants";
+import { URL, config , configWithToken } from "../../../config/constants";
 import { ILoginUser } from "../../../interfaces/user/userLoginInterfaces";
 import { IVerifyOtp } from "../../../interfaces/user/userLoginInterfaces";
 import { createAsyncThunk } from "@reduxjs/toolkit";
@@ -119,7 +119,10 @@ export const userLogout = createAsyncThunk(
   "user/logout",
   async (__, { rejectWithValue }) => {
     try {
-       axiosIn.delete(`/user/logout`, config )
+      console.log('data deleted');
+      
+        const response= axiosIn.post(`/user/logout`, configWithToken() )
+        return response
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.response && error.response.data) {
@@ -130,4 +133,6 @@ export const userLogout = createAsyncThunk(
     }
   }
 );
+
+ 
 

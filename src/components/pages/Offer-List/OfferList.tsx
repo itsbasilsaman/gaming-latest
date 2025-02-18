@@ -11,6 +11,7 @@ import TopUpSection from "./topupSection"
      <div className="py-3 mt-12">
       <GamingExperiencePage/>
      </div>
+     
     
      <Footer/>
     </>
