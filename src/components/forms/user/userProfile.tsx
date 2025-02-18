@@ -249,7 +249,7 @@ console.log('1111111111111111111111111ww',key,value);
     
     ) : (
       <div className="profile-content">
-        <div className="flex justify-center mb-4">
+        <div className="flex justify-center mb-2">
           <div className="h-30 rounded-full bg-black/5 p-1 backdrop-blur sm:p-3">
             <div className="w-[115px] h-[115px] bg-gray-200 text-white flex items-center justify-center rounded-full text-[55px] relative drop-shadow-2">
               {profileImage ? (
@@ -325,34 +325,34 @@ console.log('1111111111111111111111111ww',key,value);
           </div>
         </div>
 
-        <div className="py-[10px] w-full flex justify-center items-center pb-[18px]"></div>
+       
 
-        <div className="w-full space-y-6">
+        <div className="w-full space-y-2">
           <div className="flex justify-between items-center w-full">
             <div className="flex gap-4 w-full mr-[10px]">
               <div className="flex-1">
-                <p className="text-sm text-gray-600">Firstname</p>
+                <p className="text-sm text-gray-600"><span className="primary-color font-medium mr-3">Name</span>{formData?.firstName} {formData?.lastName}</p>
               </div>
-              <div className="flex-1">
+              {/* <div className="flex-1">
                 <p className="text-sm text-gray-600">
-                  {formData?.lastName}
+                  
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="flex justify-between items-center w-full">
             <div>
-              <p className="text-sm text-gray-600">{formData?.email}</p>
+              <p className="text-sm text-gray-600"><span className="primary-color font-medium mr-3">Email</span>{formData?.email}</p>
             </div>
           </div>
           <div className="flex justify-between items-center w-full">
             <p className="text-sm text-gray-600">
-              Gender {formData?.gender}
+            <span className="primary-color font-medium mr-3">Gender</span> {formData?.gender}
             </p>
           </div>
           <div className="flex justify-between items-center w-full">
             <div>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600"> 
                 Date of Birth:{" "}
                 {formData?.dob
                   ? new Date(formData.dob).toLocaleDateString("en-US", {

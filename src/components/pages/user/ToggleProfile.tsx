@@ -1,29 +1,26 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MdLogout } from 'react-icons/md'; 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { UserProfileData } from "../../../interfaces/user/profile";
 import { useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../../../reduxKit/store';
 import { useSelector } from 'react-redux';
 import { getUserProfile } from '../../../reduxKit/actions/user/userProfile';
- 
+import { userLogout } from '../../../reduxKit/actions/auth/authAction';
+
 const ToggleProfile: React.FC = React.memo(() => {
- 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [formData, setformData] = useState<UserProfileData | null>(null);
-
   const dispatch = useDispatch<AppDispatch>();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { GetProfileloading } = useSelector((state: RootState) => state.profile);
+  const navigate = useNavigate();
 
   const formattedDate = formData?.memberSince? new Date(formData.memberSince).toLocaleDateString("en-US",{
     year: 'numeric',
     month:'long',
     day: 'numeric'
-  }) : ' '
-
-
- 
+  }) : ' ';
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -44,14 +41,25 @@ const ToggleProfile: React.FC = React.memo(() => {
     fetchProfile();
   }, [dispatch]);
 
- 
   useEffect(() => {
     console.log("this is my profiles of in page *****************", formData);
   }, [formData]);
 
- 
   const toggleProfile = () => {
     setIsProfileOpen((prev) => !prev);
+  };
+
+  const handleLogout = async () => {
+    try {
+      console.log('before going to logout ');
+      
+      const data=  await dispatch(userLogout()).unwrap();
+      console.log("my logout the data : in the page : ",data);
+      
+      navigate('/'); // Redirect to login page after logout
+    } catch (error) {
+      console.error("Logout failed: ", error);
+    }
   };
 
   return (
@@ -133,11 +141,9 @@ const ToggleProfile: React.FC = React.memo(() => {
                     <ul className="space-y-2">
                        
                       <li className='my-4'>
-                        <Link to={'/'}>
-                          <button className="w-full text-left text-[16px] font-semibold affiliate-section text-white py-[10px] rounded-full flex justify-center items-center gap-[6px] px-4"   style={{ fontFamily: 'Unbounded' }}>
-                            <MdLogout className="text-[22px]" /> Log Out
-                          </button>
-                        </Link>
+                        <button onClick={handleLogout} className="w-full text-left text-[16px] font-semibold affiliate-section text-white py-[10px] rounded-full flex justify-center items-center gap-[6px] px-4"   style={{ fontFamily: 'Unbounded' }}>
+                          <MdLogout className="text-[22px]" /> Log Out
+                        </button>
                       </li>
                     </ul>
                   </div>
