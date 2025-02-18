@@ -98,9 +98,16 @@ const AddNewOfferSection = () => {
 
     // Fetch brands for the selected subservice
     try {
+
+      
+      // Assuming the response payload is an array of brand objects with a 'name' property
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // const brandNames = response.payload.map((brand: any) => brand);
+
       const response = await dispatch(GetBrandsBySubServiceOrService(subservice.id));
       setBrands(response.payload);
       setBrandDropdownOpen(true);
+
     } catch (error) {
       console.log("Error fetching brands:", error);
     }
