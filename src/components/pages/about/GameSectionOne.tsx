@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import CardBackground from '../../../assets/Card/gamecardbg.png';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IoSearchSharp } from "react-icons/io5";
-import Icon from '../../../assets/Images/chevron-down.png';
+ 
 import { CiHeart } from "react-icons/ci";
-
+import { ChevronDown } from "lucide-react";
 import { useDispatch } from 'react-redux';
 import { GetOffersByBrand } from '../../../reduxKit/actions/user/userOfferListing';
 import { AppDispatch } from '../../../reduxKit/store';
@@ -19,21 +19,68 @@ interface GameSectionOneProps {
   ServiceName: string | null;
 }
 
+
+const SkeletonOffer: React.FC = () => {
+  return (
+    
+      <section className="lg:h-[125px] rounded-[16px] top-up-box p-[19px] flex flex-col justify-between bg-gray-800 overflow-hidden relative">
+        <div className="absolute inset-0 bg-gradient-to-r  animate-[shimmer_2s_infinite]"></div>
+        <div className="flex justify-between relative z-10">
+          <div className="w-[150px] h-[24px] bg-grayShade rounded-md animate-pulse"></div>
+          <div className="w-[44px] h-[44px] bg-grayShade rounded-full animate-pulse"></div>
+        </div>
+        <div className="flex justify-between items-center relative z-10">
+          <div className="w-[80px] h-[24px] bg-grayShade rounded-md animate-pulse"></div>
+          <div className="w-[60px] h-[24px] bg-grayShade rounded-md animate-pulse"></div>
+        </div>
+      </section>
+    
+  );
+};
+
+ 
 const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, image, name, ServiceName }) => {
   const dispatch = useDispatch<AppDispatch>()
   const navigate=useNavigate()
   const [offers,setOffers]=useState<any[]>([])
   const [selectedOption, setSelectedOption] = useState<string>("");
+  const [loading , setLoading] = useState<boolean>(true)
+  const [openIndex , setOpenIndex] = useState<null | number>(null)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  const handleOutsideClick = (event: { target: any; }) => {
+    if(dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setOpenIndex(null)
+    }
+  }
+
+  const toggleDropdown = (index:   null | number) => {
+    setOpenIndex((prevIndex) => (prevIndex === index ? null : index))
+  }
+
+  const handleItemClick = (item: any) => {
+    console.log("Selected Delivery Method:", item);
+    setOpenIndex(null);
+  };
+
+
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
       setSelectedOption(event.target.value);
   };
+
+
+  useEffect(()=> {
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick)
+  }, )
 
    useEffect(()=>{
 
     const GetOffersByProduct= async () => {
       try {
         console.log(productId);
-        
+        setLoading(true) 
         if(productId){
           const response = await dispatch(GetOffersByBrand(productId))
           const data = response.payload as { data: { data: any } };
@@ -61,18 +108,20 @@ const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, i
           },
           hideClass: {
             popup: 'animate__animated animate__fadeOutUp' // Animation when the toast disappears
-          }
+          } 
         });
         
+      } finally {
+        setLoading(false);
       }
 
 
     }
     GetOffersByProduct()
-   },[dispatch])
+   },[dispatch , productId])
 
    if(offers){
-console.log('the offers ', offers);
+    console.log('the offers ', offers);
 
 
    }
@@ -93,16 +142,16 @@ console.log('the offers ', offers);
   return (
       <main className='w-full h-auto text-white md:px-[80px] px-[20px] flex flex-col lg:items-center pb-[40px]'>
           <p className='lg:pt-[130px] pt-[110px] lg:pb-[40px] pb-[20px] text-[14px] lg:text-[16px] text-left w-[100%]'>
-              Home / {ServiceName} /{name}
+              Home /{' '} {ServiceName} /{' '}{name}
           </p>
           <div className='w-[100%] lg:h-[182px] h-[154px] gamecard-box rounded-[13px] relative lg:px-[15px] flex lg:justify-between'>
               <img src={CardBackground} className='object-cover absolute top-[0px] left-[0px] w-[100%] h-[100%] rounded-[12px]' style={{ zIndex: '-10', objectFit: 'cover' }} />
-              <div className='flex lg:flex-row flex-col justify-center lg:items-center pb-[25px] lg:pt-[0px] pt-[18px] lg:pb-[0px] lg:gap-[25px] gap-[12px] w-[100%] lg:w-auto px-[20px] lg:px-[0px]'>
-                  <h1 className='lg:text-[40px] text-[28px] font-bold' style={{ fontFamily: 'Unbounded' }}>Clash of Clans</h1>
-                  <p className='offer-box px-[12px] py-[8px] w-[120px] cursor-pointer'>148 Offers</p>
+              <div className='flex lg:flex-row flex-col justify-center   lg:items-center pb-[25px] lg:pt-[0px] pt-[18px] lg:pb-[0px] lg:gap-[25px] gap-[12px] w-[100%] lg:w-auto px-[20px] lg:px-[0px]'>
+                  <h1 className='lg:text-[40px] px-2 text-[28px] font-bold' style={{ fontFamily: 'Unbounded' }}>{name}</h1>
+                  <p className='offer-box px-[18px] py-[8px]    cursor-pointer w-fit'> {offers.length} Offers</p>
               </div>
              <div className='flex justify-center items-center h-full'>
-               <img src ={image} alt="" className='lg:h-[140px] hidden lg:block' />
+               <img src ={image} alt="" className='lg:h-[140px] hidden lg:block rounded-[13px]' />
              </div>
             
           </div>
@@ -116,13 +165,34 @@ console.log('the offers ', offers);
                       <IoSearchSharp className='absolute right-[14px] text-[22px] top-[13px]' />
                   </div>
                   <div className='flex lg:gap-[20px] w-[100%] lg:w-auto justify-between lg:justify-normal'>
+                      
                       <span className='relative'>
-                          <button className='blur-button px-[19px] py-[9px] pr-[59px] lg:text-[17px] rounded-[1000px]'>Region</button>
-                          <img src={Icon} alt="" className='absolute right-[8px] top-[12px]' />
-                      </span>
-                      <span className='relative'>
-                          <button className='blur-button px-[19px] py-[9px] pr-[35px] lg:text-[17px] rounded-[1000px]'>Delivery Method</button>
-                          <img src={Icon} alt="" className='absolute right-[8px] top-[12px]' />
+                      {offers.map((MyOffer, index) => (
+        <div key={index} className="relative" ref={dropdownRef}>
+          <button
+            onClick={() => toggleDropdown(index)}
+            className="blur-button flex items-center justify-between w-full px-[19px] py-[9px] pr-[35px] lg:text-[17px] rounded-[1000px]  s  hover:bg-grayShade transition-all duration-200"
+          >
+            Delivery Method
+            <ChevronDown className=" absolute right-3 w-5 h-5" />
+          </button>
+
+          {openIndex === index && (
+            <div className="absolute z-10 mt-1 w-full bg-grayShade text-white   shadow-lg   space-y-1">
+              {MyOffer.deliveryMethods.map((method: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined, idx: React.Key | null | undefined) => (
+                <button
+                  key={idx}
+                  onClick={() => handleItemClick(method)}
+                  className="w-full text-left blur-button hover:bg-gray-600 transition-all duration-150  px-4 py-2"
+                >
+                  {method}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+                          
                       </span>
                   </div>
               </div>
@@ -155,24 +225,32 @@ console.log('the offers ', offers);
                       </div>
                   </div>
               </div>  
-              {offers.map((MyOffer, index) => (
+              { loading ? (
+                 <div className="top-up-section lg:gap-[19px] lg:pt-[25px] pt-[5px] pb-[25px]">
+                 <SkeletonOffer />
+                 <SkeletonOffer />
+                 <SkeletonOffer />
+               </div>
+              ) :
+              offers.map((MyOffer, index) => (
 
-              <div key={index} onClick={()=>handleOfferDetails(MyOffer.id)}>
-                  <div className='top-up-section lg:gap-[19px] lg:pt-[25px] pt-[5px] pb-[25px]'>
+           
+                  <div className='top-up-section lg:gap-[19px] lg:pt-[25px] pt-[5px] pb-[25px]' key={index} onClick={()=>handleOfferDetails(MyOffer.id)}>
                       <section className='lg:h-[125px] rounded-[16px] top-up-box p-[19px] flex flex-col justify-between'>
                           <div className='flex justify-between'>
-                              <h1 className='text-[20px] font-medium'>{MyOffer.title}</h1>
+                              <h1 className='text-[19px] font-medium'>{MyOffer.title}</h1>
                               <CiHeart className='text-[44px]' />
                           </div>
                           <div className='flex justify-between items-center'>
                               <p className='game-offer-button py-[6px] px-[8px] rounded-[8px]'>{MyOffer.apiQty}Offer</p>
                               <p className='font-semibold text-[18px]' style={{ color: 'rgba(0, 255, 121, 1)' }}>{MyOffer.unitPriceUSD} USD</p>
-                              <p className='font-semibold text-[18px]' style={{ color: 'rgba(0, 255, 121, 1)' }}>{MyOffer.unitPriceSAR} SAR</p>
+                               
                           </div>
                       </section>
                   </div>
-              </div>
-                        ))}
+          
+                        ))
+                        }
           </div>
       </main>
   );

@@ -11,13 +11,14 @@ import { IVerifyOtp } from "../../../interfaces/user/userLoginInterfaces";
 import toast from "react-hot-toast";
 
 const EmailVerification: React.FC = () => {
-  const [searchParams] = useSearchParams();
-  const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
-  // const [timer, setTimer] = useState<number>(0);
+  
+   
   const [Content, setContent] = useState<string | null>("");
   const [Type, setType] = useState<string | null>("");
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const { loading } = useSelector((state: RootState) => state.auth);
   const inputValue: string | null = searchParams.get("inputValue");
   const type: string | null = searchParams.get("type");
@@ -76,14 +77,7 @@ const EmailVerification: React.FC = () => {
     ) as HTMLInputElement;
     nextInput?.focus();
   };
-  // Handle timer countdown
-  // useEffect(() => {
-  //   if (timer > 0) {
-  //     const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
-  //     return () => clearInterval(interval); // Clear interval on component unmount
-  //   }
-  // }, [timer]);
-
+   
   // Resend OTP
 
   const handleResend = () => {
