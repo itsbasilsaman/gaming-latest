@@ -52,7 +52,7 @@ export const App: React.FC = React.memo(() => {
   useEffect(()=>{
 
     console.log("The current UserLanguage ",userLanguage," Current Currency : ",userCurrency);
-    console.log("The current isLoggedUser ",isLoggedUser," Current isLoggedUserWithSeller : ",isLoggedUserWithSeller);
+    console.log("The current isLoggedUser ",isLoggedUser," Current isLoggedUserWithSeller : ",isLoggedUserWithSeller,"Current user Verification Status: ",verificationStatus);
 
     },[userCurrency,userLanguage])
 
