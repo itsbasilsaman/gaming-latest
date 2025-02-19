@@ -41,13 +41,15 @@ const ToggleProfile: React.FC = React.memo(() => {
     fetchProfile();
   }, [dispatch]);
 
+ 
+  const toggleProfile = () => {
+    setIsProfileOpen((prev) => !prev);
+  };
+
   useEffect(() => {
     console.log("this is my profiles of in page *****************", formData);
   }, [formData]);
 
-  const toggleProfile = () => {
-    setIsProfileOpen((prev) => !prev);
-  };
 
   const handleLogout = async () => {
     try {
