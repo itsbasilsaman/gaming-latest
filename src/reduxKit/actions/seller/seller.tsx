@@ -24,7 +24,7 @@ import { SellerDetails } from "../../../interfaces/user/seller";
   
   
   export interface othersellerdata{
-    offerId:string,
+    offerId:string | undefined,
     isOnline?:boolean
   }
   

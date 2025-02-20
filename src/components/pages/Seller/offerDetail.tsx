@@ -6,7 +6,7 @@ import { GetProducetsForCreateOffer,CreateOfferWithProduct } from "../../../redu
 
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../reduxKit/store";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 
@@ -29,6 +29,9 @@ const OfferDetail: React.FC = () => {
   const SelectedSubServiceId = queryParams.get("SelectedSubServiceId") || "";
   const selectedBrandId = queryParams.get("selectedBrandId") || "";
   const [productData,setProductData]= useState<any>({}) 
+
+
+  const navigate = useNavigate()
 
   const [offer, setOffer] = useState<Offer>({
     productId: "",
@@ -67,6 +70,7 @@ const OfferDetail: React.FC = () => {
      await setProductData(response.payload.data[0])
       if(response.payload.success){
           toast.success(response.payload.message)
+       
       }else{
         toast.error(response.payload.message)
       }
@@ -132,6 +136,7 @@ const OfferDetail: React.FC = () => {
         const response = await dispatch(CreateOfferWithProduct(formData));
         if (response.payload.success) {
           toast.success(response.payload.message);
+          navigate('/seller/offer')
           setOffer({
             productId: "",
             title: "",
@@ -289,7 +294,7 @@ const OfferDetail: React.FC = () => {
                 {errors.minQty && <p className="text-red-500 text-sm mt-1">{errors.minQty}</p>}
               </div>
               <div>
-                <label className="block text-gray-700 font-medium mb-2">Max Quantity</label>
+                <label className="block text-gray-700 font-medium mb-2">Stock</label>
                 <input
                   type="number"
                   name="apiQty"
@@ -300,17 +305,28 @@ const OfferDetail: React.FC = () => {
 
                 {errors.apiQty && <p className="text-red-500 text-sm mt-1">{errors.apiQty}</p>}
               </div>
+              <div>
+  <label className="block text-gray-700 font-medium mb-2">Low Stock Alert Quantity</label>
+  <input
+    type="number"
+    name="lowStockAlertQty"
+    value={offer.lowStockAlertQty}
+    onChange={handleChange}
+    className="w-full p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  />
+  {errors.lowStockAlertQty && <p className="text-red-500 text-sm mt-1">{errors.lowStockAlertQty}</p>}
+</div>
             </div>
             <div>
   <label className="block text-gray-700 font-medium mb-2">Delivery Method</label>
   <select
     name="deliveryMethods"
-    value={offer.deliveryMethods[0]} // Assuming only one value can be selected
+    value={offer.deliveryMethods[0]}  
     onChange={handleChange}
     className="w-full p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-900"
   >
     <option value="EMAIL">EMAIL</option>
-    <option value="OTHER">OTHER</option> {/* Add other options if needed */}
+    <option value="OTHER">OTHER</option>  
   </select>
   {errors.deliveryMethods && <p className="text-red-500 text-sm mt-1">{errors.deliveryMethods}</p>}
 </div>

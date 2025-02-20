@@ -25,7 +25,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 
     export const GetOfferByIdFromSeller= createAsyncThunk( "seller/GetOfferById",
-      async (id:string,{rejectWithValue})=>{
+      async (id:string | undefined,{rejectWithValue})=>{
           try {
               const  response = await axiosIn.get(`/seller/offer/${id}`,configWithToken());
               console.log("Seller Offer GetBy Id response  : ", response );
