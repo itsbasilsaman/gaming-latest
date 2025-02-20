@@ -1,95 +1,195 @@
-// import React from "react";
-// import { useParams } from "react-router-dom";
-// import { useDispatch } from "react-redux";
-// import { AppDispatch } from "../../../reduxKit/store";
-// import { GetOfferByIdFromSeller } from "../../../reduxKit/actions/seller/offerListing";
-// import { useEffect, useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client"
 
-// const GetOfferById: React.FC = () => {
-//   const [productItem, setProductItem] = useState({
-//     id: "3a0f17e2-4a02-40de-a2ac-0292fbb8f2d8",
-//     apiQty: 10,
-//     title: "Some Title",
-//     description: "Description",
-//     unitPriceSAR: 10,
-//     status: "DRAFT",
-//     product: {
-//       purchaseType: "TOP_UP",
-//       image: "https://example.com/path/to/product-image.jpg",
-//       title: "Test Product",
-//       description: "This is a test product description",
-//       brand: {
-//         id: "d352c5a7-3581-4278-80ac-be2653079470",
-//         image: "https://example.com/path/to/brand-image.jpg",
-//         name: "Valorant 2s",
-//       },
-//       region: null,
-//       service: {
-//         id: "efc1198c-d04c-49f0-ad95-ba8a9ef78c95",
-//         name: "Game 2",
-//       },
-//       subService: null,
-//     },
-//   });
+import type React from "react"
+import { useParams } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import type { AppDispatch } from "../../../reduxKit/store"
+import { GetOfferByIdFromSeller } from "../../../reduxKit/actions/seller/offerListing"
+import { useEffect, useState } from "react"
+import Footer from "../user/Footer"
 
-//   const dispatch = useDispatch<AppDispatch>();
-//   const { id } = useParams<{ id: string }>();
+const GetOfferById: React.FC = () => {
+  const [productItem, setProductItem] = useState<any>(null);
+  const [loading, setLoading] = useState(false);  
+  const dispatch = useDispatch<AppDispatch>()
+  const { id } = useParams<{ id: string }>()
 
-//   useEffect(() => {
-//     const GetOfferById = async () => {
-//       try {
-//         const response = await dispatch(GetOfferByIdFromSeller(id));
-//         console.log("Fetched Product:", response);
-//       } catch (error) {
-//         console.error(error);
-//       }
-//     };
-//     GetOfferById();
-//   }, [dispatch]);
+  useEffect(() => {
+    const GetOfferById = async () => {
+      try {
+        setLoading(true)
+        const response = await dispatch(GetOfferByIdFromSeller(id))
+        console.log("Fetched Product:", response.payload.data)
+        setProductItem(response.payload.data)
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    GetOfferById()
+  }, [dispatch, id])
 
-//   return (
-//     <div className="max-w-6xl mx-auto p-6 common-background rounded-lg shadow-md">
-//       {/* Product Info */}
-//       <div className="flex flex-col md:flex-row gap-6 items-center">
-//         <div className="flex-1">
-//           <img
-//             src={productItem.product.image}
-//             alt={productItem.title}
-//             className="w-full h-auto rounded-lg shadow-md"
-//           />
-//         </div>
-//         <div className="flex-1 space-y-4 text-center md:text-left">
-//           <h1 className="text-2xl font-bold lato-font">{productItem.title}</h1>
-//           <p className="text-gray-600 lato-font">{productItem.description}</p>
-//           <p className="text-lg font-semibold lato-font">Price: {productItem.unitPriceSAR} SAR</p>
-//           <p className={`text-sm font-medium ${productItem.status === "DRAFT" ? "text-red-500" : "text-green-500"} lato-font`}>
-//             Status: {productItem.status}
-//           </p>
-//         </div>
-//       </div>
+  if (loading) {
+    return (
+      <div className="loading-backdrop">
+      <div className="flex justify-center items-center h-screen">
+        <div className="flex items-center flex-col">
+          <div className="w-12 h-12 border-5 border-t-4 border-t-gray-150 border-gray-100 rounded-full animate-spin"></div>
+          <p className="mt-4 text-white text-[22px] font-semibold tracking-wide" style={{ fontFamily: 'Unbounded' }}>
+            Loading<span className="dot-animation mr-[6px]">
+              <span>.</span>
+              <span>.</span>
+              <span>.</span>
+            </span>
+          </p>
+          
+          <p className="text-sm text-white mt-2 font-semibold">
+            Please wait, your content is on the way.
+          </p>
+        </div>
+      </div>
+    </div>
+    );
+  }
 
-//       {/* Related Items */}
-//       <div className="mt-10">
-//         <h2 className="text-xl font-semibold mb-4 text-center lato-font">Related Products</h2>
-//         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-//           {["brand", "region", "service", "subService"].map((key) => {
-//             const item = productItem.product[key];
-//             if (item) {
-//               return (
-//                 <div key={key} className="border p-4 rounded-lg shadow-md text-center game-card">
-//                   {item.image && (
-//                     <img src={item.image} alt={item.name} className="w-full h-40 object-cover mb-2 rounded-md" />
-//                   )}
-//                   <p className="font-medium lato-font">{item.name}</p>
-//                 </div>
-//               );
-//             }
-//             return null;
-//           })}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
+  if (!productItem) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen primary-background text-white">
+           
+            <h1 className="text-[150px] font-extrabold leading-none text-white flex" >
+            <p className="text-sm tracking-widest uppercase py-3" style={{ fontFamily: 'sans-serif' }}>
+              Oops! Page Not Found
+            </p>
+            </h1>
+           <p className="text-center text-[14px] uppercase mt-2" style={{ fontFamily: 'sans-serif' }}>
+              We are sorry, but the page you requested was <br /> not found
+            </p>
+          </div>
+    );
+  }
 
-// export default GetOfferById;
+  return (
+    <>
+      <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#191B4B] to-[#191b8d]">
+        <div className="max-w-7xl mx-auto">
+          <div className="common-background-seller rounded-2xl shadow-xl overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
+              {/* Left Column - Image */}
+              <div className="space-y-4">
+                <div className="aspect-square overflow-hidden rounded-xl bg-gray-200 p-4">
+                  <img
+                    src={productItem.product.image || " "}
+                    alt={productItem.title}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              </div>
+
+              {/* Right Column - Product Details */}
+              <div className="space-y-5">
+                <div>
+                  <h1 className="text-[18px] tracking-tight text-gray-200">
+                    <span className=" text-white"><span style={{ fontFamily: 'Unbounded' }}>Title -</span></span> {productItem.title}
+                  </h1>
+                  <p className="mt-4 text-[18px] text-gray-200">
+                    <span className="  text-white"><span style={{ fontFamily: 'Unbounded' }}>Description -</span></span> {productItem.description}
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[18px] text-gray-200">
+                      <span className="  text-white"><span style={{ fontFamily: 'Unbounded' }}>Unit Price -</span></span> {productItem.unitPriceSAR} SAR
+                    </span>
+                    <span
+                      className={`px-3 py-2 rounded-lg text-sm font-medium ${
+                        productItem.status === "DRAFT" ? "bg-white text-red-800" : "bg-white text-green-800"
+                      }`}
+                    >
+                      <span className="font-medium text-black uppercase">Status - </span> {productItem.status}
+                    </span>
+                  </div>
+                  <p className="text-gray-200 text-[18px]">
+                    <span className=" text-white"><span style={{ fontFamily: 'Unbounded' }}>Quantity Available -</span> </span> {productItem.apiQty}
+                  </p>
+                </div>
+
+                <hr className="border-t border-gray-200 my-6" />
+
+                {/* Product Details */}
+                <div className="space-y-4">
+                  <h3 className="text-[23px] border-b-2 font-semibold text-white inline-block" style={{ fontFamily: 'Unbounded' }}>Product Details</h3>
+                  <div className="space-y-2">
+                    <p className="text-gray-200">
+                      <span className="font-medium text-white" style={{ fontFamily: 'Unbounded' }}>Product Title - </span> {productItem.product.title}
+                    </p>
+                    <p className="text-gray-200">
+                      <span className="font-medium text-white" style={{ fontFamily: 'Unbounded' }}>Product Description - </span> {productItem.product.description}
+                    </p>
+                  </div>
+                </div>
+
+                <hr className="border-t border-gray-200 my-6" />
+
+                {/* Additional Information */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {productItem.product?.brand && (
+                    <div className="bg-gray-200 rounded-lg border border-gray-200 p-4 shadow-sm">
+                      <p className="text-center font-semibold uppercase" style={{ fontFamily: 'Unbounded' }}>Brand Details</p>
+                      <div className="space-y-2">
+                        <img
+                          src={productItem.product?.brand?.image || "/placeholder.svg"}
+                          alt={productItem.product?.brand?.name}
+                          className="w-16 h-16 object-contain"
+                        />
+                        <p className="">
+                          <span className="font-medium text-gray-600">Name - </span> {productItem.product?.brand?.name}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {productItem.product?.service && (
+                    <div className="bg-gray-200 rounded-lg border border-gray-200 p-4 shadow-sm">
+                      <p className="text-center font-semibold uppercase" style={{ fontFamily: 'Unbounded' }}>Service Details</p>
+                      <div className="space-y-2">
+                        <p className="text-black">
+                          <span className="font-medium text-gray-600">Name - </span> {productItem.product?.service?.name}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {productItem.product?.region && (
+                    <div className="bg-gray-200 rounded-lg border border-gray-200 p-4 shadow-sm">
+                      <p className="text-center font-semibold uppercase" style={{ fontFamily: 'Unbounded' }}>Region Details</p>
+                      <div className="space-y-2">
+                        <p className="font-medium">Region</p>
+                        <p className="text-gray-600"> </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {productItem.product?.subService && (
+                    <div className="bg-gray-200 rounded-lg border border-gray-200 p-4 shadow-sm">
+                      <p className="text-center font-semibold uppercase" style={{ fontFamily: 'Unbounded' }}>Sub Service Details</p>
+                      <div className="space-y-2">
+                        <p className="font-medium">Sub Service</p>
+                        <p className="text-gray-600"> </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </>
+  );
+};
+
+export default GetOfferById;
