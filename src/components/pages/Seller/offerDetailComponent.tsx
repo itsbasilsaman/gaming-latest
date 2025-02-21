@@ -1,11 +1,12 @@
 import Footer from "../user/Footer"
+import { Navbar } from "../user/Navbar"
 import OfferDetail from "./offerDetail"
-import { SellerHeader } from "./sellerHeader"
+ 
 
 const OfferDetailPage = () => {
   return (
     <>
-     <SellerHeader/>
+     <Navbar/>
      <OfferDetail/>
      <Footer/>
     </>
