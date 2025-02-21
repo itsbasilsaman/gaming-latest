@@ -130,7 +130,6 @@ const EmailVerification: React.FC = () => {
 
 
   const handleCancel = () => {
-    Swal.fire("Cancelled", "OTP submission cancelled.", "info")
     navigate("/user/login")
   }
 

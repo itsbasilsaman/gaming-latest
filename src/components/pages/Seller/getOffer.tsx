@@ -3,12 +3,13 @@ import React, {  useEffect, useState } from "react";
 import { IoSearchSharp } from "react-icons/io5";
 import { IoArrowBackCircleSharp } from "react-icons/io5";
 import { IoArrowForwardCircleSharp } from "react-icons/io5";
-import { SellerHeader } from "./sellerHeader";
+ 
 import Footer from "../user/Footer";
 import { GetOffersFromSeller } from "../../../reduxKit/actions/seller/offerListing";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from '../../../reduxKit/store';
 import { Link } from "react-router-dom";
+import { Navbar } from "../user/Navbar";
 
 interface Product {
   id: string;
@@ -103,7 +104,7 @@ const GetOffer: React.FC = () => {
   return (
 
    <>
-      <SellerHeader/>
+       <Navbar/>
       <div className="py-[200px]  bg-gradient-to-b from-[#191B4B] to-[#191b8d]">
         
         <div className="max-w-screen-xl mx-auto common-background lg:px-6 px-4 pb-8 rounded-[15px]">
