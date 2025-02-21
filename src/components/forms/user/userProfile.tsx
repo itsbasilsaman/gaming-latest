@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
-import { SellerHeader } from "../../pages/Seller/sellerHeader";
 import { IoCameraOutline } from "react-icons/io5";
 import { getUserProfile , PutUserProfilePic , PutUserCoverPic } from "../../../reduxKit/actions/user/userProfile";
 import { Link } from "react-router-dom";
@@ -12,6 +11,7 @@ import FollowingModal from "./FollowingModal";
 import FollowersModal from "./FollowerModal";
 import { useSelector } from "react-redux";
 import { UserProfileResponsive } from "./userProfileResponsive";
+import { Navbar } from "../../pages/user/Navbar";
 
 const Profile: React.FC = () => {
   const [profileImage, setProfileImage] = useState<File | null | string>(null);
@@ -198,7 +198,7 @@ const Profile: React.FC = () => {
   return (
     <div className="w-full h-full bg-gray-300">
       <div className="w-full h-[90px]">
-        <SellerHeader />
+         <Navbar/>
       </div>
 
       <div className="w-full h-[1500px] profile-main     relative">

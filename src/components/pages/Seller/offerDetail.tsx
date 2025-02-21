@@ -2,36 +2,31 @@
 import React, { useEffect, useState } from "react";
 import { GrWaypoint } from "react-icons/gr";
 import { Offer, validateOffer, ValidationErrors } from "./validation";
-import { GetProducetsForCreateOffer,CreateOfferWithProduct } from "../../../reduxKit/actions/offer/serviceSubServiceBrandSelection";
-
+import { GetProducetsForCreateOffer, CreateOfferWithProduct } from "../../../reduxKit/actions/offer/serviceSubServiceBrandSelection";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../reduxKit/store";
 import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import { ClipLoader } from "react-spinners"; // Import a loading spinner
 
-export interface getProduct{
-  SelectedServiceId:string
-  SelectedSubServiceId?:string
-  selectedBrandId?:string
+export interface getProduct {
+  SelectedServiceId: string;
+  SelectedSubServiceId?: string;
+  selectedBrandId?: string;
 }
 
- 
-
-
-
-
 const OfferDetail: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const SelectedServiceId = queryParams.get("SelectedServiceId") || "";
   const SelectedSubServiceId = queryParams.get("SelectedSubServiceId") || "";
   const selectedBrandId = queryParams.get("selectedBrandId") || "";
-  const [productData,setProductData]= useState<any>({}) 
+  const [productData, setProductData] = useState<any>({});
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
 
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [offer, setOffer] = useState<Offer>({
     productId: "",
@@ -45,65 +40,57 @@ const OfferDetail: React.FC = () => {
     apiQty: 0,
     lowStockAlertQty: 1,
     deliveryMethods: ["EMAIL"],
-    salesTerritory : {
-      settingsType : "GLOBAL",  
-      countries : []  
-  }
+    salesTerritory: {
+      settingsType: "GLOBAL",
+      countries: [],
+    },
   });
 
-
-  console.log('1234',productData.id);
-  
-
-
-  useEffect(()=>{
-    const getProductDetails=async()=>{
-    try {
-
-      const data :getProduct={
-        SelectedServiceId,
-        SelectedSubServiceId,
-        selectedBrandId
-      } 
-      const response= await dispatch(GetProducetsForCreateOffer(data))
-      console.log("my response of the getProduct () :", response.payload);
-     await setProductData(response.payload.data[0])
-      if(response.payload.success){
-          toast.success(response.payload.message)
-       
-      }else{
-        toast.error(response.payload.message)
-      }
-    } catch (error:any) {
-    Swal.fire({
-        icon: "error",
-        title: "Error!",
-        text: error.message,
-  
-        timer: 3000,
-        toast: true,
-        showConfirmButton: false,
-        timerProgressBar: true,
-        background: "#fff",
-        color: "#721c24",
-        iconColor: "#f44336",
-        didOpen: (toast) => {
-          toast.addEventListener("mouseenter", Swal.stopTimer);
-          toast.addEventListener("mouseleave", Swal.resumeTimer);
-        },
-        showClass: { popup: "animate__animated animate__fadeInDown" },
-        hideClass: { popup: "animate__animated animate__fadeOutUp" },
-      });
-      
-    }
-  }
- 
-  getProductDetails()
-  },[dispatch])
-
-  console.log('basilsss',productData);
- 
   const [errors, setErrors] = useState<ValidationErrors>({});
+
+  useEffect(() => {
+    const getProductDetails = async () => {
+      setIsLoading(true); // Set loading to true before fetching data
+      try {
+        const data: getProduct = {
+          SelectedServiceId,
+          SelectedSubServiceId,
+          selectedBrandId,
+        };
+        const response = await dispatch(GetProducetsForCreateOffer(data));
+        await setProductData(response.payload.data[0]);
+        if (response.payload.success) {
+          toast.success(response.payload.message);
+        } else {
+          toast.error(response.payload.message);
+        }
+      } catch (error: any) {
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: error.message,
+          timer: 3000,
+          toast: true,
+          showConfirmButton: false,
+          timerProgressBar: true,
+          background: "#fff",
+          color: "#721c24",
+          iconColor: "#f44336",
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+          showClass: { popup: "animate__animated animate__fadeInDown" },
+          hideClass: { popup: "animate__animated animate__fadeOutUp" },
+        });
+      } finally {
+        setIsLoading(false); // Set loading to false after fetching data
+      }
+    };
+
+    getProductDetails();
+  }, [dispatch, SelectedServiceId, SelectedSubServiceId, selectedBrandId]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     if (name === "deliveryMethods") {
@@ -116,7 +103,7 @@ const OfferDetail: React.FC = () => {
   const handleSubmit = async () => {
     const validationErrors = validateOffer(offer);
     setErrors(validationErrors);
-  
+
     if (Object.keys(validationErrors).length === 0) {
       try {
         const formData = new FormData();
@@ -132,11 +119,11 @@ const OfferDetail: React.FC = () => {
         formData.append("lowStockAlertQty", String(offer.lowStockAlertQty));
         formData.append("deliveryMethods", JSON.stringify(offer.deliveryMethods)); // Ensure this is correctly serialized
         formData.append("salesTerritory", JSON.stringify(offer.salesTerritory));
-  
+
         const response = await dispatch(CreateOfferWithProduct(formData));
         if (response.payload.success) {
           toast.success(response.payload.message);
-          navigate('/seller/offer')
+          navigate("/seller/offer");
           setOffer({
             productId: "",
             title: "",
@@ -149,12 +136,11 @@ const OfferDetail: React.FC = () => {
             apiQty: 0,
             lowStockAlertQty: 1,
             deliveryMethods: ["EMAIL"],
-            salesTerritory : {
-              settingsType : "GLOBAL",  
-              countries : []  
-          }
-          })
-         
+            salesTerritory: {
+              settingsType: "GLOBAL",
+              countries: [],
+            },
+          });
         } else {
           toast.error(response.payload.message);
         }
@@ -182,33 +168,54 @@ const OfferDetail: React.FC = () => {
       console.log("Validation errors:", validationErrors);
     }
   };
-  
 
   return (
-    <div className="flex flex-col h-auto gap-6 lg:py-32 py-6 lg:px-32 px-6 w-full  bg-gray-100">
-      <h2 className="text-3xl font-bold mb-3 text-gray-800" style={{ fontFamily: "Unbounded" }}>Add Gift Card Offer</h2>
-      <div className="flex flex-col md:flex-row gap-6 w-full">
-        <div className="w-full md:w-3/4 bg-white  rounded-lg shadow-md py-6 px-8">
-          <h2 className="text-2xl font-semibold mb-6 text-gray-600" style={{ fontFamily: "Unbounded" }}>
-            Offer Details
-          </h2>
-          <div className="space-y-6">
-          { productData?.service && <div className="flex justify-between text-gray-700">
-              <span className="font-medium">Service</span>
-              <span>{productData?.service?.name}</span>
-            </div>}
-            { productData?.subService && <div className="flex justify-between text-gray-700">
-              <span className="font-medium">Sub Service</span>
-              <span>{productData?.subService?.name}</span>
-            </div>}
-           { productData?.brand && <div className="flex justify-between text-gray-700">
-              <span className="font-medium">Brand</span>
-              <span> {productData?.brand?.name}</span>
-            </div>}
-           { productData?.brand?.name?.region && <div className="flex justify-between text-gray-700">
-              <span className="font-medium">Region</span>
-              <span> {productData?.brand?.name?.region}</span>
-            </div>}
+    <div className="  pt-[120px] px-4 sm:px-6  lg:px-24 w-full mx-auto flex flex-col lg:flex-row gap-6 bg-gray-100 h-auto pb-[150px] lato-font">
+      <div className="w-full lg:w-1/4 p-4 sm:px-6 order-1 lg:order-2">
+        <ul className="text-xs sm:text-sm text-gray-700 space-y-3 flex flex-col gap-2">
+          <li className="flex justify-center items-start gap-2">
+            <GrWaypoint className="text-[28px]" /> Ensure the product specifications are clearly and accurately stated.
+          </li>
+          <div className="flex justify-center items-start gap-2">
+            <GrWaypoint className="text-[28px]" />
+            <li>Use bullet points to keep descriptions short and concise.</li>
+          </div>
+        </ul>
+      </div>
+
+      <div className="w-full lg:w-3/4 bg-white p-4 sm:p-6 rounded-lg lg:shadow-md order-2 lg:order-1">
+        <h3 className="  text-xl sm:text-[25px] font-medium mb-2 lato-font" style={{ fontFamily: "Unbounded" }}>Offer Details</h3>
+
+        {isLoading ? (
+          <div className="flex justify-center items-center h-40">
+            <ClipLoader color="#101441" size={40} />
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {productData?.service && (
+              <div className="flex justify-between text-gray-700">
+                <span className="font-medium">Service</span>
+                <span>{productData?.service?.name}</span>
+              </div>
+            )}
+            {productData?.subService && (
+              <div className="flex justify-between text-gray-700">
+                <span className="font-medium">Sub Service</span>
+                <span>{productData?.subService?.name}</span>
+              </div>
+            )}
+            {productData?.brand && (
+              <div className="flex justify-between text-gray-700">
+                <span className="font-medium">Brand</span>
+                <span>{productData?.brand?.name}</span>
+              </div>
+            )}
+            {productData?.brand?.name?.region && (
+              <div className="flex justify-between text-gray-700">
+                <span className="font-medium">Region</span>
+                <span>{productData?.brand?.name?.region}</span>
+              </div>
+            )}
             <div>
               <label className="block text-gray-700 font-medium mb-2">Title</label>
               <input
@@ -243,7 +250,7 @@ const OfferDetail: React.FC = () => {
               {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
               <p className="text-sm text-gray-500 mt-2">
                 Do not include URLs or contact information in the description box. URLs will be removed for safety
-                reasons. Please use G2G Chat for all communications.
+                reasons.  
               </p>
             </div>
             <div>
@@ -302,53 +309,41 @@ const OfferDetail: React.FC = () => {
                   onChange={handleChange}
                   className="w-full p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-
                 {errors.apiQty && <p className="text-red-500 text-sm mt-1">{errors.apiQty}</p>}
               </div>
               <div>
-  <label className="block text-gray-700 font-medium mb-2">Low Stock Alert Quantity</label>
-  <input
-    type="number"
-    name="lowStockAlertQty"
-    value={offer.lowStockAlertQty}
-    onChange={handleChange}
-    className="w-full p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-  />
-  {errors.lowStockAlertQty && <p className="text-red-500 text-sm mt-1">{errors.lowStockAlertQty}</p>}
-</div>
+                <label className="block text-gray-700 font-medium mb-2">Low Stock Alert Quantity</label>
+                <input
+                  type="number"
+                  name="lowStockAlertQty"
+                  value={offer.lowStockAlertQty}
+                  onChange={handleChange}
+                  className="w-full p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                {errors.lowStockAlertQty && <p className="text-red-500 text-sm mt-1">{errors.lowStockAlertQty}</p>}
+              </div>
             </div>
             <div>
-  <label className="block text-gray-700 font-medium mb-2">Delivery Method</label>
-  <select
-    name="deliveryMethods"
-    value={offer.deliveryMethods[0]}  
-    onChange={handleChange}
-    className="w-full p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-900"
-  >
-    <option value="EMAIL">EMAIL</option>
-    <option value="OTHER">OTHER</option>  
-  </select>
-  {errors.deliveryMethods && <p className="text-red-500 text-sm mt-1">{errors.deliveryMethods}</p>}
-</div>
+              <label className="block text-gray-700 font-medium mb-2">Delivery Method</label>
+              <select
+                name="deliveryMethods"
+                value={offer.deliveryMethods[0]}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-900"
+              >
+                <option value="EMAIL">EMAIL</option>
+                <option value="OTHER">OTHER</option>
+              </select>
+              {errors.deliveryMethods && <p className="text-red-500 text-sm mt-1">{errors.deliveryMethods}</p>}
+            </div>
+          </div>
+        )}
 
-          </div>
-          <div className="flex gap-4 mt-6 justify-end">
-            <button className="px-6 py-3 bg-gray-300 text-gray-700   hover:bg-gray-100">Discard</button>
-            <button className="px-6 py-3 primary-background text-white   hover:bg-blue-950" onClick={handleSubmit}>Finish</button>
-          </div>
-        </div>
-        <div className="w-full md:w-1/4  p-6 h-fit">
-          <h3 className="text-lg font-semibold mb-4 text-gray-800" style={{ fontFamily: "Unbounded" }}>Guidelines</h3>
-          <ul className="text-gray-700 space-y-3">
-            <li className="flex items-center">
-              <span className="mr-2"><GrWaypoint className="text-[12px]" /></span>
-              <span>Ensure the product specifications are clearly and accurately stated.</span>
-            </li>
-            <li className="flex items-center">
-              <span className="mr-2"><GrWaypoint className="text-[12px]" /></span>
-              <span>Use bullet points to keep descriptions short and concise.</span>
-            </li>
-          </ul>
+        <div className="flex gap-4 mt-6 justify-end">
+          <button className="px-6 py-3 bg-gray-300 text-gray-700 hover:bg-gray-100">Discard</button>
+          <button className="px-6 py-3 primary-background text-white hover:bg-blue-950" onClick={handleSubmit}>
+            Finish
+          </button>
         </div>
       </div>
     </div>

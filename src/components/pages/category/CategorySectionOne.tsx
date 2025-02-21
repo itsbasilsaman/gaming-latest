@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 
 import { GetOffersDetail } from "../../../reduxKit/actions/user/userOfferListing";
 import { AppDispatch } from "../../../reduxKit/store";
+import SkeletonLoader from "./SkeltonLoaderOne";
 
 interface OfferDetailsProps {
   offerId?: string | undefined;
@@ -21,7 +22,7 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
  
     const [offerDetail, setOfferDetails] = useState<IOfferDetails>();
     const [TotalAmount, setTotalAmount] = useState<number>(0);
- 
+    const [loading, setLoading] = useState(false)
     const increment = () => {
       if (offerDetail && count < offerDetail.apiQty) {
         setCount((prev) => prev + 1);
@@ -47,6 +48,7 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
     useEffect(() => {
       const getOfferDetailsWithOfferId = async () => {
         try {
+          setLoading(true)
           console.log("my current offfer id ", offerId);
           const response = await dispatch(GetOffersDetail(offerId));
           console.log("hte response of the data ", response.payload);
@@ -58,7 +60,9 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
           }
         } catch (error) {
           console.log(error);
-        }   
+        } finally {
+          setLoading(false)
+        } 
       };
       getOfferDetailsWithOfferId();
     }, [dispatch, offerId]);
@@ -98,7 +102,9 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
 
     return (
       <>
-      <main className="w-full h-auto pb-[40px]   text-white">
+    { loading ? 
+    <SkeletonLoader/> :
+     <main className="w-full h-auto pb-[40px]   text-white">
           <p className="pt-[120px] md:px-[80px] text-[14px] lg:text-[16px] px-[20px]">
             Home / {offerDetail?.product.service.name} {`/`}{" "}
             {offerDetail?.product.subService
@@ -129,7 +135,7 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
             />
           </div>
           <section className="w-[100%] h-auto category-section lg:gap-[25px] md:px-[80px] px-[20px] lg:pt-[18px] ">
-            {/* <div className="category-section-one rounded-[16px] lg:px-[34px] px-[16px] py-[36px] w-full my-[15px] lg:my-[0px]">
+            <div className="category-section-one rounded-[16px] lg:px-[34px] px-[16px] py-[36px] w-full my-[15px] lg:my-[0px]">
               <h1 className="lg:text-[20px] text-[18px] font-bold">
                 
               </h1>
@@ -166,7 +172,7 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
               <p>
                 
               </p>
-            </div> */}
+            </div>
             <div className="category-section-two rounded-[16px] lg:py-[18px]  px-[23px] hidden lg:block">
               <div className="flex justify-between">
                 <div className="flex gap-[12px]">
@@ -265,7 +271,7 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
           </button>
         )}
           </div>
-        </main>
+        </main>}
         
       </>
     );
