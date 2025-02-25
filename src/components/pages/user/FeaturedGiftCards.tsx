@@ -6,14 +6,15 @@ import CardFour from '../../../assets/Card/streamog.png';
 
 // Define the type for a card item
 interface CardItem {
-  bg: string; // The image URL
-  title: string; // The title of the card
-  offer: string; // The offer details
+  bg: string;  
+  title: string; 
+  offer: string;  
 }
 
 export const FeaturedGiftCards: React.FC = React.memo(() => {
-  // Define the card items with the CardItem type
+ 
   const cardItems: CardItem[] = [
+      
     {
       bg: CardOne,
       title: 'ITunes',

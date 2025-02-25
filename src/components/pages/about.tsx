@@ -16,6 +16,17 @@ function About() {
     name: queryParams.get("name"),
     ServiceName: queryParams.get("ServiceName"),
   };
+
+
+ 
+
+
+
+
+
+
+
+
   return (
     <> 
        <Navbar/>

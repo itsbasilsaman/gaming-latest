@@ -5,6 +5,9 @@ interface Seller {
     firstName: string;
     lastName: string;
     profileImage:string
+    level : {
+      level : number
+    }
   }
   
   interface Service {

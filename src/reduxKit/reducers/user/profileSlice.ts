@@ -17,11 +17,7 @@ const initialStateForProfileLoading:ProfileLoadingStatus = {
   error: null,
   GetProfileloading: false,
 }
-
-  
  
-
-
  export const ProfileSlice = createSlice({
    name: '/userProfileSlice',
    initialState: initialStateForProfileLoading,

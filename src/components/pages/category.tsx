@@ -13,7 +13,7 @@ function Category() {
     <>
     <Navbar/>
      <CategorySectionOne offerId={offerId}/> 
-     <CategorySectionTwo/>
+     <CategorySectionTwo offerId={offerId} />
      <Footer/>
     </>
   )

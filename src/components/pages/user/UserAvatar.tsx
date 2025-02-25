@@ -86,7 +86,9 @@ export const UserAvatar: React.FC = () => {
             <div
               className={`w-[55px] h-[55px] bg-red-800 pb-[5px] profile-bar text-white rounded-full flex items-center justify-center text-2xl font-bold`}
             >
-               {profile?.firstName ? profile.firstName.charAt(0).toUpperCase() : 'X'}
+               {profile?.firstName ? profile.firstName.charAt(0).toUpperCase() : (
+                <div className="w-full h-full  shimmer rounded-full"></div>
+               )}
             </div>
             <div
               className={`absolute bottom-0 right-1 w-4 h-4 userstatus-bar text-black  border-2 border-green-400 bg-green-400 rounded-full`}

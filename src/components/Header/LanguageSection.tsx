@@ -65,7 +65,7 @@ const LanguageSection: React.FC = () => {
   };
 
   return (
-    <div className="bg-white   py-6   ">
+    <div className="bg-white   py-2   ">
       <h2 className="text-xl font-semibold primary-color mb-4" style={{fontFamily:"Unbounded"}}>Languages</h2>
 
       {/* List of Added Languages */}
@@ -96,7 +96,7 @@ const LanguageSection: React.FC = () => {
  
       {!isAdding ? (
         <button
-          className="mt-6 w-[320px] primary-background text-white py-3 rounded-full     font-semibold"
+          className="mt-6 w-full primary-background text-white py-3 rounded-full     font-semibold"
           onClick={() => setIsAdding(true)}
         >
            Add Language
