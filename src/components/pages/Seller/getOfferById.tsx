@@ -156,6 +156,7 @@ const GetOfferById: React.FC = () => {
                   {productItem.product?.service && (
                     <div className="bg-gray-200 rounded-lg border border-gray-200 p-4 shadow-sm">
                       <p className="text-center font-semibold uppercase" style={{ fontFamily: 'Unbounded' }}>Service Details</p>
+                      
                       <div className="space-y-2">
                         <p className="text-black">
                           <span className="font-medium text-gray-600">Name - </span> {productItem.product?.service?.name}

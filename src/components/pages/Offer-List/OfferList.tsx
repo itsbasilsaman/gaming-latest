@@ -9,10 +9,8 @@ import TopUpSection from "./topupSection"
      <Navbar/>
      <TopUpSection/> 
      <div className="py-3 mt-12">
-      <GamingExperiencePage/>
+      <GamingExperiencePage/> 
      </div>
-     
-    
      <Footer/>
     </>
   )
