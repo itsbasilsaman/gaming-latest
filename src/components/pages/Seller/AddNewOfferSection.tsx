@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useRef } from "react";
 import { GrWaypoint } from "react-icons/gr";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";

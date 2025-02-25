@@ -6,7 +6,7 @@ import { GetProducetsForCreateOffer,CreateOfferWithProduct } from "../../../redu
 
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../reduxKit/store";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 
@@ -29,7 +29,7 @@ const OfferDetail: React.FC = () => {
   const SelectedSubServiceId = queryParams.get("SelectedSubServiceId") || "";
   const selectedBrandId = queryParams.get("selectedBrandId") || "";
   const [productData,setProductData]= useState<any>({}) 
-
+ const navigate=useNavigate()
   const [offer, setOffer] = useState<Offer>({
     productId: "",
     title: "",
@@ -149,6 +149,7 @@ const OfferDetail: React.FC = () => {
               countries : []  
           }
           })
+          navigate("/")
          
         } else {
           toast.error(response.payload.message);
