@@ -23,10 +23,12 @@ const OfferDetail: React.FC = () => {
   const SelectedServiceId = queryParams.get("SelectedServiceId") || "";
   const SelectedSubServiceId = queryParams.get("SelectedSubServiceId") || "";
   const selectedBrandId = queryParams.get("selectedBrandId") || "";
+
   const [productData, setProductData] = useState<any>({});
   const [isLoading, setIsLoading] = useState(false); // Add loading state
 
   const navigate = useNavigate();
+
 
   const [offer, setOffer] = useState<Offer>({
     productId: "",
@@ -136,11 +138,13 @@ const OfferDetail: React.FC = () => {
             apiQty: 0,
             lowStockAlertQty: 1,
             deliveryMethods: ["EMAIL"],
+
             salesTerritory: {
               settingsType: "GLOBAL",
               countries: [],
             },
           });
+
         } else {
           toast.error(response.payload.message);
         }
