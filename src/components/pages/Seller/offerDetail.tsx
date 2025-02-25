@@ -185,6 +185,7 @@ const OfferDetail: React.FC = () => {
 
       <div className="w-full lg:w-3/4 bg-white p-4 sm:p-6 rounded-lg lg:shadow-md order-2 lg:order-1">
         <h3 className="  text-xl sm:text-[25px] font-medium mb-2 lato-font" style={{ fontFamily: "Unbounded" }}>Offer Details</h3>
+        
 
         {isLoading ? (
           <div className="flex justify-center items-center h-40">

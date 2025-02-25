@@ -109,6 +109,7 @@ export const Navbar: React.FC = React.memo(() => {
       setShowCategories(false); // Initially show "Popular Searches"
     } else {
       setShowCategories(!showCategories); // Toggle between views
+      setDropdownOpen(!dropdownOpen)
     }
   };
 
@@ -206,50 +207,36 @@ export const Navbar: React.FC = React.memo(() => {
                 placeholder="Game Gate"
                 className="flex-1 header-inputbox pl-[10px] w-full"
               />
-              <MdOutlineKeyboardArrowDown
-                className="text-[24px] mx-[5px] cursor-pointer"
-                onClick={toggleDropdown}
-              />
+              <div className='flex header-service-button pl-3 pr-2  py-[7px] cursor-pointer rounded-full'  onClick={toggleDropdown}>
+                <span>All services</span>
+                <MdOutlineKeyboardArrowDown
+                  className="text-[24px]  ml-6  cursor-pointer"
+                 
+                />
+              </div>
             </div>
 
             {dropdownOpen && (
               <div
-                className={`absolute top-[77px] left-0 right-0 bg-white text-black header-dropdown shadow-lg rounded-lg p-4 z-10 transition-transform duration-300 ease-in-out ${
-                  dropdownOpen ? "opacity-100 scale-100" : "opacity-0 scale-90"
-                }`}
+                className={`absolute top-[60px] left-0 right-0 header-dropdown text-white py-6   shadow-lg rounded-lg p-4 z-10 transition-transform duration-300 ease-in-out  
+             
+                `}
               >
-                {showCategories && (
+              
                   <div>
-                    <h3 className="text-lg font-semibold mb-4">Search in service</h3>
+                    <h3 className="text-lg font-semibold mb-6 primary-color" style={{ fontFamily: 'Unbounded' }}>Search in service</h3>
                     <div className="grid grid-cols-4 gap-4">
                       { service.map((item, index) => (
-                        <div key={index}   onClick={()=>{handleServiceNested(item)}} className="flex flex-col items-center cursor-pointer">
-                          <img src={item.iconUrl} alt="" className='w-[50px]' />
-                          <p className="mt-2 text-sm">{item.name}</p>
+                        <div key={index}   onClick={()=>{handleServiceNested(item)}} className="flex flex-col items-center cursor-pointer dropdown-box py-3 rounded-lg">
+                          <img src={item.iconUrl} alt="" className='w-[60px] h-[60px]' />
+                          <p className="mt-2 text-sm primary-color font-medium">{item.name}</p>
                         </div>
                       ))}
                     </div>
                   </div>
-                )
-                //  : (
-                //   <div>
-                //     <h3 className="text-lg font-semibold mb-4">Popular searches</h3>
-                //     <div className="flex flex-wrap gap-2">
-                //       {["vandal", "free fire id", "skins", "sell", "pc"].map(
-                //         (item, index) => (
-                //           <span
-                //             key={index}
-                          
-                //             className="px-4 py-2 bg-gray-200 rounded-[16px] cursor-pointer game-offer-button"
-                //           >
-                //             {item}
-                //           </span>
-                //         )
-                //       )}
-                //     </div>
-                //   </div>
-                // )
-                }
+              
+              
+          
               </div>
             )}
           </div>
@@ -358,6 +345,7 @@ export const Navbar: React.FC = React.memo(() => {
                 'Save'
               )}
             </button>
+
           </section>
         </div>
       </div>

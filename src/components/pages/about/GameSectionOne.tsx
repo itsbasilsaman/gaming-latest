@@ -156,7 +156,7 @@ const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, i
             
           </div>
 
-          {/* Remove the incorrect extra closing main here */}
+       
  
           <div className='w-full h-auto mt-12 text-white'>
               <div className='flex lg:justify-between items-center  lg:flex-row flex-col gap-[20px] lg:gap-[0px]'>
@@ -197,12 +197,13 @@ const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, i
                   </div>
               </div>
 
+
               <div className='lg:flex lg:justify-between lg:pt-[55px] pt-[40px]'>
                   <h1 style={{ fontFamily: 'Unbounded' }} className='text-[20px] py-2 lg:py-0'>15 Top Ups</h1>
                   <div className='flex lg:gap-[50px] lg:flex-row justify-between lg:justify-normal py-[11px] py-[6px]'>
                       <p className='lg:text-[18px]'>Sort by</p>
                       <div className='flex lg:gap-[20px] gap-[9px]'>
-                          <label className='lg:text-[18px]'>
+                          <label className='lg:text-[18px] cursor-pointer'>
                               <input
                                   type="radio"
                                   value="Option 1"
@@ -212,7 +213,7 @@ const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, i
                               />
                               Lowest Price
                           </label>
-                          <label className='lg:text-[18px]'>
+                          <label className='lg:text-[18px] cursor-pointer'>
                               <input
                                   type="radio"
                                   value="Option 2"
@@ -236,7 +237,7 @@ const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, i
 
            
                   <div className='top-up-section lg:gap-[19px] lg:pt-[25px] pt-[5px] pb-[25px]' key={index} onClick={()=>handleOfferDetails(MyOffer.id)}>
-                      <section className='lg:h-[125px] rounded-[16px] top-up-box p-[19px] flex flex-col justify-between'>
+                      <section className='lg:h-[125px] rounded-[16px] top-up-box p-[19px] cursor-pointer flex flex-col justify-between'>
                           <div className='flex justify-between'>
                               <h1 className='text-[19px] font-medium'>{MyOffer.title}</h1>
                               <CiHeart className='text-[44px]' />

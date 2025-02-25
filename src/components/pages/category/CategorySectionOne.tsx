@@ -18,11 +18,12 @@ interface OfferDetailsProps {
 const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
   ({ offerId }) => {
     const dispatch = useDispatch<AppDispatch>();
+
     const [count, setCount] = useState(1);
- 
     const [offerDetail, setOfferDetails] = useState<IOfferDetails>();
     const [TotalAmount, setTotalAmount] = useState<number>(0);
     const [loading, setLoading] = useState(false)
+
     const increment = () => {
       if (offerDetail && count < offerDetail.apiQty) {
         setCount((prev) => prev + 1);
@@ -40,11 +41,7 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
         setTotalAmount(count * offerDetail.unitPriceSAR);
       }
     }, [count, offerDetail]);
-
-  
-
-  
-
+ 
     useEffect(() => {
       const getOfferDetailsWithOfferId = async () => {
         try {
@@ -137,31 +134,31 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
           <section className="w-[100%] h-auto category-section lg:gap-[25px] md:px-[80px] px-[20px] lg:pt-[18px] ">
             <div className="category-section-one rounded-[16px] lg:px-[34px] px-[16px] py-[36px] w-full my-[15px] lg:my-[0px]">
               <h1 className="lg:text-[20px] text-[18px] font-bold">
-                
+                Product Info
               </h1>
              
               <div className="w-full outline-section py-[20px]">
                
                 <h1 className="block lg:hidden font-semibold text-[18px]">
-                 
+                Product Info
                 </h1>
                 <div className="flex justify-between lg:items-center">
                   <div className="flex lg:gap-[7px] gap-[5px]">
                     
-                    <h1 className="font-semibold">  </h1>
+                    <h1 className="font-semibold">    </h1>
                   </div>
                   <p> </p>
                 </div>
               </div>
            
               <h1 className="lg:text-[20px] lg:font-bold lg:py-[14px] hidden lg:block">
-            
+                 Details
               </h1>
               <p className="pb-[8px] lg:pb-[0px]">
-                
+                Fill Up Orderform and Details like this.
               </p>
               <p>
-                
+              
               </p>
               <p>
                  
@@ -269,6 +266,7 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
           >
             Buy now
           </button>
+
         )}
           </div>
         </main>}
