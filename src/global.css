@@ -91,6 +91,9 @@ body {
   border: 1px solid  rgba(255, 255, 255, 0.28);
   background-color: rgba(242, 244, 248, 0.13);
 }
+.selected-button {
+  background-color: rgba(242, 244, 248, 0.382);
+}
  
 .country-button {
   background-color: transparent;
