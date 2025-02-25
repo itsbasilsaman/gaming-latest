@@ -6,16 +6,10 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../reduxKit/store';
 import { UserProfileData } from '../../../interfaces/user/profile';
 import { userLogout } from '../../../reduxKit/actions/auth/authAction';
-
-
-
-
+ 
 
 export const UserAvatar: React.FC = () => {
  
-
- 
-
   const [isOpen, setIsOpen] = useState(false);
  
   const [profile, setProfile] = useState<UserProfileData | null>(null)
@@ -97,7 +91,7 @@ export const UserAvatar: React.FC = () => {
 
           {/* Toggle Section */}
           {isOpen && (
-            <div className="absolute mt-2 right-0 py-4 text-black w-[370px]  bg-white rounded-lg shadow-md">
+            <div className="absolute mt-2 right-0 py-4 text-black w-[370px]  header-dropdown rounded-lg shadow-md">
               <div className="  rounded-lg  max-w-md mx-auto">
                 {/* Header */}
                 <Link to={'/profile'}>
@@ -114,6 +108,7 @@ export const UserAvatar: React.FC = () => {
                       >
                          {profile?.userName}
                       </h1>
+
                       <p className="text-sm text-gray-700"> 
                        Level {profile?.level?.level}
                       </p>

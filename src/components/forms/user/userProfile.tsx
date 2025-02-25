@@ -5,11 +5,11 @@ import { getUserProfile , PutUserProfilePic , PutUserCoverPic } from "../../../r
 import { Link } from "react-router-dom";
 import { UserProfileData } from '../../../interfaces/user/profile';
 import { useDispatch } from "react-redux";
-import { AppDispatch, RootState } from "../../../reduxKit/store";
+import { AppDispatch } from "../../../reduxKit/store";
 import LanguageSection from "../../Header/LanguageSection";
 import FollowingModal from "./FollowingModal";
 import FollowersModal from "./FollowerModal";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { UserProfileResponsive } from "./userProfileResponsive";
 import { Navbar } from "../../pages/user/Navbar";
 
@@ -18,6 +18,7 @@ const Profile: React.FC = () => {
   const [coverImage, setCoverImage] = useState<File | null | string>(null);
   const [isEditing, setIsEditing] = useState<string | null>(null);
   const [dots, setDots] = useState("");
+  const [profileLoading, setProfileLoading] = useState(false)
   const [formData, setProfiles] = useState<UserProfileData>();
   const [languages, setLanguages] = useState([]);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -27,9 +28,9 @@ const Profile: React.FC = () => {
   const openFollowersModal = () => setIsFollowersModalOpen(true);
   const closeFollowersModal = () => setIsFollowersModalOpen(false);
   const dispatch = useDispatch<AppDispatch>();
-  const { GetProfileloading } = useSelector(
-    (state: RootState) => state.profile
-  );
+  // const { GetProfileloading } = useSelector(
+  //   (state: RootState) => state.profile
+  // );
   const [coverUploadLoad, setCoverUploadLoad] = useState<boolean>(false)
   const [profileUploadLoad, setProfileUploadLoad] = useState<boolean>(false)
 
@@ -136,9 +137,9 @@ const Profile: React.FC = () => {
 
  
 
-  if (GetProfileloading) {
-    console.log("the data of the content ");
-  }
+  // if (GetProfileloading) {
+  //   console.log("the data of the content ");
+  // }
 
   const getImageSrc = () => {
     if(profileImage instanceof File){
@@ -151,11 +152,12 @@ const Profile: React.FC = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
+        setProfileLoading(true)
         const resultAction = await dispatch(getUserProfile());
         if (getUserProfile.fulfilled.match(resultAction)) {
           const { data } = resultAction.payload;
           console.log("kidu profile $#$#$#$#$", data);
-
+       
           setProfiles(data.data);
           setLanguages(data.data.languages);
           console.log(
@@ -170,6 +172,8 @@ const Profile: React.FC = () => {
         }
       } catch (error) {
         console.error("Unexpected error while fetching the profile: ", error);
+      } finally {
+        setProfileLoading(false)
       }
     };
     fetchProfile();
@@ -192,6 +196,29 @@ const Profile: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  if(profileLoading){
+    return (
+      <div className="loading-backdrop">
+      <div className="flex justify-center items-center h-screen">
+        <div className="flex items-center flex-col">
+          <div className="w-12 h-12 border-5 border-t-4 border-t-gray-150 border-gray-100 rounded-full animate-spin"></div>
+          <p className="mt-4 text-white text-[22px] font-semibold tracking-wide" style={{ fontFamily: 'Unbounded' }}>
+            Loading<span className="dot-animation mr-[6px]">
+              <span>.</span>
+              <span>.</span>
+              <span>.</span>
+            </span>
+          </p>
+          
+          <p className="text-sm text-white mt-2 font-semibold">
+            Please wait, your content is on the way.
+          </p>
+        </div>
+      </div>
+    </div>
+    )
+  }
+
 
 
 
@@ -201,7 +228,7 @@ const Profile: React.FC = () => {
          <Navbar/>
       </div>
 
-      <div className="w-full h-[1500px] profile-main     relative">
+      <div className="w-full h-[1000px] profile-main     relative">
        {  !coverUploadLoad ? 
        <div
           className="banner-section relative cover-photo"
@@ -295,13 +322,14 @@ const Profile: React.FC = () => {
 
         <section className="absolute w-[420px] h-auto profile-section rounded-[14px] left-[140px] top-[60px] py-[25px] px-[26px] flex flex-col justify-start items-center gap-[30px]">
   <div className="">
-    {GetProfileloading ? (
+    {/* {GetProfileloading ? (
      <div className="flex flex-col items-center py-4">
      <div className="w-9 h-9 border-[5px] border-[#101441] border-t-transparent rounded-full animate-spin shadow-lg"></div>
      <p className="mt-2 text-[15px] font-semibold text-[#101441]"  style={{ fontFamily: "Unbounded" }}>Loading{dots}</p>
    </div>
     
-    ) : (
+    ) : */}
+     
       <div className="profile-content">
         <div className="flex justify-center mb-2">
           <div className="h-30 rounded-full bg-gray-100 p-1 backdrop-blur sm:p-3">
@@ -508,7 +536,8 @@ const Profile: React.FC = () => {
           </div>
         </div>
       </div>
-    )}
+    
+    {/* } */}
   </div>
 </section>
 

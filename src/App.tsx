@@ -21,6 +21,7 @@ import AddNewOfferSection from "./components/pages/Seller/AddNewOfferSection";
 import OfferDetailPage from "./components/pages/Seller/offerDetailComponent.tsx";
 import GetOffer from "./components/pages/Seller/getOffer.tsx";
 import GetOfferById from "./components/pages/Seller/getOfferById.tsx";
+// import { Services } from './components/pages/user/Services';
 
 
 const WelcomePage = lazy(() => import("./components/pages/welcome"));
@@ -151,6 +152,7 @@ export const App: React.FC = React.memo(() => {
 
           {/* SELLER ROUTES */}
           <Route path="/toggle" element={<ToggleProfile />} />
+
           <Route
             path="/user/sellerSignup"
             element={ isLoggedUser&&userSellerProfile===null ? <SellerRegistrationForm /> : <Navigate to="/" /> }

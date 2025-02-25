@@ -31,6 +31,7 @@ const TopUpSection: React.FC = () => {
   // const nameAr = queryParams.get("nameAr") || "";
   const iconUrl = queryParams.get("iconUrl") || "";
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedItem,setSelectedItem] = useState<number>(1)
   const [filteredGames, setFilteredGames] = useState<GameBrands[]>([]);
   const [itemsPerPage, setItemsPerPage] = useState(ITEMS_PER_PAGE_BIG_SCREEN);
   const [loading, setLoading] = useState(true);
@@ -38,6 +39,15 @@ const TopUpSection: React.FC = () => {
   const [allGames, setAllGames] = useState<GameBrands[]>([]);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+
+
+  const buttons = [
+    { id: 1, label: "All" },
+    { id: 2, label: "TopUp" },
+    { id: 3, label: "Offer Menu" },
+  ];
+
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -135,32 +145,19 @@ const TopUpSection: React.FC = () => {
       <div className="max-w-screen-xl mx-auto common-background lg:px-6 px-4 pb-8 rounded-[15px]">
         <div>
           <div className="flex lg:justify-between items-center lg:flex-row flex-col gap-[20px] lg:gap-[0px] py-[25px]">
-            <div className="flex lg:gap-[15px] w-[100%] lg:w-auto justify-between lg:justify-normal">
-              <span className="relative">
-                <button
-                  onClick={() => handleFilter("All")}
-                  className="blur-button lg:px-[29px] px-[15px] py-[9px] lg:text-[17px] text-white rounded-[1000px]"
-                >
-                  All
-                </button>
-              </span>
-              <span className="relative">
-                <button
-                  onClick={() => handleFilter("Top Up")}
-                  className="blur-button lg:px-[29px] px-[18px] py-[9px] lg:text-[17px] text-white rounded-[1000px]"
-                >
-                  Top Up
-                </button>
-              </span>
-              <span className="relative">
-                <button
-                  onClick={() => handleFilter("Offer Menu")}
-                  className="blur-button lg:px-[29px] px-[14px] py-[9px] lg:text-[17px] text-white rounded-[1000px]"
-                >
-                  Offer Menu
-                </button>
-              </span>
-            </div>
+           {buttons.map((item, index)=> (
+             <div className="flex lg:gap-[15px] w-[100%] lg:w-auto justify-between lg:justify-normal">
+             <span className="relative" key={index}>
+               <button
+                 onClick={() =>{ handleFilter(item.label); setSelectedItem(item.id)}}
+                 className={`${selectedItem === item.id ? 'selected-button': 'blur-button' }  lg:px-[29px] px-[15px] py-[9px] lg:text-[17px] text-white rounded-[1000px]`}
+               >
+                {item.label}  
+               </button>
+             </span>
+           </div>
+
+           )) }
             <div className="relative extralg:w-[912px] lg:w-[492px] h-[48px] w-[100%]">
               <input
                 type="text"

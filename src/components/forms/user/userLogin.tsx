@@ -17,7 +17,7 @@ interface Country {
 
 const UserLogin: React.FC = React.memo(() => {
   const [inputValue, setInputValue] = useState<string>("");
-  const [countryCode, setCountryCode] = useState<string>("+91");
+  const [countryCode, setCountryCode] = useState<string>("+966");
   const [inputType, setInputType] = useState<"email" | "phone" | null>(null);
   const [errors, setErrors] = useState<{ input?: string }>({});
   const [countries, setCountries] = useState<Country[]>([]);
