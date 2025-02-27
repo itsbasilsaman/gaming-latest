@@ -23,6 +23,7 @@ const OfferDetail: React.FC = () => {
   const SelectedServiceId = queryParams.get("SelectedServiceId") || "";
   const SelectedSubServiceId = queryParams.get("SelectedSubServiceId") || "";
   const selectedBrandId = queryParams.get("selectedBrandId") || "";
+ 
   const [productData, setProductData] = useState<any>({});
   const [isLoading, setIsLoading] = useState(false); // Add loading state
 
@@ -39,7 +40,7 @@ const OfferDetail: React.FC = () => {
     minQty: 0,
     apiQty: 0,
     lowStockAlertQty: 1,
-    deliveryMethods: ["EMAIL"],
+    deliveryMethods: [], // Initialize as empty array
     salesTerritory: {
       settingsType: "GLOBAL",
       countries: [],
@@ -58,13 +59,27 @@ const OfferDetail: React.FC = () => {
           selectedBrandId,
         };
         const response = await dispatch(GetProducetsForCreateOffer(data));
+        console.log('1212basii',response.payload);
+        const apifatchValue = response.payload;
+        console.log(apifatchValue);
+        
         await setProductData(response.payload.data[0]);
         if (response.payload.success) {
           toast.success(response.payload.message);
+          
+          // Set deliveryMethods based on API response
+          if (response.payload.data[0]?.deliveryTypes) {
+            setOffer((prev) => ({
+              ...prev,
+              deliveryMethods: response.payload.data[0].deliveryTypes,
+            }));
+          }
         } else {
           toast.error(response.payload.message);
         }
       } catch (error: any) {
+        console.log(error);
+        
         Swal.fire({
           icon: "error",
           title: "Error!",
@@ -117,10 +132,12 @@ const OfferDetail: React.FC = () => {
         formData.append("minQty", String(offer.minQty));
         formData.append("apiQty", String(offer.apiQty));
         formData.append("lowStockAlertQty", String(offer.lowStockAlertQty));
-        formData.append("deliveryMethods", JSON.stringify(offer.deliveryMethods)); // Ensure this is correctly serialized
+        formData.append("deliveryMethods", JSON.stringify(offer.deliveryMethods));  
         formData.append("salesTerritory", JSON.stringify(offer.salesTerritory));
 
         const response = await dispatch(CreateOfferWithProduct(formData));
+        console.log('Response Data',response);
+        
         if (response.payload.success) {
           toast.success(response.payload.message);
           navigate("/seller/offer");
@@ -135,16 +152,20 @@ const OfferDetail: React.FC = () => {
             minQty: 0,
             apiQty: 0,
             lowStockAlertQty: 1,
-            deliveryMethods: ["EMAIL"],
+            deliveryMethods: [], // Reset to empty array
             salesTerritory: {
               settingsType: "GLOBAL",
               countries: [],
             },
           });
         } else {
+          console.log('Error Message', response);
+          
           toast.error(response.payload.message);
         }
       } catch (error: any) {
+        console.log('Eroor showing Message',error);
+        
         Swal.fire({
           icon: "error",
           title: "Error!",
@@ -332,8 +353,11 @@ const OfferDetail: React.FC = () => {
                 onChange={handleChange}
                 className="w-full p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-900"
               >
-                <option value="EMAIL">EMAIL</option>
-                <option value="OTHER">OTHER</option>
+                {productData?.deliveryTypes?.map((method: string, index: number) => (
+                  <option key={index} value={method}>
+                    {method}
+                  </option>
+                ))}
               </select>
               {errors.deliveryMethods && <p className="text-red-500 text-sm mt-1">{errors.deliveryMethods}</p>}
             </div>

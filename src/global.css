@@ -59,6 +59,13 @@ body {
   background-color: rgba(42, 42, 42, 0.063);
 }
 
+/* Loading */
+
+.loading-bg {
+  background: url('./assets/Images/bg.png');
+  background-size: cover;
+}
+
 
 /* Header  */
 

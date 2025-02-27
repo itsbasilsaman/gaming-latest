@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
-import LanguageSwitcher from "../../Header/LanguageSwitcher";
+import LanguageSection from "../../Header/LanguageSection";
 import { IoCameraOutline } from "react-icons/io5";
 import { getUserProfile , PutUserProfilePic , PutUserCoverPic } from "../../../reduxKit/actions/user/userProfile";
 import { UserProfileData } from '../../../interfaces/user/profile';
 import { useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../../reduxKit/store";
- 
+import FollowingModal from "./FollowingModal";
+import FollowersModal from "./FollowerModal";
 import { useSelector } from "react-redux";
-
-
 
  
 export const UserProfileResponsive : React.FC  = () => {
@@ -17,13 +16,16 @@ export const UserProfileResponsive : React.FC  = () => {
   const [profileImage, setProfileImage] = useState<File | null | string>(null);
   const [coverImage, setCoverImage] = useState<File | null | string>(null);
   const [isEditing, setIsEditing] = useState<string | null>(null);
- 
+  const [isFollowersModalOpen, setIsFollowersModalOpen] = React.useState(false);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [profileLoading, setProfileLoading] = useState(false)
   const [formData, setProfiles] = useState<UserProfileData>();
   const [languages, setLanguages] = useState([]);
- 
-
+  const openFollowersModal = () => setIsFollowersModalOpen(true);
+  const closeFollowersModal = () => setIsFollowersModalOpen(false);
   // This is Following ModaL ***
- 
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
   const dispatch = useDispatch<AppDispatch>();
   const { GetProfileloading } = useSelector(
     (state: RootState) => state.profile
@@ -87,10 +89,6 @@ export const UserProfileResponsive : React.FC  = () => {
     }
   };
 
-
- 
-
-
  
 
   if (GetProfileloading) {
@@ -108,6 +106,7 @@ export const UserProfileResponsive : React.FC  = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
+        setProfileLoading(true)
         const resultAction = await dispatch(getUserProfile());
         if (getUserProfile.fulfilled.match(resultAction)) {
           const { data } = resultAction.payload;
@@ -127,6 +126,8 @@ export const UserProfileResponsive : React.FC  = () => {
         }
       } catch (error) {
         console.error("Unexpected error while fetching the profile: ", error);
+      } finally {
+        setProfileLoading(false)
       }
     };
     fetchProfile();
@@ -142,7 +143,28 @@ export const UserProfileResponsive : React.FC  = () => {
   }, [formData]);
 
    
-
+  if(profileLoading){
+    return (
+      <div className="loading-backdrop w-full h-full loading-bg"   >
+      <div className="flex justify-center items-center h-screen">
+        <div className="flex items-center flex-col">
+          <div className="w-12 h-12 border-5 border-t-4 border-t-gray-150 border-gray-100 rounded-full animate-spin"></div>
+          <p className="mt-4 text-white text-[22px] font-semibold tracking-wide" style={{ fontFamily: 'Unbounded' }}>
+            Loading<span className="dot-animation mr-[6px]">
+              <span>.</span>
+              <span>.</span>
+              <span>.</span>
+            </span>
+          </p>
+          
+          <p className="text-sm text-white mt-2 font-semibold">
+            Please wait, your content is on the way.
+          </p>
+        </div>
+      </div>
+    </div>
+    )
+  }
 
 
 
@@ -229,178 +251,158 @@ export const UserProfileResponsive : React.FC  = () => {
           </div>
 
           <div className="px-[35px]">
-            <div className="text-center mb-4">
-              <h2
-                className="text-[16px] primary-color"
-                style={{ fontFamily: "Unbounded" }}
-              >
-                {formData?.userName}
-              </h2>
-              <p className="text-gray-500">Level {formData?.level.level}</p>
-              <div className="mb-4">
-                <div className="flex justify-between my-[6px]">
-                  <p>Level {formData?.level.level}</p>
-                  <p>
-                    {formData?.level?.level ? formData.level.level + 1 : "N/A"}
-                  </p>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2.5">
-                  <div
-                    className="bg-red-500 h-2.5 rounded-full"
-                    style={{ width: "0%" }}
-                  ></div>
-                </div>
-              </div>
+          <div className="text-center mb-4">
+          <h2
+            className="text-[16px] primary-color"
+            style={{ fontFamily: "Unbounded" }}
+          >
+            {formData?.userName}
+          </h2>
+          <p>Level {formData?.level.level}</p>
+          <div className="mb-4">
+            <div className="flex justify-between my-[6px]">
+              <p>Level {formData?.level.level}</p>
+              <p>
+                {formData?.level?.level ? formData.level.level + 1 : "N/A"}
+              </p>
             </div>
-            <div className="py-[10px] w-full flex justify-center items-center pb-[18px]">
-              <LanguageSwitcher />
-            </div>
-            <div className="w-full space-y-6">
-              <div className="flex justify-between items-center w-full">
-                <div className="flex gap-4 w-full mr-[10px]">
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-600">
-                      {formData?.firstName}
-                    </p>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-600">
-                      {formData?.lastName}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex justify-between items-center w-full">
-                <div>
-                  {/* <p className="text-sm text-gray-600">Email</p> */}
-                </div>
-              </div>
-
-              {/* Gender */}
-              <div className="flex justify-between items-center w-full">
-                <div>
-                  <p className="text-sm text-gray-600">
-                    Gender {formData?.gender}
-                  </p>
-                </div>
-              </div>
-              <div className="flex justify-between items-center w-full">
-                <div>
-                  <p className="text-sm text-gray-600">
-                    Date of Birth : {formData?.dob}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex justify-between items-center mt-[19px]">
-              <div>
-                <p className="text-sm text-gray-600">Description</p>
-                {isEditing === "description" ? (
-                  <textarea
-                    name="description"
-                    value={formData?.description ?? ""}
-                    onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-md px-2 py-1 my-2"
-                    rows={3}
-                    cols={30}
-                  ></textarea>
-                ) : (
-                  <p className="text-gray-800">{formData?.description}</p>
-                )}
-              </div>
-              <FaEdit
-                className="cursor-pointer text-gray-500"
-                onClick={() => handleEditClick("description")}
-              />
-            </div>
-
-            {isEditing && (
-              <button
-                className="w-full primary-background text-white py-2 px-4 rounded-md font-medium hover:bg-blue-900 mt-4"
-                onClick={handleSaveClick}
-              >
-                Save Changes
-              </button>
-            )}
-            <p className="text-sm text-gray-600 pt-4 pb-2">Country</p>
-            {/* <div className="pb-4 flex  items-center justify-between">
-     
-        <select
-          className="w-full border rounded-md p-2 mr-[10px]"
-          onChange={(e) => {
-            const selected = countries.find((c) => c.name === e.target.value);
-            setSelectedCountry(selected || null);
-          }}
-        >
-          <option value="">Select a Country</option>
-          {countries.map((country) => (
-            <option key={country.name} value={country.name}>
-              {country.name}
-            </option>
-          ))}
-        </select>
-        {selectedCountry && (
-          <div className="flex items-center ">
-            <img
-              src={selectedCountry.flag}
-              alt={selectedCountry.name}
-              className="w-8 h-5 mr-2"
-            />
-            <span>{selectedCountry.dialCode}</span>
-          </div>
-        )}
-      </div>        */}
-            <hr className="my-4" />
-            <div className="text-center mb-4 text-sm text-gray-500 flex justify-between">
-              <p>Member since</p>
-              {new Date(formData?.memberSince ?? "1970-01-01").toLocaleString(
-                "en-US",
-                {
-                  month: "long",
-                  year: "numeric",
-                }
-              )}
-            </div>
-            <hr className="my-4" />
-            <div className="flex justify-between text-center text-sm text-gray-500">
-              <div>
-                <p className="font-medium text-gray-800">
-                  {formData?.followersCount}
-                </p>
-                <p>Followers</p>
-              </div>
-              <div>
-                <p className="font-medium text-gray-800">
-                  {formData?.folowingCount}
-                </p>
-                <p>Following</p>
-              </div>
-            </div>
-
-            <hr className="my-4" />
-
-            <div className="text-center mb-4 flex justify-between">
-              <p className="text-sm text-gray-500">Successful delivery</p>
-              <div>
-                <p className="font-medium text-gray-800">
-                  {formData?.succesfullDeliveries}
-                </p>
-                <p className="text-xs text-gray-500">
-                  (Total lifetime orders: 0)
-                </p>
-              </div>
-            </div>
-
-            <hr className="my-4" />
-
-            <div className="text-center mb-4 text-sm text-gray-500 flex justify-between">
-              <p>Blocked User Count</p>
-              <p className="font-medium">{formData?.blockedUsersCount}</p>
+            <div className="w-full bg-gray-200 rounded-full h-2.5">
+              <div
+                className="bg-red-500 h-2.5 rounded-full"
+                style={{ width: "0%" }}
+              ></div>
             </div>
           </div>
         </div>
+
+       
+
+        <div className="w-full space-y-3">
+          <div className="flex justify-between items-center w-full">
+            <div className="flex gap-4 w-full ">
+              <div className="flex-1">
+                <p className="text-sm text-gray-600 w-full flex justify-between"><span className="primary-color font-medium ">Name</span>{formData?.firstName} {formData?.lastName}</p>
+              </div>
+              {/* <div className="flex-1">
+                <p className="text-sm text-gray-600">
+                  
+                </p>
+              </div> */}
+            </div>
+          </div>
+          <div className="flex justify-between items-center w-full">
+            <div>
+              <p className="  w-full flex justify-between"><span className="primary-color font-medium mr-3">Email</span></p>
+            </div>
+            <p className="text-sm text-gray-600">{formData?.email}</p>
+          </div>
+          <div className="flex justify-between items-center w-full">
+            <p className="text-sm text-gray-600 w-full flex justify-between">
+            <span className="primary-color font-medium mr-3">Gender</span> {formData?.gender}
+            </p>
+          </div>
+          <div className="  w-full">
+            <div>
+              <p className="text-sm text-gray-600 w-full flex justify-between"> 
+              <span className="primary-color font-medium  ">Date of Birth</span>{" "}
+               <span>
+                  {formData?.dob
+                    ? new Date(formData.dob).toLocaleDateString("en-US", {
+                        month: "long",
+                        year: "numeric",
+                      })
+                    : ""}
+               </span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-between items-center  mt-2">
+          <div>
+          <span className="primary-color font-medium mr-3">Description</span>
+            {isEditing === "description" ? (
+              <textarea
+                name="description"
+                value={formData?.description ?? ""}
+                onChange={handleInputChange}
+                className="w-full border border-gray-300 rounded-md px-2 py-1 my-2"
+                rows={3}
+                cols={30}
+              ></textarea>
+            ) : (
+              <p className="text-gray-800">{formData?.description}</p>
+            )}
+          </div>
+          <FaEdit
+            className="cursor-pointer text-gray-500"
+            onClick={() => handleEditClick("description")}
+          />
+        </div>
+
+        {isEditing && (
+          <button
+            className="w-full primary-background text-white py-2 px-4 rounded-md font-medium hover:bg-blue-900 mt-4"
+            onClick={handleSaveClick}
+          >
+            Save Changes
+          </button>
+        )}
+
+        <p className="text-sm text-gray-600 pt-2 pb-2 flex justify-between w-full"><span className="primary-color font-medium mr-3 ">Country</span> {formData?.country}</p>
+        <LanguageSection />
+       
+        
+        <div className="text-center mb-4 text-sm text-gray-500 flex justify-between mt-3">
+          <p>Member since</p>
+          <p className="font-medium">
+            {formData?.memberSince
+              ? new Date(formData.memberSince).toLocaleString("en-US", {
+                  month: "long",
+                  year: "numeric",
+                })
+              : "N/A"}
+          </p>
+        </div>
+        
+        <hr className="my-4" />
+        
+        <div className="flex justify-between text-center text-sm text-gray-500">
+          <div onClick={openFollowersModal} className="cursor-pointer">
+            <p className="font-medium text-gray-800">
+              {formData?.followersCount}
+            </p>
+            <p>Followers</p>
+          </div>
+          <div onClick={openModal} className="cursor-pointer">
+            <p className="font-medium text-gray-800">
+              {formData?.folowingCount}
+            </p>
+            <p>Following</p>
+          </div>
+        </div>
+
+        <hr className="my-4" />
+
+        <div className="text-center mb-4 flex justify-between">
+          <p className="text-sm text-gray-500">Successful delivery</p>
+          <div>
+            <p className="font-medium text-gray-800">
+              {formData?.succesfullDeliveries}
+            </p>
+           
+          </div>
+        </div>
+          </div>
+        </div>
       </section>
+
+      <FollowingModal isOpen={isModalOpen} onClose={closeModal} />
+      <FollowersModal
+        isOpen={isFollowersModalOpen}
+        onClose={closeFollowersModal}
+      />
+
     </>
   )
 }

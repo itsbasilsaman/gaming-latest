@@ -222,7 +222,6 @@ export const Navbar: React.FC = React.memo(() => {
              
                 `}
               >
-              
                   <div>
                     <h3 className="text-lg font-semibold mb-6 primary-color" style={{ fontFamily: 'Unbounded' }}>Search in service</h3>
                     <div className="grid grid-cols-4 gap-4">
