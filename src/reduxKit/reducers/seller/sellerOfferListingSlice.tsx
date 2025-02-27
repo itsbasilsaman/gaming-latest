@@ -4,7 +4,6 @@ import { GetOffersFromSeller,UpdateOfferFromSeller,GetOfferByIdFromSeller } from
 
 
 interface ServicesState {
-
     OfferListloading: boolean;
     error: string | null;
   }
@@ -18,8 +17,7 @@ interface ServicesState {
     name: 'OfferListing',
     initialState,
     reducers: {},
-
-    extraReducers: (builder) => {
+     extraReducers: (builder) => {
       builder
         .addCase(GetOffersFromSeller.pending, (state) => {
           state.OfferListloading = true;
@@ -30,7 +28,7 @@ interface ServicesState {
             state.error=null
           state.OfferListloading = false;
           
-          console.log("this console oad ", action.payload);
+          console.log(" ", action.payload);
         })
         .addCase(GetOffersFromSeller.rejected, (state, action) => {
           state.OfferListloading = false;
@@ -57,7 +55,7 @@ interface ServicesState {
         })
 
         .addCase(UpdateOfferFromSeller.fulfilled, (state, action) => {
-            state.error=null
+          state.error = null
           state.OfferListloading = false;
           
           console.log("this console getoffer", action.payload);

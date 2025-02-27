@@ -14,7 +14,7 @@ interface Country {
   callingCodes: string[];
   flag: string;
 }
-
+ 
 const UserLogin: React.FC = React.memo(() => {
   const [inputValue, setInputValue] = useState<string>("");
   const [countryCode, setCountryCode] = useState<string>("+966");
@@ -23,18 +23,10 @@ const UserLogin: React.FC = React.memo(() => {
   const [countries, setCountries] = useState<Country[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
-
   const { loading } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    fetch("https://restcountries.com/v2/all?fields=name,callingCodes,flag")
-      .then((response) => response.json())
-      .then((data: Country[]) => setCountries(data))
-      .catch((error) => console.error("Error fetching countries:", error));
-  }, []);
-
+ 
   const handleInputChange = (value: string) => {
     setInputValue(value);
     if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
@@ -82,7 +74,7 @@ const UserLogin: React.FC = React.memo(() => {
       const response = await dispatch(loginUser(payload)).unwrap();
       toast.success(response.message);
 
-      navigate(`/user/emailVerification?inputValue=${encodeURIComponent(inputValue)}&type=${Type}`);
+      navigate(`/user/verification?inputValue=${encodeURIComponent(inputValue)}&type=${Type}`);
     } catch (error) {
       console.error("Login failed:", error);
       const errorMessage = (error instanceof Error) ? error.message : String(error);
@@ -120,6 +112,18 @@ const UserLogin: React.FC = React.memo(() => {
     (country) => country.callingCodes[0] === countryCode.replace('+', '')
   );
 
+  useEffect(() => {
+    fetch("https://restcountries.com/v2/all?fields=name,callingCodes,flag")
+      .then((response) => response.json())
+      .then((data: Country[]) => setCountries(data))
+     
+      
+      .catch((error) => console.error("Error fetching countries:", error));
+  }, []);
+ 
+  if(countries){
+    console.log('country value',countries);
+  }
   return (
     <div className="md:h-[100vh] h-full grid grid-rows-5 bg-white">
       <div className="lg:row-span-2 primary-background relative h-[80px] px-2 lg:h-auto flex items-center">
@@ -188,6 +192,7 @@ const UserLogin: React.FC = React.memo(() => {
                       )}
                     </div>
                   )}
+                  
                   <input
                     type="text"
                     value={inputValue}

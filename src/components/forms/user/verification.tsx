@@ -5,23 +5,26 @@ import {
 } from "../../../reduxKit/actions/auth/authAction";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../reduxKit/store";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { IVerifyOtp } from "../../../interfaces/user/userLoginInterfaces";
 import toast from "react-hot-toast";
 
 const EmailVerification: React.FC = () => {
   
-   
   const [Content, setContent] = useState<string | null>("");
   const [Type, setType] = useState<string | null>("");
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const { loading } = useSelector((state: RootState) => state.auth);
-  const inputValue: string | null = searchParams.get("inputValue");
-  const type: string | null = searchParams.get("type");
+ 
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search)
+
+  const inputValue = queryParams.get("inputValue") || "";
+  const type = queryParams.get("type") || "";
 
   // Handle OTP input change
   const handleInputChange = (value: string, index: number): void => {
@@ -79,7 +82,6 @@ const EmailVerification: React.FC = () => {
   };
    
   // Resend OTP
-
   const handleResend = () => {
     if (!Content || !Type) {
       Swal.fire({
@@ -115,7 +117,7 @@ const EmailVerification: React.FC = () => {
         toast.success("OTP successfully verified");
         navigate("/");
       } else {
-        navigate("/user/signup");
+        navigate(`/user/signup?inputValue=${encodeURIComponent(inputValue)}&type=${Type}`);
       }
     } catch (error) {
       Swal.fire({
