@@ -11,6 +11,7 @@ import { GetOffersDetail } from "../../../reduxKit/actions/user/userOfferListing
 import { AppDispatch } from "../../../reduxKit/store";
 import SkeletonLoader from "./SkeltonLoaderOne";
 
+
 interface OfferDetailsProps {
   offerId?: string | undefined;
 }
@@ -93,10 +94,7 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
       });
     };
 
-
-  
-   
-
+ 
     return (
       <>
     { loading ? 
@@ -171,7 +169,7 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
               </p>
             </div>
             <div className="category-section-two rounded-[16px] lg:py-[18px]  px-[23px] hidden lg:block">
-              <div className="flex justify-between">
+              <div className="flex justify-between border-b border-white pb-2">
                 <div className="flex gap-[12px]">
                   <img
                     src={offerDetail?.seller.profileImage}
@@ -190,14 +188,14 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
               <div className=" justify-center flex  ">
                 <div className=" items-center lg:text-[18px] flex    lg:py-[12px] h-10  rounded-lg w-full ">
                  
-                  <h2>Available  {offerDetail?.apiQty} </h2>
+                  <h2><span className="font-semibold text-[15px]"  style={{ fontFamily: 'Unbounded' }}>Available Quantity</span> - <span className=" font-semibold"> {offerDetail?.apiQty}</span> </h2>
                 </div>
               </div>
-              <h1 className="lg:text-[18px] lg:py-[20px] font-semibold">
-                Total Amount:
+              <h1 className="lg:text-[18px] lg:pt-[20px] font-semibold" style={{ fontFamily: 'Unbounded' }}>
+                Total Amount
               </h1>
               <h1
-                style={{ color: "rgba(0, 255, 121, 1)" }}
+                style={{ color: "rgba(0, 255, 121, 1)", fontFamily: 'Unbounded'}}
                 className="lg:text-[25px] font-bold"
               >
                 {TotalAmount} SAR
@@ -229,7 +227,7 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
             className="lg:hidden block md:mx-[80px] mx-[20px] px-[10px] py-[22px] flex justify-center items-start flex-col gap-[12px] rounded-[16px]"
             style={{ border: "2px solid rgba(255, 255, 255, 0.214)" }}
           >
-            <h1 className="text-[18px] lg:py-[20px] font-semibold">
+            <h1 className="text-[18px] lg:py-[20px] font-semibold" style={{fontFamily: "Unbounded"}}>
               Total Amount:
             </h1>
             <h1
