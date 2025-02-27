@@ -29,6 +29,7 @@ const OfferDetail: React.FC = () => {
 
   const navigate = useNavigate();
 
+
   const [offer, setOffer] = useState<Offer>({
     productId: "",
     title: "",
@@ -152,12 +153,15 @@ const OfferDetail: React.FC = () => {
             minQty: 0,
             apiQty: 0,
             lowStockAlertQty: 1,
+ 
             deliveryMethods: [], // Reset to empty array
+ 
             salesTerritory: {
               settingsType: "GLOBAL",
               countries: [],
             },
           });
+
         } else {
           console.log('Error Message', response);
           

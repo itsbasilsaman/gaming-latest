@@ -65,7 +65,6 @@ export const App: React.FC = React.memo(() => {
           const resultAction = await dispatch(getUserProfile());
   
           console.log("<>,><>",resultAction.payload); 
-  
           if (getUserProfile.fulfilled.match(resultAction)) {
             const { data, status } = resultAction.payload;
             if (status === 200 ) {
