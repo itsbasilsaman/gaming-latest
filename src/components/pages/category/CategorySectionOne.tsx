@@ -101,10 +101,10 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
     <SkeletonLoader/> :
      <main className="w-full h-auto pb-[40px]   text-white">
           <p className="pt-[120px] md:px-[80px] text-[14px] lg:text-[16px] px-[20px]">
-            Home / {offerDetail?.product.service.name} {`/`}{" "}
-            {offerDetail?.product.subService
-              ? offerDetail?.product.subService.name
-              : `/`}{" "}
+            Home /{" "} {offerDetail?.product.service.name} {`/`}
+            {" "} {offerDetail?.product.subService
+              && offerDetail?.product.subService.name
+              }{" "}
              {offerDetail?.product.brand.name}
           </p>
           <h1

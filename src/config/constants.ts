@@ -9,12 +9,11 @@ export const axiosIn = axios.create({
 });
 
 
-export const config ={
+export const config = {
     headers :{
         "Content-Type":"application/json",
     },
     withCredentials:false 
-
 }
 
 export const configWithToken = () => {
