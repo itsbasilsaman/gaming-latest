@@ -9,9 +9,9 @@ import { AppDispatch } from "../../../reduxKit/store";
 import LanguageSection from "../../Header/LanguageSection";
 import FollowingModal from "./FollowingModal";
 import FollowersModal from "./FollowerModal";
- 
 import { UserProfileResponsive } from "./userProfileResponsive";
 import { Navbar } from "../../pages/user/Navbar";
+ 
 
 export const Profile: React.FC = () => {
   const [profileImage, setProfileImage] = useState<File | null | string>(null);
@@ -59,37 +59,30 @@ export const Profile: React.FC = () => {
 
   const handleCoverUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
- 
     action: typeof PutUserProfilePic | typeof PutUserCoverPic
   ) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      setCoverUploadLoad(true)
+      setCoverUploadLoad(true); // Set loading state to true when upload starts
+  
       const formData = new FormData();
       formData.append('file', file);
-
-      for(const [key,value] of formData){
-       console.log('1111111111111111111111111ww',key,value);
-      }
-
+  
       try {
-        
         const resultAction = await dispatch(action(formData));
         if (action.fulfilled.match(resultAction)) {
           console.log("Image uploaded successfully:", resultAction.payload);
-
-          if(action === PutUserProfilePic){
-            setProfileImage(URL.createObjectURL(file))
-          } else if(action === PutUserCoverPic){
-            setCoverImage(URL.createObjectURL(file))
-          }
-
+  
+          // Update the cover image state with the new image URL
+          setCoverImage(URL.createObjectURL(file));
         } else {
           console.error("Failed to upload image:", resultAction.error);
         }
       } catch (error) {
         console.error("Unexpected error while uploading image:", error);
-      }  
+      } finally {
+        setCoverUploadLoad(false); // Reset loading state after upload completes
+      }
     }
   };
 
@@ -137,9 +130,7 @@ export const Profile: React.FC = () => {
 
  
 
-  // if (GetProfileloading) {
-  //   console.log("the data of the content ");
-  // }
+  
 
   const getImageSrc = () => {
     if(profileImage instanceof File){
@@ -218,10 +209,7 @@ export const Profile: React.FC = () => {
     </div>
     )
   }
-
-
-
-
+ 
   return (
     <div className="w-full h-full bg-gray-300">
       <div className="w-full h-[90px]">
@@ -230,59 +218,57 @@ export const Profile: React.FC = () => {
 
       <div className="w-full h-[1000px] profile-main     relative">
        {  !coverUploadLoad ? 
-       <div
-          className="banner-section relative cover-photo"
-          style={{
-            background: coverImage
-              ? `url(${coverImage}) center/cover no-repeat`
-              : `url('../../../assets/Images/profile-bg.avif')`,
-          }}
-        >
-          {!coverImage && (
-            <div className="flex flex-col  pr-[10px] relative">
-              <h1
-                className="text-[21px] font-medium"
-                style={{ fontFamily: "Unbounded" }}
+      <div
+      className="banner-section relative cover-photo"
+      style={{
+        background: coverImage
+          ? `url(${coverImage}) center/cover no-repeat`
+          : ` `,
+      }}
+    >
+      {!coverUploadLoad && (
+       <div>
+          <div className="cover-pic-button absolute right-[10px] bottom-[10px]">
+            <label
+              htmlFor="cover"
+              className="flex cursor-pointer items-center justify-center gap-2 rounded py-1 px-2 text-sm font-medium text-primary hover:bg-opacity-90"
+            >
+              <input
+                type="file"
+                id="cover"
+                className="sr-only"
+                onChange={(e) => handleCoverUpload(e, PutUserCoverPic)}
+              />
+              <span
+                className="text-white px-[10px] text-[21px] py-[10px] rounded-full"
+                style={{ backgroundColor: "#03042F" }}
               >
-                Replace image
-              </h1>
-              <p className="text-[15px]">Image dimension: 1920px x 200px</p>
-            </div>
-          )}
+                <IoCameraOutline />
+              </span>
+            </label>
+          </div>
+ 
+        {!coverImage  && <p>
+            <p className="text-[21px] font-medium primary-color" style={{ fontFamily: "Unbounded" }}> Replace banner image</p>
+            
+          </p>}
 
-          {coverImage ? (
-            <div className="cover-pic-button  absolute right-[10px] bottom-[10px]">
-              <label
-                htmlFor="cover"
-                className="flex cursor-pointer items-center justify-center gap-2 rounded   py-1 px-2 text-sm font-medium text-primary hover:bg-opacity-90"
-              >
-                <input
-                  type="file"
-                  id="cover"
-                  className="sr-only"
-                  onChange={(e) => handleCoverUpload(e , PutUserCoverPic)}
-                />
-                <span
-                  className="text-white px-[10px] text-[21px] py-[10px] rounded-full"
-                  style={{ backgroundColor: "#03042F" }}
-                >
-                  <IoCameraOutline />
-                </span>
-              </label>
-            </div>
-          ) : (
-            <div className="cover-pic-button ">
-               <div className="flex flex-col items-center py-4">
-     <div className="w-9 h-9 border-[5px] border-[#101441] border-t-transparent rounded-full animate-spin shadow-lg"></div>
-     <p className="mt-2 text-[15px] font-semibold text-[#101441]"  style={{ fontFamily: "Unbounded" }}>Loading{dots}</p>
-   </div>
-            </div>
+       </div>
 
-          )}
-
-
-
-        </div> : 
+        
+      )}
+    
+      {coverUploadLoad && (
+        <div className="cover-pic-button white-opacity w-full h-full flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center py-4">
+            <div className="w-9 h-9 border-[5px] border-[#101441] border-t-transparent rounded-full animate-spin shadow-lg"></div>
+            <p className="mt-2 text-[15px] font-semibold text-[#101441]" style={{ fontFamily: "Unbounded" }}>
+              Loading{dots}
+            </p>
+          </div>
+        </div>
+      )}
+    </div> : 
        (
         <div className="cover-pic-button white-opacity w-full h-full flex flex-col items-center justify-center">
            <div className="flex flex-col items-center justify-center py-4">
@@ -290,12 +276,7 @@ export const Profile: React.FC = () => {
  <p className="mt-2 text-[15px] font-semibold text-[#101441]"  style={{ fontFamily: "Unbounded" }}>Loading{dots}</p>
 </div>
         </div>
-
-      )
-         
-    
-      
-        
+      )  
       }
 
         <div className="main-section bg-white relative">
@@ -331,67 +312,64 @@ export const Profile: React.FC = () => {
     ) : */}
      
       <div className="profile-content">
-        <div className="flex justify-center mb-2">
-          <div className="h-30 rounded-full bg-gray-100 p-1 backdrop-blur sm:p-3">
-            <div className="w-[115px] h-[115px] bg-gray-200 text-white flex items-center justify-center rounded-full text-[55px] relative drop-shadow-2">
-            {  !profileUploadLoad ?
-           <>
-              {profileImage ? (
-                  <img
-                    src={getImageSrc()}
-                    alt="Profile"
-                    className="w-full h-full rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="flex flex-col items-center py-4">
-                  <div className="w-9 h-9 border-[5px] border-[#101441] border-t-transparent rounded-full animate-spin shadow-lg"></div>
-                   
-                </div>
-                )}
-           </>  :
-            (
-              <div className="flex flex-col items-center py-4">
-              <div className="w-9 h-9 border-[5px] border-[#101441] border-t-transparent rounded-full animate-spin shadow-lg"></div>
-               
-            </div>
-            )
-            }
-              <label
-                htmlFor="profile"
-                className="absolute bottom-0 right-0 flex h-8.5 w-8.5 cursor-pointer items-center justify-center rounded-full bg-black text-primary hover:bg-opacity-90 sm:bottom-2 sm:right-2 p-[8px]"
-              >
-                <svg
-                  className="fill-current"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 14 14"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M4.76464 1.42638C4.87283 1.2641 5.05496 1.16663 5.25 1.16663H8.75C8.94504 1.16663 9.12717 1.2641 9.23536 1.42638L10.2289 2.91663H12.25C12.7141 2.91663 13.1592 3.101 13.4874 3.42919C13.8156 3.75738 14 4.2025 14 4.66663V11.0833C14 11.5474 13.8156 11.9925 13.4874 12.3207C13.1592 12.6489 12.7141 12.8333 12.25 12.8333H1.75C1.28587 12.8333 0.840752 12.6489 0.512563 12.3207C0.184375 11.9925 0 11.5474 0 11.0833V4.66663C0 4.2025 0.184374 3.75738 0.512563 3.42919C0.840752 3.101 1.28587 2.91663 1.75 2.91663H3.77114L4.76464 1.42638ZM5.56219 2.33329L4.5687 3.82353C4.46051 3.98582 4.27837 4.08329 4.08333 4.08329H1.75C1.59529 4.08329 1.44692 4.14475 1.33752 4.25415C1.22812 4.36354 1.16667 4.51192 1.16667 4.66663V11.0833C1.16667 11.238 1.22812 11.3864 1.33752 11.4958C1.44692 11.6052 1.59529 11.6666 1.75 11.6666H12.25C12.4047 11.6666 12.5531 11.6052 12.6625 11.4958C12.7719 11.3864 12.8333 11.238 12.8333 11.0833V4.66663C12.8333 4.51192 12.7719 4.36354 12.6625 4.25415C12.5531 4.14475 12.4047 4.08329 12.25 4.08329H9.91667C9.72163 4.08329 9.53949 3.98582 9.4313 3.82353L8.43781 2.33329H5.56219Z"
-                    fill=""
-                  />
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M7.00004 5.83329C6.03354 5.83329 5.25004 6.61679 5.25004 7.58329C5.25004 8.54979 6.03354 9.33329 7.00004 9.33329C7.96654 9.33329 8.75004 8.54979 8.75004 7.58329C8.75004 6.61679 7.96654 5.83329 7.00004 5.83329ZM4.08337 7.58329C4.08337 5.97246 5.38921 4.66663 7.00004 4.66663C8.61087 4.66663 9.91671 5.97246 9.91671 7.58329C9.91671 9.19412 8.61087 10.5 7.00004 10.5C5.38921 10.5 4.08337 9.19412 4.08337 7.58329Z"
-                    fill=""
-                  />
-                </svg>
-                <input
-                  type="file"
-                  name="profile"
-                  id="profile"
-                  className="sr-only"
-                  onChange={(e) => handleProfileChange(e , PutUserProfilePic )}
-                />
-              </label>
-            </div>
-          </div>
+      <div className="flex justify-center mb-2">
+  <div className="h-30 rounded-full  bg-gray-50  backdrop-blur sm:p-3">
+    <div className="w-[115px] h-[115px] bg-gray-200 text-white flex items-center justify-center rounded-full text-[55px] relative drop-shadow-2">
+      {profileUploadLoad ? (
+        <div className="flex flex-col items-center py-4">
+          <div className="w-9 h-9 border-[5px] border-[#101441] border-t-transparent rounded-full animate-spin shadow-lg"></div>
         </div>
+      ) : (
+        profileImage ? (
+          <img
+            src={getImageSrc()}
+            alt="Profile"
+            className="w-full h-full rounded-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full rounded-full bg-red-800 flex items-center justify-center">
+            <span className="  text-[55px]">
+            {formData?.firstName ? formData.firstName.charAt(0).toUpperCase() : ' '}
+            </span>
+          </div>
+        )
+      )}
+      <label
+        htmlFor="profile"
+        className="absolute bottom-0 right-0 flex h-8.5 w-8.5 cursor-pointer items-center justify-center rounded-full bg-black text-primary hover:bg-opacity-90 sm:bottom-2 sm:right-2 p-[8px]"
+      >
+        <svg
+          className="fill-current"
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M4.76464 1.42638C4.87283 1.2641 5.05496 1.16663 5.25 1.16663H8.75C8.94504 1.16663 9.12717 1.2641 9.23536 1.42638L10.2289 2.91663H12.25C12.7141 2.91663 13.1592 3.101 13.4874 3.42919C13.8156 3.75738 14 4.2025 14 4.66663V11.0833C14 11.5474 13.8156 11.9925 13.4874 12.3207C13.1592 12.6489 12.7141 12.8333 12.25 12.8333H1.75C1.28587 12.8333 0.840752 12.6489 0.512563 12.3207C0.184375 11.9925 0 11.5474 0 11.0833V4.66663C0 4.2025 0.184374 3.75738 0.512563 3.42919C0.840752 3.101 1.28587 2.91663 1.75 2.91663H3.77114L4.76464 1.42638ZM5.56219 2.33329L4.5687 3.82353C4.46051 3.98582 4.27837 4.08329 4.08333 4.08329H1.75C1.59529 4.08329 1.44692 4.14475 1.33752 4.25415C1.22812 4.36354 1.16667 4.51192 1.16667 4.66663V11.0833C1.16667 11.238 1.22812 11.3864 1.33752 11.4958C1.44692 11.6052 1.59529 11.6666 1.75 11.6666H12.25C12.4047 11.6666 12.5531 11.6052 12.6625 11.4958C12.7719 11.3864 12.8333 11.238 12.8333 11.0833V4.66663C12.8333 4.51192 12.7719 4.36354 12.6625 4.25415C12.5531 4.14475 12.4047 4.08329 12.25 4.08329H9.91667C9.72163 4.08329 9.53949 3.98582 9.4313 3.82353L8.43781 2.33329H5.56219Z"
+            fill=""
+          />
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M7.00004 5.83329C6.03354 5.83329 5.25004 6.61679 5.25004 7.58329C5.25004 8.54979 6.03354 9.33329 7.00004 9.33329C7.96654 9.33329 8.75004 8.54979 8.75004 7.58329C8.75004 6.61679 7.96654 5.83329 7.00004 5.83329ZM4.08337 7.58329C4.08337 5.97246 5.38921 4.66663 7.00004 4.66663C8.61087 4.66663 9.91671 5.97246 9.91671 7.58329C9.91671 9.19412 8.61087 10.5 7.00004 10.5C5.38921 10.5 4.08337 9.19412 4.08337 7.58329Z"
+            fill=""
+          />
+        </svg>
+        <input
+          type="file"
+          name="profile"
+          id="profile"
+          className="sr-only"
+          onChange={(e) => handleProfileChange(e, PutUserProfilePic)}
+        />
+      </label>
+    </div>
+  </div>
+</div>
 
         <div className="text-center mb-4">
           <h2
@@ -440,7 +418,8 @@ export const Profile: React.FC = () => {
           </div>
           <div className="flex justify-between items-center w-full">
             <p className="text-sm text-gray-600 w-full flex justify-between">
-            <span className="primary-color font-medium mr-3">Gender</span> {formData?.gender}
+            <span className="primary-color font-medium mr-3">Gender</span>{formData?.gender ? formData.gender.toLowerCase().replace(/^\w/, (c) => c.toUpperCase()) : ""}
+
             </p>
           </div>
           <div className="  w-full">

@@ -5,166 +5,206 @@ import { IoCameraOutline } from "react-icons/io5";
 import { getUserProfile , PutUserProfilePic , PutUserCoverPic } from "../../../reduxKit/actions/user/userProfile";
 import { UserProfileData } from '../../../interfaces/user/profile';
 import { useDispatch } from "react-redux";
-import { AppDispatch, RootState } from "../../../reduxKit/store";
+import { AppDispatch } from "../../../reduxKit/store";
 import FollowingModal from "./FollowingModal";
 import FollowersModal from "./FollowerModal";
-import { useSelector } from "react-redux";
+ 
 
  
 export const UserProfileResponsive : React.FC  = () => {
 
   const [profileImage, setProfileImage] = useState<File | null | string>(null);
-  const [coverImage, setCoverImage] = useState<File | null | string>(null);
-  const [isEditing, setIsEditing] = useState<string | null>(null);
-  const [isFollowersModalOpen, setIsFollowersModalOpen] = React.useState(false);
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [profileLoading, setProfileLoading] = useState(false)
-  const [formData, setProfiles] = useState<UserProfileData>();
-  const [languages, setLanguages] = useState([]);
-  const openFollowersModal = () => setIsFollowersModalOpen(true);
-  const closeFollowersModal = () => setIsFollowersModalOpen(false);
-  // This is Following ModaL ***
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-  const dispatch = useDispatch<AppDispatch>();
-  const { GetProfileloading } = useSelector(
-    (state: RootState) => state.profile
-  );
-
+    const [coverImage, setCoverImage] = useState<File | null | string>(null);
+    const [isEditing, setIsEditing] = useState<string | null>(null);
+ 
+    const [profileLoading, setProfileLoading] = useState(false)
+    const [formData, setProfiles] = useState<UserProfileData>();
+    const [languages, setLanguages] = useState([]);
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
+    const [isFollowersModalOpen, setIsFollowersModalOpen] = React.useState(false);
+    const openFollowersModal = () => setIsFollowersModalOpen(true);
+    const closeFollowersModal = () => setIsFollowersModalOpen(false);
+    const dispatch = useDispatch<AppDispatch>();
+    // const { GetProfileloading } = useSelector(
+    //   (state: RootState) => state.profile
+    // );
+    const [coverUploadLoad, setCoverUploadLoad] = useState<boolean>(false)
+    const [profileUploadLoad, setProfileUploadLoad] = useState<boolean>(false)
   
-
-  const handleEditClick = (field: string) => {
-    setIsEditing(field);
-  };
-
-  const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setProfiles((prev) => ({
-      ...(prev as UserProfileData),
-      [name]: value,
-    }));
-  };
-
-  const handleSaveClick = () => {
-    setIsEditing(null);
-    console.log(formData);
-  };
-
-  const handleImageChange = async (
-    e: React.ChangeEvent<HTMLInputElement>,
- 
-    action: typeof PutUserProfilePic | typeof PutUserCoverPic
-  ) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
- 
-      const formData = new FormData();
-      formData.append('file', file);
-
-      for(const [key,value] of formData){
-       console.log('1111111111111111111111111ww',key,value);
-
-      }
-      try {
-        const resultAction = await dispatch(action(formData));
-        if (action.fulfilled.match(resultAction)) {
-          console.log("Image uploaded successfully:", resultAction.payload);
-
-          if(action === PutUserProfilePic){
-            setProfileImage(URL.createObjectURL(file))
-          } else if(action === PutUserCoverPic){
-            setCoverImage(URL.createObjectURL(file))
+    
+  
+    const handleEditClick = (field: string) => {
+      setIsEditing(field);
+    };
+  
+    const handleInputChange = (
+      e: React.ChangeEvent<
+        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+      >
+    ) => {
+      const { name, value } = e.target;
+      setProfiles((prev) => ({
+        ...(prev as UserProfileData),
+        [name]: value,
+      }));
+    };
+  
+    const handleSaveClick = () => {
+      setIsEditing(null);
+      console.log(formData);
+    };
+  
+    const handleCoverUpload = async (
+      e: React.ChangeEvent<HTMLInputElement>,
+      action: typeof PutUserProfilePic | typeof PutUserCoverPic
+    ) => {
+      if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        setCoverUploadLoad(true); // Set loading state to true when upload starts
+    
+        const formData = new FormData();
+        formData.append('file', file);
+    
+        try {
+          const resultAction = await dispatch(action(formData));
+          if (action.fulfilled.match(resultAction)) {
+            console.log("Image uploaded successfully:", resultAction.payload);
+    
+            // Update the cover image state with the new image URL
+            setCoverImage(URL.createObjectURL(file));
+          } else {
+            console.error("Failed to upload image:", resultAction.error);
           }
-
-        } else {
-          console.error("Failed to upload image:", resultAction.error);
+        } catch (error) {
+          console.error("Unexpected error while uploading image:", error);
+        } finally {
+          setCoverUploadLoad(false); // Reset loading state after upload completes
         }
-      } catch (error) {
-        console.error("Unexpected error while uploading image:", error);
-      }
-    }
-  };
-
- 
-
-  if (GetProfileloading) {
-    console.log("the data of the content ");
-  }
-
-  const getImageSrc = () => {
-    if(profileImage instanceof File){
-      return URL.createObjectURL(profileImage)
-    }
-    return profileImage || ""
-  };
-
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        setProfileLoading(true)
-        const resultAction = await dispatch(getUserProfile());
-        if (getUserProfile.fulfilled.match(resultAction)) {
-          const { data } = resultAction.payload;
-          console.log("kidu profile $#$#$#$#$", data);
-
-          setProfiles(data.data);
-          setLanguages(data.data.languages);
-          console.log(
-            "Profile data fetched successfully: ",
-            resultAction.payload
-          );
-        } else {
-          console.log(
-            "Failed to fetch profile: ",
-            resultAction.payload || resultAction.error
-          );
-        }
-      } catch (error) {
-        console.error("Unexpected error while fetching the profile: ", error);
-      } finally {
-        setProfileLoading(false)
       }
     };
-    fetchProfile();
-  }, [dispatch]);
-
-  useEffect(() => {
-    console.log("this is my profiles of in page *****************", formData);
-    console.log("my languages are", languages);
-    if(formData?.coverPic && formData?.avatar) {
-      setProfileImage(formData.avatar)
-      setCoverImage(formData.coverPic)
-    }
-  }, [formData]);
-
+  
+    const handleProfileChange = async (
+      e: React.ChangeEvent<HTMLInputElement>,
    
-  if(profileLoading){
-    return (
-      <div className="loading-backdrop w-full h-full loading-bg"   >
-      <div className="flex justify-center items-center h-screen">
-        <div className="flex items-center flex-col">
-          <div className="w-12 h-12 border-5 border-t-4 border-t-gray-150 border-gray-100 rounded-full animate-spin"></div>
-          <p className="mt-4 text-white text-[22px] font-semibold tracking-wide" style={{ fontFamily: 'Unbounded' }}>
-            Loading<span className="dot-animation mr-[6px]">
-              <span>.</span>
-              <span>.</span>
-              <span>.</span>
-            </span>
-          </p>
+      action: typeof PutUserProfilePic | typeof PutUserCoverPic
+    ) => {
+      if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        setProfileUploadLoad(true)
+        const formData = new FormData();
+        formData.append('file', file);
+  
+        for(const [key,value] of formData){
+         console.log('1111111111111111111111111ww',key,value);
+  
+        }
+        try {
           
-          <p className="text-sm text-white mt-2 font-semibold">
-            Please wait, your content is on the way.
-          </p>
+          const resultAction = await dispatch(action(formData));
+          if (action.fulfilled.match(resultAction)) {
+            console.log("Image uploaded successfully:", resultAction.payload);
+  
+            if(action === PutUserProfilePic){
+              setProfileImage(URL.createObjectURL(file))
+            } else if(action === PutUserCoverPic){
+              setCoverImage(URL.createObjectURL(file))
+            }
+  
+          } else {
+            console.error("Failed to upload image:", resultAction.error);
+          }
+        } catch (error) {
+          console.error("Unexpected error while uploading image:", error);
+        }  finally {
+          setProfileUploadLoad(false)
+        } 
+      }
+    };
+  
+  
+   
+  
+  
+   
+  
+    // if (GetProfileloading) {
+    //   console.log("the data of the content ");
+    // }
+  
+    const getImageSrc = () => {
+      if(profileImage instanceof File){
+        return URL.createObjectURL(profileImage)
+      }
+      return profileImage || ""
+    };
+  
+  
+    useEffect(() => {
+      const fetchProfile = async () => {
+        try {
+          setProfileLoading(true)
+          const resultAction = await dispatch(getUserProfile());
+          if (getUserProfile.fulfilled.match(resultAction)) {
+            const { data } = resultAction.payload;
+            console.log("kidu profile $#$#$#$#$", data);
+         
+            setProfiles(data.data);
+            setLanguages(data.data.languages);
+            console.log(
+              "Profile data fetched successfully: ",
+              resultAction.payload
+            );
+          } else {
+            console.log(
+              "Failed to fetch profile: ",
+              resultAction.payload || resultAction.error
+            );
+          }
+        } catch (error) {
+          console.error("Unexpected error while fetching the profile: ", error);
+        } finally {
+          setProfileLoading(false)
+        }
+      };
+      fetchProfile();
+    }, [dispatch]);
+  
+    useEffect(() => {
+      console.log("this is my profiles of in page *****************", formData);
+      console.log("my languages are", languages);
+      if(formData?.coverPic && formData?.avatar) {
+        setProfileImage(formData.avatar)
+        setCoverImage(formData.coverPic)
+      }
+    }, [formData]);
+  
+   
+  
+    if(profileLoading){
+      return (
+        <div className="loading-backdrop w-full h-full loading-bg"   >
+        <div className="flex justify-center items-center h-screen">
+          <div className="flex items-center flex-col">
+            <div className="w-12 h-12 border-5 border-t-4 border-t-gray-150 border-gray-100 rounded-full animate-spin"></div>
+            <p className="mt-4 text-white text-[22px] font-semibold tracking-wide" style={{ fontFamily: 'Unbounded' }}>
+              Loading<span className="dot-animation mr-[6px]">
+                <span>.</span>
+                <span>.</span>
+                <span>.</span>
+              </span>
+            </p>
+            
+            <p className="text-sm text-white mt-2 font-semibold">
+              Please wait, your content is on the way.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-    )
-  }
+      )
+    }
+   
 
 
 
@@ -180,7 +220,7 @@ export const UserProfileResponsive : React.FC  = () => {
                 : `url('../../../assets/th.jpg')`,
             }}
           >
-            {!coverImage && (
+            {!coverUploadLoad && (
               <div className="cover-pic-button  absolute right-[0px] top-[0px]">
                 <label
                   htmlFor="cover"
@@ -190,7 +230,7 @@ export const UserProfileResponsive : React.FC  = () => {
                     type="file"
                     id="cover"
                     className="sr-only"
-                    onChange={(e) => handleImageChange(e,  PutUserCoverPic)}
+                    onChange={(e) => handleCoverUpload(e,  PutUserCoverPic)}
                   />
                   <span
                     className="text-white px-[6px] text-[18px] py-[6px] rounded-full"
@@ -202,52 +242,62 @@ export const UserProfileResponsive : React.FC  = () => {
               </div>
             )}
 
-            <div className="  h-30     rounded-full bg-black/5 p-1 backdrop-blur   sm:p-3">
-              <div className="w-[115px] h-[115px] bg-red-500 text-white flex items-center justify-center rounded-full text-[55px] relative drop-shadow-2 ">
-                {profileImage ? (
-                  <img
-                    src={getImageSrc()}
-                    alt="Profile"
-                    className="w-full h-full rounded-full object-cover"
-                  />
-                ) : (
-                  "B"
-                )}
-                <label
-                  htmlFor="profile"
-                  className="absolute bottom-0 right-0 flex h-8.5 w-8.5 cursor-pointer items-center justify-center rounded-full bg-black text-primary hover:bg-opacity-90 sm:bottom-2 sm:right-2 p-[8px]"
-                >
-                  <svg
-                    className="fill-current"
-                    width="14"
-                    height="14"
-                    viewBox="0 0 14 14"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M4.76464 1.42638C4.87283 1.2641 5.05496 1.16663 5.25 1.16663H8.75C8.94504 1.16663 9.12717 1.2641 9.23536 1.42638L10.2289 2.91663H12.25C12.7141 2.91663 13.1592 3.101 13.4874 3.42919C13.8156 3.75738 14 4.2025 14 4.66663V11.0833C14 11.5474 13.8156 11.9925 13.4874 12.3207C13.1592 12.6489 12.7141 12.8333 12.25 12.8333H1.75C1.28587 12.8333 0.840752 12.6489 0.512563 12.3207C0.184375 11.9925 0 11.5474 0 11.0833V4.66663C0 4.2025 0.184374 3.75738 0.512563 3.42919C0.840752 3.101 1.28587 2.91663 1.75 2.91663H3.77114L4.76464 1.42638ZM5.56219 2.33329L4.5687 3.82353C4.46051 3.98582 4.27837 4.08329 4.08333 4.08329H1.75C1.59529 4.08329 1.44692 4.14475 1.33752 4.25415C1.22812 4.36354 1.16667 4.51192 1.16667 4.66663V11.0833C1.16667 11.238 1.22812 11.3864 1.33752 11.4958C1.44692 11.6052 1.59529 11.6666 1.75 11.6666H12.25C12.4047 11.6666 12.5531 11.6052 12.6625 11.4958C12.7719 11.3864 12.8333 11.238 12.8333 11.0833V4.66663C12.8333 4.51192 12.7719 4.36354 12.6625 4.25415C12.5531 4.14475 12.4047 4.08329 12.25 4.08329H9.91667C9.72163 4.08329 9.53949 3.98582 9.4313 3.82353L8.43781 2.33329H5.56219Z"
-                      fill=""
-                    />
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M7.00004 5.83329C6.03354 5.83329 5.25004 6.61679 5.25004 7.58329C5.25004 8.54979 6.03354 9.33329 7.00004 9.33329C7.96654 9.33329 8.75004 8.54979 8.75004 7.58329C8.75004 6.61679 7.96654 5.83329 7.00004 5.83329ZM4.08337 7.58329C4.08337 5.97246 5.38921 4.66663 7.00004 4.66663C8.61087 4.66663 9.91671 5.97246 9.91671 7.58329C9.91671 9.19412 8.61087 10.5 7.00004 10.5C5.38921 10.5 4.08337 9.19412 4.08337 7.58329Z"
-                      fill=""
-                    />
-                  </svg>
-                  <input
-                    type="file"
-                    name="profile"
-                    id="profile"
-                    className="sr-only"
-                    onChange={(e) => handleImageChange(e , PutUserProfilePic)}
-                  />
-                </label>
-              </div>
-            </div>
+           <div className="h-30 rounded-full  bg-gray-50  backdrop-blur sm:p-3">
+               <div className="w-[115px] h-[115px] bg-gray-200 text-white flex items-center justify-center rounded-full text-[55px] relative drop-shadow-2">
+                 {profileUploadLoad ? (
+                   <div className="flex flex-col items-center py-4">
+                     <div className="w-9 h-9 border-[5px] border-[#101441] border-t-transparent rounded-full animate-spin shadow-lg"></div>
+                   </div>
+                 ) : (
+                   profileImage ? (
+                     <img
+                       src={getImageSrc()}
+                       alt="Profile"
+                       className="w-full h-full rounded-full object-cover"
+                     />
+                   ) : (
+                     <div className="w-full h-full rounded-full bg-red-800 flex items-center justify-center">
+                       <span className="  text-[55px]">
+                       {formData?.firstName ? formData.firstName.charAt(0).toUpperCase() : ' '}
+                       </span>
+                     </div>
+                   )
+                 )}
+                 <label
+                   htmlFor="profile"
+                   className="absolute bottom-0 right-0 flex h-8.5 w-8.5 cursor-pointer items-center justify-center rounded-full bg-black text-primary hover:bg-opacity-90 sm:bottom-2 sm:right-2 p-[8px]"
+                 >
+                   <svg
+                     className="fill-current"
+                     width="14"
+                     height="14"
+                     viewBox="0 0 14 14"
+                     fill="none"
+                     xmlns="http://www.w3.org/2000/svg"
+                   >
+                     <path
+                       fillRule="evenodd"
+                       clipRule="evenodd"
+                       d="M4.76464 1.42638C4.87283 1.2641 5.05496 1.16663 5.25 1.16663H8.75C8.94504 1.16663 9.12717 1.2641 9.23536 1.42638L10.2289 2.91663H12.25C12.7141 2.91663 13.1592 3.101 13.4874 3.42919C13.8156 3.75738 14 4.2025 14 4.66663V11.0833C14 11.5474 13.8156 11.9925 13.4874 12.3207C13.1592 12.6489 12.7141 12.8333 12.25 12.8333H1.75C1.28587 12.8333 0.840752 12.6489 0.512563 12.3207C0.184375 11.9925 0 11.5474 0 11.0833V4.66663C0 4.2025 0.184374 3.75738 0.512563 3.42919C0.840752 3.101 1.28587 2.91663 1.75 2.91663H3.77114L4.76464 1.42638ZM5.56219 2.33329L4.5687 3.82353C4.46051 3.98582 4.27837 4.08329 4.08333 4.08329H1.75C1.59529 4.08329 1.44692 4.14475 1.33752 4.25415C1.22812 4.36354 1.16667 4.51192 1.16667 4.66663V11.0833C1.16667 11.238 1.22812 11.3864 1.33752 11.4958C1.44692 11.6052 1.59529 11.6666 1.75 11.6666H12.25C12.4047 11.6666 12.5531 11.6052 12.6625 11.4958C12.7719 11.3864 12.8333 11.238 12.8333 11.0833V4.66663C12.8333 4.51192 12.7719 4.36354 12.6625 4.25415C12.5531 4.14475 12.4047 4.08329 12.25 4.08329H9.91667C9.72163 4.08329 9.53949 3.98582 9.4313 3.82353L8.43781 2.33329H5.56219Z"
+                       fill=""
+                     />
+                     <path
+                       fillRule="evenodd"
+                       clipRule="evenodd"
+                       d="M7.00004 5.83329C6.03354 5.83329 5.25004 6.61679 5.25004 7.58329C5.25004 8.54979 6.03354 9.33329 7.00004 9.33329C7.96654 9.33329 8.75004 8.54979 8.75004 7.58329C8.75004 6.61679 7.96654 5.83329 7.00004 5.83329ZM4.08337 7.58329C4.08337 5.97246 5.38921 4.66663 7.00004 4.66663C8.61087 4.66663 9.91671 5.97246 9.91671 7.58329C9.91671 9.19412 8.61087 10.5 7.00004 10.5C5.38921 10.5 4.08337 9.19412 4.08337 7.58329Z"
+                       fill=""
+                     />
+                   </svg>
+                   <input
+                     type="file"
+                     name="profile"
+                     id="profile"
+                     className="sr-only"
+                     onChange={(e) => handleProfileChange(e, PutUserProfilePic)}
+                   />
+                 </label>
+               </div>
+             </div>
           </div>
 
           <div className="px-[35px]">

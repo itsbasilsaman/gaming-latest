@@ -5,7 +5,7 @@ export const SellerCreationValidationSchema = Yup.object({
     city: Yup.string().required('City is required'),
     state: Yup.string().required('State is required'),
     zip: Yup.string()
-      .matches(/^\d{5}$/, 'Zip code must be exactly 5 digits')
+      .matches(/^\d{6}$/, 'Pin code must be exactly 6 digits')
       .required('Zip code is required'),
     dob: Yup.date()
       .required('Date of Birth is required')
