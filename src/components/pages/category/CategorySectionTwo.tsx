@@ -9,11 +9,11 @@ interface CategorySectionTwoProps {
 }
 
 interface othersellerdata {
-  offerId : string | undefined ;
+  offerId : string | undefined;
   isOnline: boolean
 }
  
-const CategorySectionTwo: React.FC <CategorySectionTwoProps> = React.memo(( {offerId}) => {
+const CategorySectionTwo: React.FC <CategorySectionTwoProps> = React.memo(({offerId}) => {
   const [isOn, setIsOn] = useState<boolean>(false);
   // const [otherSeller , setOtherSeller] = useState([])
   const [isOnline, setIsOnline] = useState<boolean>(false);
@@ -27,10 +27,10 @@ const CategorySectionTwo: React.FC <CategorySectionTwoProps> = React.memo(( {off
   const toggleHandler = (): void => {
     setIsOn((prevState) => !prevState);
   };
-
+  
   const sellerDate : othersellerdata = {
     offerId,
-    isOnline : isOnline
+    isOnline : false
   }
 
 
@@ -38,7 +38,7 @@ const CategorySectionTwo: React.FC <CategorySectionTwoProps> = React.memo(( {off
     const getOtherSeller = async () => {
       try {
         const response = await dispatch(GetOtherSellersAction(sellerDate))
-        console.log('111122222',response.payload);
+        console.log('Other Seller ',response.payload);
         // setOtherSeller(response.payload.data)
       } catch (error) {
         console.error(error)

@@ -18,8 +18,8 @@ const SellerRegistrationForm: React.FC = () => {
     city: Yup.string().required('City is required'),
     state: Yup.string().required('State is required'),
     zip: Yup.string()
-      .matches(/^\d{5}$/, 'Zip code must be exactly 5 digits')
-      .required('Zip code is required'),
+      .matches(/^\d{6}$/, 'Pin code must be exactly 6 digits')
+      .required('Pip code is required'),
     dob: Yup.date()
       .required('Date of Birth is required')
       .test('age', 'You must be at least 18 years old', (value) => {
@@ -67,7 +67,7 @@ const SellerRegistrationForm: React.FC = () => {
 
   return (
     <div className="min-h-screen user-background flex items-center justify-center p-4 sm:p-6 md:p-8">
-      <div className="affiliate-section w-full lg:w-3/5 md:w-4/5 sm:w-full p-6 md:p-8 lg:p-10 rounded-lg shadow-lg">
+      <div className="affiliate-section w-full lg:w-3/5 md:w-4/5 sm:w-full p-6 md:p-8 lg:p-10 rounded-[24px] shadow-lg">
         <h2 className="text-2xl font-bold text-center text-white mb-6" style={{ fontFamily: 'Unbounded' }}>
           Seller Registration Form
         </h2>
@@ -91,7 +91,7 @@ const SellerRegistrationForm: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-200 mb-2">Zip Code</label>
+            <label className="block text-sm font-medium text-gray-200 mb-2">Pin Code</label>
             <input type="text"  {...formik.getFieldProps('zip')} className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500" placeholder="Zip Code" />
             {formik.touched.zip && formik.errors.zip && <p className="text-red-500 text-sm">{formik.errors.zip}</p>}
           </div>

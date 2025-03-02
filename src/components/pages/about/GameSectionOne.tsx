@@ -18,8 +18,7 @@ interface GameSectionOneProps {
   name: string | null;
   ServiceName: string | null;
 }
-
-
+ 
 const SkeletonOffer: React.FC = () => {
   return (
     
@@ -134,8 +133,7 @@ const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, i
       }
       
     } catch (error) {
-      console.log(error);
-      
+      console.log(error); 
     }
    }
 
@@ -178,12 +176,12 @@ const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, i
           </button>
 
           {openIndex === index && (
-            <div className="absolute z-10 mt-1 w-full bg-grayShade text-white   shadow-lg   space-y-1">
+            <div className="absolute top-[42px] z-10 mt-1 w-full bg-grayShade text-white   shadow-lg   space-y-1">
               {MyOffer.deliveryMethods.map((method: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined, idx: React.Key | null | undefined) => (
                 <button
                   key={idx}
                   onClick={() => handleItemClick(method)}
-                  className="w-full text-left blur-button hover:bg-gray-600 transition-all duration-150  px-4 py-2"
+                  className="w-full text-left blur-button hover:bg-blue-950 transition-all duration-150  px-4 py-2"
                 >
                   {method}
                 </button>

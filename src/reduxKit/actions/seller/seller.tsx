@@ -29,9 +29,9 @@ import { SellerDetails } from "../../../interfaces/user/seller";
   }
   
   
-    export const GetOtherSellersAction= createAsyncThunk( "user/GetAllSellers ",
+    export const GetOtherSellersAction= createAsyncThunk( "user/GetAllSellers",
       async (data:othersellerdata,{rejectWithValue})=>{
-          try {
+          try {        
               const  response = await axiosIn.get(`/user/offer-listing/offer-sellers?offerId=${data.offerId}&isOnline=${data.isOnline}`, configWithToken() );
               console.log("other Sellers with online true ", response );
               return response.data;

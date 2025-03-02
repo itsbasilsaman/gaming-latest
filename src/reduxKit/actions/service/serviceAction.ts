@@ -12,7 +12,7 @@ export interface Iservice{
     icon:File|null
 }
 
-export const GetServiceAction= createAsyncThunk(
+export const GetServiceAction = createAsyncThunk(
     "user/getService",
     async (__,{rejectWithValue})=>{
         try {
