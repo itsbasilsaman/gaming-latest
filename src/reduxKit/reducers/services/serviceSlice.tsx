@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { userServiceAction } from "../../actions/user/service";
 
 interface Service {
-  icon: string; // Update based on your API response
+  icon: string;  
   ServiceName: string;
 }
 

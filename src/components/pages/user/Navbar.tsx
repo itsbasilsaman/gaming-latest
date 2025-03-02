@@ -16,8 +16,8 @@ import { useDispatch } from 'react-redux';
 import { GetServiceAction } from '../../../reduxKit/actions/service/serviceAction';
 import { userLanguageChange } from '../../../reduxKit/actions/user/userLanguage';
 import { userCurrencyChange } from '../../../reduxKit/actions/user/userCurrency';
-import { getUserProfile } from '../../../reduxKit/actions/user/userProfile';
-import { userLoggedWithSellerAction } from '../../../reduxKit/actions/auth/user-seller-main-auth';
+// import { getUserProfile } from '../../../reduxKit/actions/user/userProfile';
+// import { userLoggedWithSellerAction } from '../../../reduxKit/actions/auth/user-seller-main-auth';
 
 
 interface Items {
@@ -54,30 +54,30 @@ export const Navbar: React.FC = React.memo(() => {
 
 
 
-  useEffect(()=>{
-    const getProfile=async ()=>{
-      try {
-        const AccessToken=localStorage.getItem("accessToken")
-        if(AccessToken){
-          const response=await dispatch(getUserProfile()) 
-           if (getUserProfile.fulfilled.match(response)) {
-                      const { data } = response.payload;
-                      if(data.data.sellerProfile.verificationStatus==="APPROVED"){
-                          await dispatch(userLoggedWithSellerAction())
-                      }
+  // useEffect(()=>{
+  //   const getProfile=async ()=>{
+  //     try {
+  //       const AccessToken=localStorage.getItem("accessToken")
+  //       if(AccessToken){
+  //         const response=await dispatch(getUserProfile()) 
+  //          if (getUserProfile.fulfilled.match(response)) {
+  //                     const { data } = response.payload;
+  //                     if(data.data.sellerProfile.verificationStatus==="APPROVED"){
+  //                         await dispatch(userLoggedWithSellerAction())
+  //                     }
                       
-           }
+  //          }
           
-        }
+  //       }
 
-      } catch (error) {
-        console.log("nav profile",error);
+  //     } catch (error) {
+  //       console.log("nav profile",error);
         
-      }
+  //     }
 
-    }
-    getProfile()
-  },[dispatch])
+  //   }
+  //   getProfile()
+  // },[dispatch])
 
   const items: string[] = ["English", "Arabic"];
 
@@ -109,6 +109,7 @@ export const Navbar: React.FC = React.memo(() => {
       setShowCategories(false); // Initially show "Popular Searches"
     } else {
       setShowCategories(!showCategories); // Toggle between views
+      setDropdownOpen(!dropdownOpen)
     }
   };
 
@@ -196,60 +197,45 @@ export const Navbar: React.FC = React.memo(() => {
 
   return (
     <>
-      <div className='flex justify-center fixed items-center text-white lg:px-[90px] px-[25px] h-[90px] lg:gap-[20px] gap-[10px] header fixed top-0 left-0 w-full ' style={{ background, zIndex: '10' }}>
+      <div className='flex justify-center fixed items-center text-white lg:px-[90px] px-[25px] h-[90px] lg:gap-[20px] gap-[10px] header   top-0 left-0 w-full ' style={{ background, zIndex: '10' }}>
         <Link to={'/'}><div className='text-[19px] font-semibold flex justify-center items-center'><img src={Logo} alt="" className='w-[60px] hidden lg:block' /><span className='text-[17px] ' style={{ fontFamily: 'Unbounded' }}>GATE  </span></div></Link>
         <div className="lg:relative w-full lg:mx-[30px] lg:px-0">
-          <div ref={searchRef} className="relative w-full">
+          <div ref={searchRef} className="lg:relative w-full">
             <div className="flex items-center rounded-full header-input-section shadow-md p-2 transition-all duration-300 ease-in-out w-full">
               <input
                 type="text"
                 placeholder="Game Gate"
                 className="flex-1 header-inputbox pl-[10px] w-full"
               />
-              <MdOutlineKeyboardArrowDown
-                className="text-[24px] mx-[5px] cursor-pointer"
-                onClick={toggleDropdown}
-              />
+              <div className='flex header-service-button pl-3 pr-2  py-[7px] cursor-pointer rounded-full'  onClick={toggleDropdown}>
+                <span>All services</span>
+                <MdOutlineKeyboardArrowDown
+                  className="text-[24px]  ml-6  cursor-pointer"
+                 
+                />
+              </div>
             </div>
 
             {dropdownOpen && (
               <div
-                className={`absolute top-[77px] left-0 right-0 bg-white text-black header-dropdown shadow-lg rounded-lg p-4 z-10 transition-transform duration-300 ease-in-out ${
-                  dropdownOpen ? "opacity-100 scale-100" : "opacity-0 scale-90"
-                }`}
+                className={`absolute lg:top-[60px] top-[78px] left-0 right-0 header-dropdown text-white py-6   shadow-lg rounded-lg p-4 z-10 transition-transform duration-300 ease-in-out  
+             
+                `}
               >
-                {showCategories && (
                   <div>
-                    <h3 className="text-lg font-semibold mb-4">Search in service</h3>
+                    <h3 className="text-lg text-center font-semibold mb-6 primary-color" style={{ fontFamily: 'Unbounded' }}>Search in service</h3>
                     <div className="grid grid-cols-4 gap-4">
                       { service.map((item, index) => (
-                        <div key={index}   onClick={()=>{handleServiceNested(item)}} className="flex flex-col items-center cursor-pointer">
-                          <img src={item.iconUrl} alt="" className='w-[50px]' />
-                          <p className="mt-2 text-sm">{item.name}</p>
+                        <div key={index}   onClick={()=>{handleServiceNested(item)}} className="flex flex-col items-center cursor-pointer dropdown-box py-3 rounded-lg">
+                          <img src={item.iconUrl} alt="" className='w-[60px] h-[60px]' />
+                          <p className="mt-2 text-sm primary-color font-medium">{item.name}</p>
                         </div>
                       ))}
                     </div>
                   </div>
-                )
-                //  : (
-                //   <div>
-                //     <h3 className="text-lg font-semibold mb-4">Popular searches</h3>
-                //     <div className="flex flex-wrap gap-2">
-                //       {["vandal", "free fire id", "skins", "sell", "pc"].map(
-                //         (item, index) => (
-                //           <span
-                //             key={index}
-                          
-                //             className="px-4 py-2 bg-gray-200 rounded-[16px] cursor-pointer game-offer-button"
-                //           >
-                //             {item}
-                //           </span>
-                //         )
-                //       )}
-                //     </div>
-                //   </div>
-                // )
-                }
+              
+              
+          
               </div>
             )}
           </div>
@@ -358,6 +344,7 @@ export const Navbar: React.FC = React.memo(() => {
                 'Save'
               )}
             </button>
+
           </section>
         </div>
       </div>

@@ -50,6 +50,7 @@ const AddNewOfferSection = () => {
       setIsLoading(true); // Set loading to true before fetching data
       try {
         const response = await dispatch(GetServicesWithSubservices());
+        console.log('peeeeeekoooooo',response);
         setFetchedServices(response.payload);
       } catch (error) {
         console.log("getservice with subservice error", error);
@@ -111,6 +112,8 @@ const AddNewOfferSection = () => {
       // const brandNames = response.payload.map((brand: any) => brand);
 
       const response = await dispatch(GetBrandsBySubServiceOrService(subservice.id));
+  
+      
       setBrands(response.payload);
       setBrandDropdownOpen(true);
 

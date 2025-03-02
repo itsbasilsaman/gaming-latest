@@ -19,12 +19,8 @@ interface CardItem {
   bg: string;      
   title: string;  
   offer: string;   
-  link : string
 }
-
-// Props typing (if needed in the future)
-
-
+ 
 // Component Definition
 const GameCard: FC = memo(() => {
   const cardItems: CardItem[] = [
@@ -33,28 +29,24 @@ const GameCard: FC = memo(() => {
       bg: CardOne,
       title: 'Brawl Stars',
       offer: '150 offers',
-      link : '/about'
     },
     {
       img: ImgTwo,
       bg: CardTwo,
       title: 'Clash of Clans',
       offer: '148 offers',
-      link : '/about'
     },
     {
       img: ImgThree,
       bg: CardThree,
       title: 'Lords Mobile',
       offer: '136 offers',
-      link: '/about'
     },
     {
       img: ImgFour,
       bg: CardFour,
       title: 'Star Rail',
       offer: '150 offers',
-      link: '/about'
     },
   ];
 
@@ -69,7 +61,7 @@ const GameCard: FC = memo(() => {
       <div className='lg:flex lg:justify-between grid grid-cols-2 gap-[14px]'>
      
         {cardItems.map((item, index) => (
-         <Link to={item.link}>
+    
             <section
               key={index}
               className="lg:w-[326px] lg:h-[228px] h-[150px] game-card one relative cursor-pointer "
@@ -86,14 +78,9 @@ const GameCard: FC = memo(() => {
                 {item.offer}
               </span>
             </section>
-         </Link>
+ 
         ))}
-     
-        {/* <section className='lg:w-[306px] lg:h-[228px] game-card one'>
 
-        </section>
-        <section className='lg:w-[306px] lg:h-[228px] game-card one'></section>
-        <section className='lg:w-[306px] lg:h-[228px] game-card one'></section> */}
       </div>
  
   </main>

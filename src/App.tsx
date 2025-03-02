@@ -21,6 +21,8 @@ import AddNewOfferSection from "./components/pages/Seller/AddNewOfferSection";
 import OfferDetailPage from "./components/pages/Seller/offerDetailComponent.tsx";
 import GetOffer from "./components/pages/Seller/getOffer.tsx";
 import GetOfferById from "./components/pages/Seller/getOfferById.tsx";
+import { Profile } from "./components/forms/user/userProfile.tsx";
+// import { Services } from './components/pages/user/Services';
 
 
 const WelcomePage = lazy(() => import("./components/pages/welcome"));
@@ -31,8 +33,8 @@ const Category = lazy(() => import("./components/pages/category"));
 const ChatComponent = lazy(() => import("./components/pages/user/chat"));
 const About = lazy(() => import("./components/pages/about"));
 
-const Profile = lazy(() => import("./components/forms/user/userProfile"));
-const EmailVerification = lazy(() => import("./components/forms/user/emailVerification"));
+// const Profile = lazy(() => import("./components/forms/user/userProfile"));
+const EmailVerification = lazy(() => import("./components/forms/user/verification.tsx"));
 const TopUp = lazy(() => import("./components/pages/Offer-List/OfferList.tsx"));
 const SellerPage = lazy(() => import("./components/pages/Seller/sellerPage"));
 const SellerVerificationPending = lazy( () => import("./sellerVerificationPendingPage"));
@@ -117,6 +119,9 @@ export const App: React.FC = React.memo(() => {
     <Fragment>
       <Toaster position="top-center" />
       <ScrollToTop />
+      <Routes>
+      <Route path="/profile" element={<Profile />} />
+      </Routes>
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="/" element={<WelcomePage />} />
@@ -135,9 +140,9 @@ export const App: React.FC = React.memo(() => {
           <Route path="/user/Category" element={<Category />} />
           <Route path="/about" element={<About />} />
           <Route path="/chat" element={<ChatComponent />} />
-          <Route path="/profile" element={<Profile />} />
+      
           <Route
-            path="/user/emailVerification"
+            path="/user/verification"
             element={isLoggedUser ? <Navigate to="/" /> : <EmailVerification />}
           />
           <Route path="/user/offer-list" element={<TopUp />} />
@@ -151,6 +156,7 @@ export const App: React.FC = React.memo(() => {
 
           {/* SELLER ROUTES */}
           <Route path="/toggle" element={<ToggleProfile />} />
+
           <Route
             path="/user/sellerSignup"
             element={ isLoggedUser&&userSellerProfile===null ? <SellerRegistrationForm /> : <Navigate to="/" /> }
@@ -180,8 +186,10 @@ export const App: React.FC = React.memo(() => {
           <Route path="/401" element={<NotFound401 />} />
           <Route path="/seller/offer" element={<GetOffer/>} />
           <Route path="/seller/offer/:id" element={<GetOfferById/>} />
+          <Route path="/loading" element={<Loading/>} />
         </Routes>
       </Suspense>
+     
     </Fragment>
   );
 });

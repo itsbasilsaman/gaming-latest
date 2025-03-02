@@ -11,6 +11,7 @@ import { GetOffersDetail } from "../../../reduxKit/actions/user/userOfferListing
 import { AppDispatch } from "../../../reduxKit/store";
 import SkeletonLoader from "./SkeltonLoaderOne";
 
+
 interface OfferDetailsProps {
   offerId?: string | undefined;
 }
@@ -18,11 +19,12 @@ interface OfferDetailsProps {
 const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
   ({ offerId }) => {
     const dispatch = useDispatch<AppDispatch>();
+
     const [count, setCount] = useState(1);
- 
     const [offerDetail, setOfferDetails] = useState<IOfferDetails>();
     const [TotalAmount, setTotalAmount] = useState<number>(0);
     const [loading, setLoading] = useState(false)
+
     const increment = () => {
       if (offerDetail && count < offerDetail.apiQty) {
         setCount((prev) => prev + 1);
@@ -40,11 +42,7 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
         setTotalAmount(count * offerDetail.unitPriceSAR);
       }
     }, [count, offerDetail]);
-
-  
-
-  
-
+ 
     useEffect(() => {
       const getOfferDetailsWithOfferId = async () => {
         try {
@@ -96,20 +94,17 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
       });
     };
 
-
-  
-   
-
+ 
     return (
       <>
     { loading ? 
     <SkeletonLoader/> :
      <main className="w-full h-auto pb-[40px]   text-white">
           <p className="pt-[120px] md:px-[80px] text-[14px] lg:text-[16px] px-[20px]">
-            Home / {offerDetail?.product.service.name} {`/`}{" "}
-            {offerDetail?.product.subService
-              ? offerDetail?.product.subService.name
-              : `/`}{" "}
+            Home /{" "} {offerDetail?.product.service.name} {`/`}
+            {" "} {offerDetail?.product.subService
+              && offerDetail?.product.subService.name
+              }{" "}
              {offerDetail?.product.brand.name}
           </p>
           <h1
@@ -137,31 +132,31 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
           <section className="w-[100%] h-auto category-section lg:gap-[25px] md:px-[80px] px-[20px] lg:pt-[18px] ">
             <div className="category-section-one rounded-[16px] lg:px-[34px] px-[16px] py-[36px] w-full my-[15px] lg:my-[0px]">
               <h1 className="lg:text-[20px] text-[18px] font-bold">
-                
+                Product Info
               </h1>
              
               <div className="w-full outline-section py-[20px]">
                
                 <h1 className="block lg:hidden font-semibold text-[18px]">
-                 
+                Product Info
                 </h1>
                 <div className="flex justify-between lg:items-center">
                   <div className="flex lg:gap-[7px] gap-[5px]">
                     
-                    <h1 className="font-semibold">  </h1>
+                    <h1 className="font-semibold">    </h1>
                   </div>
                   <p> </p>
                 </div>
               </div>
            
               <h1 className="lg:text-[20px] lg:font-bold lg:py-[14px] hidden lg:block">
-            
+                 Details
               </h1>
               <p className="pb-[8px] lg:pb-[0px]">
-                
+                Fill Up Orderform and Details like this.
               </p>
               <p>
-                
+              
               </p>
               <p>
                  
@@ -174,7 +169,7 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
               </p>
             </div>
             <div className="category-section-two rounded-[16px] lg:py-[18px]  px-[23px] hidden lg:block">
-              <div className="flex justify-between">
+              <div className="flex justify-between border-b border-white pb-2">
                 <div className="flex gap-[12px]">
                   <img
                     src={offerDetail?.seller.profileImage}
@@ -193,14 +188,14 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
               <div className=" justify-center flex  ">
                 <div className=" items-center lg:text-[18px] flex    lg:py-[12px] h-10  rounded-lg w-full ">
                  
-                  <h2>Available  {offerDetail?.apiQty} </h2>
+                  <h2><span className="font-semibold text-[15px]"  style={{ fontFamily: 'Unbounded' }}>Available Quantity</span> - <span className=" font-semibold"> {offerDetail?.apiQty}</span> </h2>
                 </div>
               </div>
-              <h1 className="lg:text-[18px] lg:py-[20px] font-semibold">
-                Total Amount:
+              <h1 className="lg:text-[18px] lg:pt-[20px] font-semibold" style={{ fontFamily: 'Unbounded' }}>
+                Total Amount
               </h1>
               <h1
-                style={{ color: "rgba(0, 255, 121, 1)" }}
+                style={{ color: "rgba(0, 255, 121, 1)", fontFamily: 'Unbounded'}}
                 className="lg:text-[25px] font-bold"
               >
                 {TotalAmount} SAR
@@ -232,7 +227,7 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
             className="lg:hidden block md:mx-[80px] mx-[20px] px-[10px] py-[22px] flex justify-center items-start flex-col gap-[12px] rounded-[16px]"
             style={{ border: "2px solid rgba(255, 255, 255, 0.214)" }}
           >
-            <h1 className="text-[18px] lg:py-[20px] font-semibold">
+            <h1 className="text-[18px] lg:py-[20px] font-semibold" style={{fontFamily: "Unbounded"}}>
               Total Amount:
             </h1>
             <h1
@@ -269,6 +264,7 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
           >
             Buy now
           </button>
+
         )}
           </div>
         </main>}

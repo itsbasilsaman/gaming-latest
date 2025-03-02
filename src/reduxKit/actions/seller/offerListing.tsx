@@ -41,21 +41,26 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
       }
     )
   
-    export const UpdateOfferFromSeller= createAsyncThunk( "seller/updateOffer",
-      async (data:any,{rejectWithValue})=>{
-          try {
-              const  response = await axiosIn.put(`/seller/offer/${data}`,configWithToken());
-              console.log("Seller Update Offer resoponse  : ", response );
-              return response.data;
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } catch (error: any) { 
-              if (error.response && error.response.data) {
-                return rejectWithValue(error.response.data.message); 
-              } else {
-                return rejectWithValue({ message: "Something went wrong!" });
-              }
-            }
+    export const UpdateOfferFromSeller = createAsyncThunk(
+      "seller/updateOffer",
+      async ({ id, data }: { id: string | undefined; data: any }, { rejectWithValue }) => {
+        try {
+          const response = await axiosIn.put(
+            `/seller/offer/${id}`,
+            data, // Pass the updated data here
+            configWithToken()
+          );
+          console.log("Seller Update Offer response: ", response);
+          return response.data;
+        } catch (error: any) {
+          if (error.response && error.response.data) {
+            return rejectWithValue(error.response.data.message);
+          } else {
+            return rejectWithValue({ message: "Something went wrong!" });
+          }
+        }
       }
-    )
+    );
+    
   
   

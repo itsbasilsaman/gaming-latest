@@ -27,9 +27,8 @@ interface ServicesState {
         })
 
         .addCase(SellerRegistrationAction.fulfilled, (state, action) => {
-            state.error=null
+          state.error = null;
           state.loading = false;
-          
           console.log("this registration of seller  ", action.payload);
         })
         .addCase(SellerRegistrationAction.rejected, (state, action) => {
@@ -39,7 +38,7 @@ interface ServicesState {
         .addCase(GetOtherSellersAction.pending, (state) => {
           state.loading = true;
           state.error = null;
-          
+         
         })
 
         .addCase(GetOtherSellersAction.fulfilled, (state, action) => {

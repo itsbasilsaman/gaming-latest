@@ -9,13 +9,13 @@ interface CategorySectionTwoProps {
 }
 
 interface othersellerdata {
-  offerId : string | undefined ;
+  offerId : string | undefined;
   isOnline: boolean
 }
  
-const CategorySectionTwo: React.FC <CategorySectionTwoProps> = React.memo(( {offerId}) => {
+const CategorySectionTwo: React.FC <CategorySectionTwoProps> = React.memo(({offerId}) => {
   const [isOn, setIsOn] = useState<boolean>(false);
-  const [otherSeller , setOtherSeller] = useState([])
+  // const [otherSeller , setOtherSeller] = useState([])
   const [isOnline, setIsOnline] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>("");
   const dispatch = useDispatch<AppDispatch>()
@@ -27,10 +27,10 @@ const CategorySectionTwo: React.FC <CategorySectionTwoProps> = React.memo(( {off
   const toggleHandler = (): void => {
     setIsOn((prevState) => !prevState);
   };
-
+  
   const sellerDate : othersellerdata = {
     offerId,
-    isOnline : isOnline
+    isOnline : false
   }
 
 
@@ -38,8 +38,8 @@ const CategorySectionTwo: React.FC <CategorySectionTwoProps> = React.memo(( {off
     const getOtherSeller = async () => {
       try {
         const response = await dispatch(GetOtherSellersAction(sellerDate))
-        console.log('111122222',response.payload);
-        setOtherSeller(response.payload.data)
+        console.log('Other Seller ',response.payload);
+        // setOtherSeller(response.payload.data)
       } catch (error) {
         console.error(error)
       }
@@ -50,7 +50,7 @@ const CategorySectionTwo: React.FC <CategorySectionTwoProps> = React.memo(( {off
   return (
     <div className='w-full h-auto text-white md:px-[80px] px-[20px] lg:pt-[30px]'> 
     <div className='flex lg:flex-row flex-col   lg:items-center lg:justify-between'>
-       <h1 style={{fontFamily:'Unbounded'}} className='lg:py-[17px] py-[10px] lg:text-[27px] text-[24px]'>Other Sellers ({otherSeller.length}) </h1>
+       <h1 style={{fontFamily:'Unbounded'}} className='lg:py-[17px] py-[10px] lg:text-[27px] text-[24px]'>Other Sellers   </h1>
        <div className='flex gap-[20px] justify-between'>
              <div className='flex gap-[10px] justify-center items-center'>
                 <div
@@ -89,6 +89,7 @@ const CategorySectionTwo: React.FC <CategorySectionTwoProps> = React.memo(( {off
         />
         <span className='ml-[4px] text-[14px] md:text-[16px]'>Recommended</span>
       </label>
+
              </div>
        </div>
     </div>

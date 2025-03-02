@@ -18,8 +18,7 @@ interface GameSectionOneProps {
   name: string | null;
   ServiceName: string | null;
 }
-
-
+ 
 const SkeletonOffer: React.FC = () => {
   return (
     
@@ -134,8 +133,7 @@ const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, i
       }
       
     } catch (error) {
-      console.log(error);
-      
+      console.log(error); 
     }
    }
 
@@ -156,7 +154,7 @@ const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, i
             
           </div>
 
-          {/* Remove the incorrect extra closing main here */}
+       
  
           <div className='w-full h-auto mt-12 text-white'>
               <div className='flex lg:justify-between items-center  lg:flex-row flex-col gap-[20px] lg:gap-[0px]'>
@@ -178,12 +176,12 @@ const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, i
           </button>
 
           {openIndex === index && (
-            <div className="absolute z-10 mt-1 w-full bg-grayShade text-white   shadow-lg   space-y-1">
+            <div className="absolute top-[42px] z-10 mt-1 w-full bg-grayShade text-white   shadow-lg   space-y-1">
               {MyOffer.deliveryMethods.map((method: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined, idx: React.Key | null | undefined) => (
                 <button
                   key={idx}
                   onClick={() => handleItemClick(method)}
-                  className="w-full text-left blur-button hover:bg-gray-600 transition-all duration-150  px-4 py-2"
+                  className="w-full text-left blur-button hover:bg-blue-950 transition-all duration-150  px-4 py-2"
                 >
                   {method}
                 </button>
@@ -197,12 +195,13 @@ const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, i
                   </div>
               </div>
 
+
               <div className='lg:flex lg:justify-between lg:pt-[55px] pt-[40px]'>
                   <h1 style={{ fontFamily: 'Unbounded' }} className='text-[20px] py-2 lg:py-0'>15 Top Ups</h1>
                   <div className='flex lg:gap-[50px] lg:flex-row justify-between lg:justify-normal py-[11px] py-[6px]'>
                       <p className='lg:text-[18px]'>Sort by</p>
                       <div className='flex lg:gap-[20px] gap-[9px]'>
-                          <label className='lg:text-[18px]'>
+                          <label className='lg:text-[18px] cursor-pointer'>
                               <input
                                   type="radio"
                                   value="Option 1"
@@ -212,7 +211,7 @@ const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, i
                               />
                               Lowest Price
                           </label>
-                          <label className='lg:text-[18px]'>
+                          <label className='lg:text-[18px] cursor-pointer'>
                               <input
                                   type="radio"
                                   value="Option 2"
@@ -236,7 +235,7 @@ const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, i
 
            
                   <div className='top-up-section lg:gap-[19px] lg:pt-[25px] pt-[5px] pb-[25px]' key={index} onClick={()=>handleOfferDetails(MyOffer.id)}>
-                      <section className='lg:h-[125px] rounded-[16px] top-up-box p-[19px] flex flex-col justify-between'>
+                      <section className='lg:h-[125px] rounded-[16px] top-up-box p-[19px] cursor-pointer flex flex-col justify-between'>
                           <div className='flex justify-between'>
                               <h1 className='text-[19px] font-medium'>{MyOffer.title}</h1>
                               <CiHeart className='text-[44px]' />

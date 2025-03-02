@@ -59,10 +59,20 @@ body {
   background-color: rgba(42, 42, 42, 0.063);
 }
 
+/* Loading */
+
+.loading-bg {
+  background: url('./assets/Images/bg.png');
+  background-size: cover;
+}
+
 
 /* Header  */
 
-
+.header-service-button {
+  background-color: rgba(255, 255, 255, 0.188);
+  backdrop-filter: blur(5px);
+}
 
 .header-inputbox {
   outline: none;
@@ -88,6 +98,9 @@ body {
   border: 1px solid  rgba(255, 255, 255, 0.28);
   background-color: rgba(242, 244, 248, 0.13);
 }
+.selected-button {
+  background-color: rgba(242, 244, 248, 0.382);
+}
  
 .country-button {
   background-color: transparent;
@@ -111,9 +124,13 @@ body {
   color: rgba(255, 255, 255, 0.877);
 }
 .header-dropdown {
-  background-color: #020431;
-  border: 1px solid  rgba(255, 255, 255, 0.28);
-  padding: 26px 20px;
+  background-color: rgba(255, 255, 255, 0.422);
+  backdrop-filter: blur(5px);
+}
+
+.dropdown-box:hover {
+  background-color: rgba(255, 255, 255, 0.371);
+  
 }
  
 
