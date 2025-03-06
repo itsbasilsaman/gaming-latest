@@ -119,9 +119,6 @@ export const App: React.FC = React.memo(() => {
     <Fragment>
       <Toaster position="top-center" />
       <ScrollToTop />
-      <Routes>
-      <Route path="/profile" element={<Profile />} />
-      </Routes>
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="/" element={<WelcomePage />} />
@@ -129,6 +126,7 @@ export const App: React.FC = React.memo(() => {
             path="/user/login"
             element={isLoggedUser ? <Navigate to="/" /> : <UserLogin />}
           />
+          <Route path="/profile" element={<Profile />} />
           <Route
             path="/user/signup"
             element={isLoggedUser ? <Navigate to="/" /> : <UserRegister />}
