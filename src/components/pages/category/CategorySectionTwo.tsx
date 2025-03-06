@@ -34,11 +34,12 @@ const CategorySectionTwo: React.FC <CategorySectionTwoProps> = React.memo(({offe
   }
 
 
+
   useEffect(()=> {
     const getOtherSeller = async () => {
       try {
         const response = await dispatch(GetOtherSellersAction(sellerDate))
-        console.log('Other Seller ',response.payload);
+        console.log('Other Seller 123',response);
         // setOtherSeller(response.payload.data)
       } catch (error) {
         console.error(error)
@@ -95,7 +96,7 @@ const CategorySectionTwo: React.FC <CategorySectionTwoProps> = React.memo(({offe
     </div>
 
     <div className='category-slider py-[28px] pt-[60px] gap-[45px] lg:gap-[0px]'>
-                <div className='flex gap-[12px]'>
+                {/* <div className='flex gap-[12px]'>
                    <img src={Shape} alt="" className='lg:w-[70px] w-[62px]' />
                    <div >
                     <p className='text-[18px] underline'>Musfiqur Rahman</p>
@@ -122,7 +123,7 @@ const CategorySectionTwo: React.FC <CategorySectionTwoProps> = React.memo(({offe
                     <p className='text-[18px] underline'>Amna sherin k</p>
                     <p>Level 12</p>
                    </div>
-                </div>
+                </div> */}
                    </div>
    
   </div>

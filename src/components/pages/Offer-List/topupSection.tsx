@@ -201,7 +201,7 @@ const TopUpSection: React.FC = () => {
                     style={{ zIndex: "-10" }}
                   />
                   {filteredGames.length > 0 && (
-                    <p className="lg:px-[8px] px-[11px] lg:pl-[16px] py-[3px] lg:py-[8px] lg:w-[126px] lg:h-[45px] offer-menu lg:text-[18px] font-medium rounded-[1000px]">
+                    <p className="lg:px-[13px] px-[11px]   py-[3px] lg:py-[8px]   lg:h-[45px] offer-menu lg:text-[18px] font-medium rounded-[1000px]">
                       {filteredGames.length} Offers
                     </p>
                   )}

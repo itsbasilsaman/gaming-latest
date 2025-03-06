@@ -178,7 +178,7 @@ const AddNewOfferSection = () => {
               <li>To request for a brand or product not listed here, please <a href="#" className="text-blue-500">send a ticket</a> to us and provide the URL to the official brand site.</li>
             </div>
             <li className="flex gap-2 items-center">
-              <GrWaypoint className="text-[12px]" /> Request for <a href="#" className="text-blue-500">G2G OpenAPI Integration</a>.
+              <GrWaypoint className="text-[12px]" /> Request for <a href="#" className="text-blue-500">GGTOPS OpenAPI Integration</a>.
             </li>
             <li className="flex gap-2">
               <GrWaypoint className="text-[12px]" /> Uploading fake codes is strictly prohibited.
