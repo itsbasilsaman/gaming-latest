@@ -16,6 +16,7 @@ interface OfferDetailsProps {
   offerId?: string | undefined;
 }
 
+
 const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
   ({ offerId }) => {
     const dispatch = useDispatch<AppDispatch>();
