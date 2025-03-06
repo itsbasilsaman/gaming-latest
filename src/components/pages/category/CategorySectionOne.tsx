@@ -94,6 +94,7 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
       });
     };
 
+
  
     return (
       <>
@@ -101,12 +102,13 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
     <SkeletonLoader/> :
      <main className="w-full h-auto pb-[40px]   text-white">
           <p className="pt-[120px] md:px-[80px] text-[14px] lg:text-[16px] px-[20px]">
-            Home /{" "} {offerDetail?.product.service.name} {`/`}
-            {" "} {offerDetail?.product.subService
-              && offerDetail?.product.subService.name
-              }{" "}
-             {offerDetail?.product.brand.name}
-          </p>
+  Home /{" "} 
+  {offerDetail?.product.service.name} {`/`}{" "}
+  {offerDetail?.product.subService 
+    ? `${offerDetail.product.subService.name} / `
+    : ""}
+  {offerDetail?.product.brand.name}
+</p>
           <h1
             style={{ fontFamily: "Unbounded" }}
             className="lg:py-[17px] py-[10px] lg:text-[27px] text-[24px] md:px-[80px] px-[20px]"
