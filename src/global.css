@@ -696,6 +696,31 @@ button {
   animation-delay: 1s;
 }
 
+/* OtherSeller */
+
+/* Animation for list items */
+.seller-item-enter {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.seller-item-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms ease-in, transform 300ms ease-in;
+}
+
+.seller-item-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.seller-item-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 300ms ease-in, transform 300ms ease-in;
+}
+
 
 /* notFound */
 
