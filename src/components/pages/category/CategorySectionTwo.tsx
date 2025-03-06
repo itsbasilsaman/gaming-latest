@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Shape from '../../../assets/Images/Shape.png';
+// import Shape from '../../../assets/Images/Shape.png';
 import { GetOtherSellersAction } from '../../../reduxKit/actions/seller/seller';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../reduxKit/store';
