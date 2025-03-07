@@ -6,6 +6,7 @@ import TopUpSection from "./topupSection"
  const TopUp = () => {
   return (
     <>
+    
      <Navbar/>
      <TopUpSection/> 
      <div className="py-3 mt-12">
