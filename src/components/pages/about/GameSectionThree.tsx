@@ -6,6 +6,7 @@ interface GameSectionOneProps {
 }
 
 
+
 const GameSectionThree: React.FC<GameSectionOneProps> = React.memo(({description}) => {
   return (
     <main className='w-full h-auto   md:px-[80px] px-[20px] lg:mt-[20px]'>

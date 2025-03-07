@@ -99,7 +99,7 @@ export const UserAvatar: React.FC = () => {
                     <div
                       className={`bg-red-800 text-white w-12 h-12 flex items-center justify-center rounded-full text-xl font-bold`}
                     >
-                      {profile?.firstName ? profile.firstName.charAt(0).toUpperCase() : 'X'}
+                      {profile?.firstName ? profile.firstName.charAt(0).toUpperCase() : ' '}
                     </div>
                     <div>
                       <h1
@@ -118,6 +118,7 @@ export const UserAvatar: React.FC = () => {
                     </div>
                   </div>
                 </Link>
+
 
                 {/* Balances */}
                 <div className="space-y-4">
