@@ -257,18 +257,19 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
             </div>
           </div>
           <div
-            className="block lg:hidden py-[19px] px-[18px] fixed bottom-[0px] left-[0px] right-[0px]"
+            className="block z-[1000] lg:hidden py-[19px] px-[18px] fixed bottom-[0px] left-[0px] right-[0px]"
             style={{ backgroundColor: "#271D8E" }}
           >
-           {offerDetail && count >= offerDetail.minQty && (
+           
           <button
             onClick={hanglebrandTopup}
-            className="w-full lg:h-[56px] rounded-[1000px] lg:mt-[18px] text-[18px] font-medium buy-now-button"
+            className="w-full py-[12px]  rounded-[1000px] text-white lg:mt-[18px]  text-[18px] font-medium buy-now-button"
+
           >
             Buy now
           </button>
-
-        )}
+  
+        
           </div>
         </main>}
         

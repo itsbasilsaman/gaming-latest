@@ -154,8 +154,6 @@ const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, i
              </div>
             
           </div>
-
-       
  
           <div className='w-full h-auto mt-12 text-white'>
               <div className='flex lg:justify-between items-center  lg:flex-row flex-col gap-[20px] lg:gap-[0px]'>

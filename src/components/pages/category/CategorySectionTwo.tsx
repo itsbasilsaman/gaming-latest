@@ -80,6 +80,7 @@ const CategorySectionTwo: React.FC<CategorySectionTwoProps> = React.memo(({ offe
                 cursor: 'pointer',
               }}
             >
+              
               <div
                 className="toggle-button"
                 style={{
