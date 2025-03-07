@@ -246,12 +246,12 @@ button {
 
 
 .offer-menu {
-  border: 2px solid rgba(255, 255, 255, 0.553);
+  border: 2px solid rgba(190, 190, 190, 0.553);
   background-color: rgba(255, 255, 255, 0.368);
-  color: rgba(255, 255, 255, 0.573);
+  color: rgb(255, 255, 255);
   position: absolute;
   top: 10px;
-  right: 21px;
+  right: 13px;
   backdrop-filter: blur(5px);
   transition: all ease 0.5s;
   cursor: pointer;
