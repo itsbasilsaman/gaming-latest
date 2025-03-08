@@ -138,6 +138,7 @@ const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, i
    }
 
   return (
+
       <main className='w-full h-auto text-white md:px-[80px] px-[20px] flex flex-col lg:items-center pb-[40px]'>
           <p className='lg:pt-[130px] pt-[110px] lg:pb-[40px] pb-[20px] text-[14px] lg:text-[16px] text-left w-[100%]'>
               Home /{' '} {ServiceName} /{' '}{name}
@@ -153,8 +154,6 @@ const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, i
              </div>
             
           </div>
-
-       
  
           <div className='w-full h-auto mt-12 text-white'>
               <div className='flex lg:justify-between items-center  lg:flex-row flex-col gap-[20px] lg:gap-[0px]'>
@@ -165,31 +164,31 @@ const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, i
                   <div className='flex lg:gap-[20px] w-[100%] lg:w-auto justify-between lg:justify-normal'>
                       
                       <span className='relative'>
-                      {offers.map((MyOffer, index) => (
-        <div key={index} className="relative" ref={dropdownRef}>
-          <button
-            onClick={() => toggleDropdown(index)}
-            className="blur-button flex items-center justify-between w-full px-[19px] py-[9px] pr-[35px] lg:text-[17px] rounded-[1000px]  s  hover:bg-grayShade transition-all duration-200"
-          >
-            Delivery Method
-            <ChevronDown className=" absolute right-3 w-5 h-5" />
-          </button>
+                      {offers.length > 0 && (
+  <div className="relative" ref={dropdownRef}>
+    <button
+      onClick={() => toggleDropdown(0)}
+      className="blur-button flex items-center justify-between w-full px-[19px] py-[9px] pr-[35px] lg:text-[17px] rounded-[1000px] hover:bg-grayShade transition-all duration-200"
+    >
+      Delivery Method
+      <ChevronDown className="absolute right-3 w-5 h-5" />
+    </button>
 
-          {openIndex === index && (
-            <div className="absolute top-[42px] z-10 mt-1 w-full bg-grayShade text-white   shadow-lg   space-y-1">
-              {MyOffer.deliveryMethods.map((method: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined, idx: React.Key | null | undefined) => (
-                <button
-                  key={idx}
-                  onClick={() => handleItemClick(method)}
-                  className="w-full text-left blur-button hover:bg-blue-950 transition-all duration-150  px-4 py-2"
-                >
-                  {method}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
+    {openIndex === 0 && (
+      <div className="absolute top-[42px] z-10 mt-1 w-full   bg-white text-black shadow-lg space-y-1">
+        {offers[0].deliveryMethods.map((method: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined, idx: React.Key | null | undefined) => (
+          <button
+            key={idx}
+            onClick={() => handleItemClick(method)}
+            className="w-full text-left blur-button hover:bg-blue-950  hover:text-white transition-all duration-150 px-4 py-2"
+          >
+            {method}
+          </button>
+        ))}
+      </div>
+    )}
+  </div>
+)}
                           
                       </span>
                   </div>
@@ -231,24 +230,26 @@ const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, i
                  <SkeletonOffer />
                </div>
               ) :
-              offers.map((MyOffer, index) => (
+         
 
            
-                  <div className='top-up-section lg:gap-[19px] lg:pt-[25px] pt-[5px] pb-[25px]' key={index} onClick={()=>handleOfferDetails(MyOffer.id)}>
-                      <section className='lg:h-[125px] rounded-[16px] top-up-box p-[19px] cursor-pointer flex flex-col justify-between'>
+                  <div className='top-up-section lg:gap-[19px] lg:pt-[25px] pt-[5px] pb-[25px]'  >
+                      {   offers.map((MyOffer, index) => (
+                      <section className='   rounded-[16px] top-up-box px-[19px] py-[15px] cursor-pointer flex flex-col justify-between' onClick={()=>handleOfferDetails(MyOffer.id)} key={index}>
                           <div className='flex justify-between'>
-                              <h1 className='text-[19px] font-medium'>{MyOffer.title}</h1>
+                              <h1 className='text-[18px] font-medium'>{MyOffer.title}</h1>
                               <CiHeart className='text-[44px]' />
                           </div>
                           <div className='flex justify-between items-center'>
-                              <p className='game-offer-button py-[6px] px-[8px] rounded-[8px]'>{MyOffer.apiQty}Offer</p>
+                              <p className='game-offer-button py-[6px] px-[8px] my-1 rounded-[8px]'>{MyOffer.apiQty}{' '}Offer</p>
                               <p className='font-semibold text-[18px]' style={{ color: 'rgba(0, 255, 121, 1)' }}>{MyOffer.unitPriceUSD} USD</p>
                                
                           </div>
                       </section>
+                    ))}
                   </div>
           
-                        ))
+             
                         }
           </div>
       </main>

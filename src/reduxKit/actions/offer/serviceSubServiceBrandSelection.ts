@@ -22,24 +22,21 @@ export const GetServicesWithSubservices= createAsyncThunk(
           }
     }
   )
-export const GetBrandsBySubServiceOrService= createAsyncThunk(
-    "user/offer/Get Brands By Sub Service Or Service",
-    async (id:string,{rejectWithValue})=>{
-        try {
-            console.log( "user get Get Brands By Sub Service Or Service");
-            const response = await axiosIn.get(`/seller/offer/brands?serviceId=${id}`,configWithToken());
-            console.log("user /brands?serviceId=efc1198c-d04c-49f0-ad95-ba8a9ef78c95&subServiceId", response);
-            return response.data.data;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          } catch (error: any) {
-            if (error.response && error.response.data) {
-              return rejectWithValue(error.response.data.message);
-            } else {
-              return rejectWithValue({ message: "Something went wrong!" });
-            }
-          }
+  export const GetBrandsBySubServiceOrService = createAsyncThunk(
+    "user/offer/GetBrandsBySubServiceOrService",
+    async ({ serviceId, subServiceId }: { serviceId: string; subServiceId: string }, { rejectWithValue }) => {
+      try {
+        const response = await axiosIn.get(`/seller/offer/brands?serviceId=${serviceId}&subServiceId=${subServiceId}`, configWithToken());
+        return response.data.data;
+      } catch (error: any) {
+        if (error.response && error.response.data) {
+          return rejectWithValue(error.response.data.message);
+        } else {
+          return rejectWithValue({ message: "Something went wrong!" });
+        }
+      }
     }
-  )
+  );
   
 export const GetProducetsForCreateOffer= createAsyncThunk(
     "user/offer/GetProducetsForCreateOffer",

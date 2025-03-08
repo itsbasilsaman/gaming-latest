@@ -16,6 +16,7 @@ interface OfferDetailsProps {
   offerId?: string | undefined;
 }
 
+
 const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
   ({ offerId }) => {
     const dispatch = useDispatch<AppDispatch>();
@@ -94,6 +95,7 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
       });
     };
 
+
  
     return (
       <>
@@ -101,12 +103,13 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
     <SkeletonLoader/> :
      <main className="w-full h-auto pb-[40px]   text-white">
           <p className="pt-[120px] md:px-[80px] text-[14px] lg:text-[16px] px-[20px]">
-            Home /{" "} {offerDetail?.product.service.name} {`/`}
-            {" "} {offerDetail?.product.subService
-              && offerDetail?.product.subService.name
-              }{" "}
-             {offerDetail?.product.brand.name}
-          </p>
+  Home /{" "} 
+  {offerDetail?.product.service.name} {`/`}{" "}
+  {offerDetail?.product.subService 
+    ? `${offerDetail.product.subService.name} / `
+    : ""}
+  {offerDetail?.product.brand.name}
+</p>
           <h1
             style={{ fontFamily: "Unbounded" }}
             className="lg:py-[17px] py-[10px] lg:text-[27px] text-[24px] md:px-[80px] px-[20px]"
@@ -254,18 +257,19 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
             </div>
           </div>
           <div
-            className="block lg:hidden py-[19px] px-[18px] fixed bottom-[0px] left-[0px] right-[0px]"
+            className="block z-[1000] lg:hidden py-[19px] px-[18px] fixed bottom-[0px] left-[0px] right-[0px]"
             style={{ backgroundColor: "#271D8E" }}
           >
-           {offerDetail && count >= offerDetail.minQty && (
+           
           <button
             onClick={hanglebrandTopup}
-            className="w-full lg:h-[56px] rounded-[1000px] lg:mt-[18px] text-[18px] font-medium buy-now-button"
+            className="w-full py-[12px]  rounded-[1000px] text-white lg:mt-[18px]  text-[18px] font-medium buy-now-button"
+
           >
             Buy now
           </button>
-
-        )}
+  
+        
           </div>
         </main>}
         

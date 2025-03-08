@@ -78,8 +78,7 @@ export const authSlice = createSlice({
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, { payload }) => {
-        console.log("user login payload", payload);
-
+        console.log("User Login Payload", payload);
         state.loading = false;
         state.error = null;
         state.isLogged = true;
@@ -146,21 +145,7 @@ export const authSlice = createSlice({
         state.userData = null;
         state.error = payload as string;
       })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
       .addCase(userLogout.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -232,10 +217,6 @@ export const authSlice = createSlice({
         state.error = payload as string;
      
       })
-
-
- 
-
       .addCase(SignupUser.pending, (state) => {
         state.loading = true;
         state.error = null;

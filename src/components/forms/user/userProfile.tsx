@@ -164,7 +164,7 @@ export const Profile: React.FC = () => {
       } catch (error) {
         console.error("Unexpected error while fetching the profile: ", error);
       } finally {
-        setProfileLoading(false)
+        // setProfileLoading(false)
       }
     };
     fetchProfile();
@@ -187,27 +187,73 @@ export const Profile: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  if(profileLoading){
+  if (profileLoading) {
     return (
-      <div className="loading-backdrop w-full h-full loading-bg"   >
-      <div className="flex justify-center items-center h-screen">
-        <div className="flex items-center flex-col">
-          <div className="w-12 h-12 border-5 border-t-4 border-t-gray-150 border-gray-100 rounded-full animate-spin"></div>
-          <p className="mt-4 text-white text-[22px] font-semibold tracking-wide" style={{ fontFamily: 'Unbounded' }}>
-            Loading<span className="dot-animation mr-[6px]">
-              <span>.</span>
-              <span>.</span>
-              <span>.</span>
-            </span>
-          </p>
-          
-          <p className="text-sm text-white mt-2 font-semibold">
-            Please wait, your content is on the way.
-          </p>
+      <div className="w-full h-full  bg-gray-50 ">
+        {/* Navbar Skeleton */}
+        <div className="w-full h-[90px] bg-white  ">
+          <Navbar />
+        </div>
+  
+        {/* Main Content Skeleton */}
+        <div className="w-full h-[1000px]  relative ">
+          {/* Banner Section Skeleton */}
+          <div className=" bg-transparent relative h-[300px]   z-20  ">
+            <div className="cover-pic-button absolute right-[10px] bottom-[10px]">
+              <div className="w-10 h-10   rounded-full  "></div>
+            </div>
+          </div>
+  
+          {/* Main Section Skeleton */}
+          <div className="main-section bg-white relative">
+          <div className="absolute top-[120px] right-[450px] flex flex-col gap-[10px] justify-center items-center">
+           
+            <h1 style={{ fontFamily: "Unbounded" }} className="text-[22px] w-[120px] rounded h-[32px] animate-pulse bg-gray-200">
+            
+            </h1>
+            <Link to={"/"}>
+              {" "}
+              <button className="text-white animate-pulse bg-gray-200   px-[18px] py-[10px] w-[140px]   h-[40px]  text-[18px] rounded-[8px]">
+           
+              </button>
+            </Link>
+          </div>
+        </div>
+  
+          {/* Profile Section Skeleton */}
+          <section className="absolute w-[420px] h-auto bg-white rounded-[14px] left-[140px] top-[60px] py-[25px] px-[26px] flex flex-col justify-start items-center gap-[20px]   animate-pulse">
+            {/* Profile Image Skeleton */}
+            <div className="w-[115px] h-[115px] bg-gray-100 animate-pulse  rounded-full"></div>
+            <div className="w-full flex justify-center items-center flex-col gap-2">
+                <div className=" h-[30px] bg-gray-100 animate-pulse w-[180px] rounded-[6px]"></div>
+                <div className="h-[23px] bg-gray-100 animate-pulse w-[120px] rounded-[6px]"></div>
+            </div>
+            {/* Profile Content Skeleton */}
+           
+            <div className="w-full flex justify-center items-center flex-col gap-2">
+                <div className=" h-[35px] rounded-[6px] bg-gray-100 animate-pulse w-full"></div>
+                <div className="h-[35px] rounded-[6px] bg-gray-100 animate-pulse w-full"></div>
+       
+              <div className="h-[35px] rounded-[6px] bg-gray-100 animate-pulse w-full"></div>
+              <div className="h-[35px] rounded-[6px] bg-gray-100 animate-pulse w-full"></div>
+            </div>
+  
+            {/* Description Skeleton */}
+            <div className="w-full h-[160px] bg-gray-100 animate-pulse rounded-[6px]"></div>
+  
+            
+  
+            {/* Followers and Following Skeleton */}
+            <div className="w-full flex justify-between">
+              <div className="w-[45%] h-[40px] bg-gray-100 animate-pulse rounded-[6px]"></div>
+              <div className="w-[45%] h-[40px] bg-gray-100 animate-pulse rounded-[6px]"></div>
+            </div>
+  
+           
+          </section>
         </div>
       </div>
-    </div>
-    )
+    );
   }
  
   return (
@@ -544,5 +590,6 @@ export const Profile: React.FC = () => {
       
     </div>
   );
+  
 };
  

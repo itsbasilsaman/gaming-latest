@@ -155,7 +155,7 @@ const GetOffer: React.FC = () => {
               
                 <img
                   src={product.product.image || " "} // Fallback image if empty
-                  className="absolute inset-0 object-contain w-full h-full rounded-[12px]"
+                  className="absolute inset-0 object-cover w-full h-full rounded-[12px]"
                   alt={product.product.title}
                   style={{ zIndex: "-10" }}
                 />
