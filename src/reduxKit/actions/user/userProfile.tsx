@@ -11,7 +11,10 @@ export const getUserProfile = createAsyncThunk(
     async (_, { rejectWithValue }) => {
       try {
         const response = await axiosIn.get(`/user/profile`,configWithToken());
-        return response; 
+        console.log("user profile response : ",response);
+        
+        return response;
+ 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         if (error.response && error.response.data) {

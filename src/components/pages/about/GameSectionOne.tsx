@@ -36,7 +36,7 @@ const SkeletonOffer: React.FC = () => {
     
   );
 };
-
+ 
  
 const GameSectionOne: React.FC<GameSectionOneProps> = React.memo(({ productId, image, name, ServiceName }) => {
   const dispatch = useDispatch<AppDispatch>()

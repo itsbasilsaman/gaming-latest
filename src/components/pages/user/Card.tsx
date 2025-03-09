@@ -30,7 +30,7 @@ const GameCard: FC = memo(() => {
       title: 'Brawl Stars',
       offer: '150 offers',
     },
-    {
+    { 
       img: ImgTwo,
       bg: CardTwo,
       title: 'Clash of Clans',

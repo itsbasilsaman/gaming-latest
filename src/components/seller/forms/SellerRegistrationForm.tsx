@@ -52,7 +52,7 @@ const SellerRegistrationForm: React.FC = () => {
         navigate('/');
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : String(error);
-        Swal.fire({
+        Swal.fire({ 
           icon: 'error',
           title: 'Error!',
           text: errorMessage,
