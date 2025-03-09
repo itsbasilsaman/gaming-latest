@@ -259,7 +259,7 @@ if(profile){console.log("mimmimimimim profile data", profile.sellerProfile?.veri
             className="w-[92px] pr-[4px] lg:h-[56px] country-button modal-country-button flex justify-center items-center gap-[10px] rounded-[1000px] lg:text-[19px]"
             onClick={toggleModal}
           >
-            <img src={Flag} alt="" className="w-[43px]" /> SAU
+            <img src={Flag} alt=""  className="w-[18px]" /> SAU
           </button>
           {(profile?.sellerProfile )?.verificationStatus==="APPROVED" ? (
             <div className="flex gap-[12px]">
@@ -507,11 +507,11 @@ if(profile){console.log("mimmimimimim profile data", profile.sellerProfile?.veri
               <div>
                 <div className="flex justify-between items-center py-[15px]">
                   <label className="block text-sm font-medium">
-                    Country / Region
+                    Country / Region  
                   </label>
                   <div className="flex justify-start gap-[8px]">
                     <img src={Flag} alt="" className="w-[25px]" />{" "}
-                    <span>India</span>
+                    <span>Saudia</span> 
                   </div>
                 </div>
                 <span className="text-gray-400">
