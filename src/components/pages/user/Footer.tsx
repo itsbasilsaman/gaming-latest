@@ -6,10 +6,14 @@ import { FaInstagram } from "react-icons/fa6";
 import { FaLinkedinIn } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import Logo from '../../../assets/gaminggate-logo.png'
+// import { useSelector } from "react-redux";
+// import { RootState } from "../../../reduxKit/store";
+
 
  
 
 const Footer: React.FC = memo(() => {
+    // const {  userLanguage } = useSelector((state: RootState) => state.userLanguage);
   return (
 
     <footer className='w-full lg:h-[260px] h-[500px] footer text-white md:px-[80px] px-[20px] pt-[20px] lg:pt-[0px]  '>

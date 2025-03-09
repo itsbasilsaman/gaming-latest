@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Country {
   name: string;
   flag: string;
@@ -30,7 +31,7 @@ export interface UserProfileData {
     blockedUsersCount: number;
     succesfullDeliveries: number;
     nextLevel: string | null;
-    sellerProfile: string | null;
+    sellerProfile: any|null
     level: {
       id: string;
       level: number;

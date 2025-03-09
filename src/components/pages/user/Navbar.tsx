@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { HiMiniBars3 } from "react-icons/hi2";
 import { IoClose } from "react-icons/io5";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-import Flag from "./Images/flag.png";
+import Flag from "./Images/hd-saudi-arabia-national-flag-transparent-png-735811695823224m41k7rcsl7.png";
 
 import { IoMdClose } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,6 +18,7 @@ import { useDispatch } from "react-redux";
 import { GetServiceAction } from "../../../reduxKit/actions/service/serviceAction";
 import { userLanguageChange } from "../../../reduxKit/actions/user/userLanguage";
 import { userCurrencyChange } from "../../../reduxKit/actions/user/userCurrency";
+import { UserProfileData } from "../../../interfaces/user/profile";
 
 interface Items {
   id: string;
@@ -52,6 +53,7 @@ export const Navbar: React.FC = React.memo(() => {
     // const [userProfile, setProfiles] = useState<any>(null);
   const [isLocalizationOpen, setIsLocalizationOpen] = useState<boolean>(false);
   const { isLoggedUserWithSeller, isLoggedUser } = useSelector(  (state: RootState) => state.logAuth);
+  const {UserProfileData}=useSelector((state: RootState) => state.profile);
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -59,6 +61,7 @@ export const Navbar: React.FC = React.memo(() => {
 
 
   const items: string[] = ["English", "Arabic"];
+  const [profile, setProfile]=useState<UserProfileData|null>(null);
 
   // Handle outside click to close the dropdown
   useEffect(() => {
@@ -99,12 +102,19 @@ export const Navbar: React.FC = React.memo(() => {
     }
   };
 
-
+useEffect(() => {
+  if (UserProfileData) {
+    console.log("navbar profile data", UserProfileData);
+    
+    setProfile(UserProfileData);
+  }
+}, [UserProfileData]);
 
   const togglePanel = (): void => {
     setIsPanelOpen(!isPanelOpen);
   };
-
+if(profile){console.log("mimmimimimim profile data", profile.sellerProfile?.verificationStatus );
+}
   const toggleLocalization = (): void => {
     setIsLocalizationOpen(!isLocalizationOpen);
   };
@@ -251,7 +261,7 @@ export const Navbar: React.FC = React.memo(() => {
           >
             <img src={Flag} alt="" className="w-[43px]" /> SAU
           </button>
-          {isLoggedUserWithSeller && isLoggedUser ? (
+          {(profile?.sellerProfile )?.verificationStatus==="APPROVED" ? (
             <div className="flex gap-[12px]">
               <Link to={"/user/selectDetailsOffer"}>
                 <button className="lg:w-[188px] lg:h-[56px] country-button rounded-[1000px] lg:text-[19px]">
@@ -270,7 +280,7 @@ export const Navbar: React.FC = React.memo(() => {
             </div>
           ) : (
             <div className="flex gap-[12px]">
-              {isLoggedUser && isLoggedUserWithSeller === false ? (
+              {  profile?.sellerProfile===null ? (
                 <div className="flex gap-[12px]">
                   <Link to={"/user/seller"}>
                     <button className="lg:w-[188px] lg:h-[56px] country-button rounded-[1000px] lg:text-[19px]">

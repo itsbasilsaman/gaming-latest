@@ -253,7 +253,7 @@ const CategorySectionOne: React.FC<OfferDetailsProps> = React.memo(
                 alt="Decrease"
                 onClick={decrement}
                 className="cursor-pointer"
-              />
+              /> 
             </div>
           </div>
           <div

@@ -1,21 +1,24 @@
 import { useState, useEffect, useRef } from 'react';
 import { MdLogout } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
-import { getUserProfile } from '../../../reduxKit/actions/user/userProfile';
+
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../../reduxKit/store';
-import { UserProfileData } from '../../../interfaces/user/profile';
+import { AppDispatch, RootState } from '../../../reduxKit/store';
+
 import { userLogout } from '../../../reduxKit/actions/auth/authAction';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
+import { useSelector } from 'react-redux';
+import { Loading } from '../../../Loading';
  
 
 export const UserAvatar: React.FC = () => {
  
   const [isOpen, setIsOpen] = useState(false);
  const navigate = useNavigate();
-  const [profile, setProfile] = useState<UserProfileData | null>(null)
 
+
+  const { GetProfileloading , UserProfileData} = useSelector((state: RootState) => state.profile);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -23,7 +26,7 @@ export const UserAvatar: React.FC = () => {
     setIsOpen((prev) => !prev);
   };
 
-  const formattedDate = profile?.memberSince ?   new Date (profile.memberSince).toLocaleString("en-US", {
+  const formattedDate = UserProfileData?.memberSince ?   new Date (UserProfileData.memberSince).toLocaleString("en-US", {
     year:'numeric',
     month: 'long',
     day:'numeric'
@@ -34,11 +37,9 @@ export const UserAvatar: React.FC = () => {
     try {
 
       const response=  await dispatch(userLogout()).unwrap();
-      console.log(" avathar logout response data  :", response);
+
         toast.success(response.message);
-         navigate('/'); // Redirect to login page after logout
-      
-      
+         navigate('/'); // Redirect to login page after logout  
     } catch (error) {
       console.error("Logout failed: ", error);
        const errorMessage = (error instanceof Error) ? error.message : String(error);
@@ -85,23 +86,25 @@ export const UserAvatar: React.FC = () => {
   }, []);
 
 
-  useEffect(()=> {
-    const fetchProfile = async () => {
-      try { 
-        const getProfile = await dispatch(getUserProfile());
-        if(getUserProfile.fulfilled.match(getProfile)){
-          const {data} = getProfile.payload;
-          setProfile(data.data);
-          console.log("Profile data fetched successfully: " , getProfile.payload);
-        } else {
-          console.log("Failed to fetch profile: ", getProfile.payload || getProfile.error);         
-        }
-      } catch (error) {
-        console.error("Unexpected error while fetching the profile: ",error)
-      }
+  
+   useEffect(() => {
+     const fetchProfile = async () => {
+       try {
+    console.log("ARAVATHAR PROFILE LOADING  and DATA :",UserProfileData);
+        
+        // await setformData(UserProfileData.)
+       } catch (error) {
+         console.error("Unexpected error while fetching the profile: ", error);
+       }
+     };
+ 
+     fetchProfile();
+   }, [UserProfileData]);
+ 
+    if (GetProfileloading) {
+      <Loading/>
     }
-    fetchProfile()
-  }, [dispatch])
+  
 
   return (
     <>
@@ -115,7 +118,7 @@ export const UserAvatar: React.FC = () => {
             <div
               className={`w-[55px] h-[55px] bg-red-800 pb-[5px] profile-bar text-white rounded-full flex items-center justify-center text-2xl font-bold`}
             >
-               {profile?.firstName ? profile.firstName.charAt(0).toUpperCase() : (
+               {UserProfileData?.firstName ? UserProfileData.firstName.charAt(0).toUpperCase() : (
                 <div className="w-full h-full  shimmer rounded-full"></div>
                )}
             </div>
@@ -134,21 +137,21 @@ export const UserAvatar: React.FC = () => {
                     <div
                       className={`bg-red-800 text-white w-12 h-12 flex items-center justify-center rounded-full text-xl font-bold`}
                     >
-                      {profile?.firstName ? profile.firstName.charAt(0).toUpperCase() : ' '}
+                      {UserProfileData?.firstName ? UserProfileData.firstName.charAt(0).toUpperCase() : ' '}
                     </div>
                     <div>
                       <h1
                         className="text-lg font-semibold primary-color"
                         style={{ fontFamily: 'Unbounded' }}
                       >
-                         {profile?.userName}
+                         {UserProfileData?.userName}
                       </h1>
 
                       <p className="text-sm text-gray-700"> 
-                       Level {profile?.level?.level}
+                       Level {UserProfileData?.level?.level}
                       </p>
                       <p className="text-sm text-gray-700">
-                          {profile?.email}
+                          {UserProfileData?.email}
                       </p>
                     </div>
                   </div>
@@ -159,15 +162,15 @@ export const UserAvatar: React.FC = () => {
                 <div className="space-y-4">
                   <div className="flex justify-center items-center px-4">
                       <span className="text-[20px] font-medium primary-color"   style={{ fontFamily: 'Unbounded' }}>
-                        {profile?.firstName} {profile?.lastName}
+                        {UserProfileData?.firstName} {UserProfileData?.lastName}
                       </span>
                     </div>
                     <div className="flex justify-between items-center px-4">
                       <div className="text-sm font-medium primary-color  flex flex-col">
-                        <span>Followers </span>  <span className='text-center text-[25px] py-2'   style={{ fontFamily: 'Unbounded' }}>{profile?.followersCount}</span>
+                        <span>Followers </span>  <span className='text-center text-[25px] py-2'   style={{ fontFamily: 'Unbounded' }}>{UserProfileData?.followersCount}</span>
                       </div>
                       <div className="text-sm font-medium primary-color flex flex-col">
-                        <span>Following</span>  <span className='text-center text-[25px] py-2'   style={{ fontFamily: 'Unbounded' }}>{profile?.folowingCount}</span>
+                        <span>Following</span>  <span className='text-center text-[25px] py-2'   style={{ fontFamily: 'Unbounded' }}>{UserProfileData?.folowingCount}</span>
                       </div>
                     </div>
                    
@@ -184,7 +187,7 @@ export const UserAvatar: React.FC = () => {
                         Country 
                       </span>
                       <span className="text-sm primary-color">
-                      {profile?.country}
+                      {UserProfileData?.country}
                       </span>
                     </div>
                   </div>

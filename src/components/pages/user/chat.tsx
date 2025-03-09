@@ -6,7 +6,7 @@ interface Message {
   content: string;
   timestamp: string;
 }
-
+ 
 interface User {
   id: number;
   name: string;
