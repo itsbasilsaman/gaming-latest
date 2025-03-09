@@ -1,17 +1,19 @@
 import { useState, useEffect, useRef } from 'react';
 import { MdLogout } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getUserProfile } from '../../../reduxKit/actions/user/userProfile';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../reduxKit/store';
 import { UserProfileData } from '../../../interfaces/user/profile';
 import { userLogout } from '../../../reduxKit/actions/auth/authAction';
+import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
  
 
 export const UserAvatar: React.FC = () => {
  
   const [isOpen, setIsOpen] = useState(false);
- 
+ const navigate = useNavigate();
   const [profile, setProfile] = useState<UserProfileData | null>(null)
 
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -21,8 +23,6 @@ export const UserAvatar: React.FC = () => {
     setIsOpen((prev) => !prev);
   };
 
-
-
   const formattedDate = profile?.memberSince ?   new Date (profile.memberSince).toLocaleString("en-US", {
     year:'numeric',
     month: 'long',
@@ -30,6 +30,42 @@ export const UserAvatar: React.FC = () => {
   }) : ' '
 
  
+  const handleLogout = async () => {
+    try {
+
+      const response=  await dispatch(userLogout()).unwrap();
+      console.log(" avathar logout response data  :", response);
+        toast.success(response.message);
+         navigate('/'); // Redirect to login page after logout
+      
+      
+    } catch (error) {
+      console.error("Logout failed: ", error);
+       const errorMessage = (error instanceof Error) ? error.message : String(error);
+            Swal.fire({
+              icon: "error",
+              title: "Error!",
+              text: errorMessage,
+              timer: 3000,
+              toast: true,
+              showConfirmButton: false,
+              timerProgressBar: true,
+              background: '#fff',
+              color: '#721c24',
+              iconColor: '#f44336',
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
+              },
+              showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+              },
+              hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+              }
+            });
+    }
+  };
 
   // Close the dropdown if the user clicks outside
   useEffect(() => {
@@ -51,15 +87,14 @@ export const UserAvatar: React.FC = () => {
 
   useEffect(()=> {
     const fetchProfile = async () => {
-      try {
+      try { 
         const getProfile = await dispatch(getUserProfile());
         if(getUserProfile.fulfilled.match(getProfile)){
           const {data} = getProfile.payload;
           setProfile(data.data);
           console.log("Profile data fetched successfully: " , getProfile.payload);
         } else {
-          console.log("Failed to fetch profile: ", getProfile.payload || getProfile.error);
-          
+          console.log("Failed to fetch profile: ", getProfile.payload || getProfile.error);         
         }
       } catch (error) {
         console.error("Unexpected error while fetching the profile: ",error)
@@ -158,11 +193,11 @@ export const UserAvatar: React.FC = () => {
                 <div className="mt-3">
                   <ul className="space-y-2">
                     <li>
-                    <Link to={'/'} onClick={()=> dispatch(userLogout())}>
-                        <button className="w-full text-left text-sm primary-color hover:bg-gray-200 py-3 rounded-lg flex justifu-center items-center gap-[6px] px-4"   style={{ fontFamily: 'Unbounded' }}>
-                          <MdLogout className="text-[19px] "  /> Log Out
+               
+                        <button    onClick={handleLogout}  className="w-full text-left text-sm primary-color hover:bg-gray-200 py-3 rounded-lg flex justifu-center items-center gap-[6px] px-4"   style={{ fontFamily: 'Unbounded' }}>
+                          <MdLogout className="text-[19px] "  /> Log Out 
                         </button>
-                    </Link>
+                  
                     </li>
                   </ul>
                 </div>

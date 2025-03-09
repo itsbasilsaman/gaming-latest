@@ -27,7 +27,7 @@ export const Services: FC = memo(() => {
     try {
       if (item.id) {
         navigate(`/user/offer-list?serviceId=${item.id}&name=${item.name}&nameAr=${item.nameAr}&iconUrl=${item.iconUrl}`)
-      }
+      } 
     } catch (error) {
         console.log(error);
     }

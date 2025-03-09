@@ -8,7 +8,7 @@ const SkeletonBox: React.FC = () => {
           <div className="w-full h-[110px]   rounded-[16px]" ></div>
           <div className="w-[110px] h-[20px]   rounded-[7px] mt-2"></div>
         </div>
-      </div>
+      </div> 
     </div>
   );
 };

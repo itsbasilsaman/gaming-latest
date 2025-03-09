@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { userLoggedAction,userLoggedWithSellerAction } from "../../actions/auth/user-seller-main-auth";
+import { userLogout } from "../../actions/auth/authAction";
 
 
 export interface UserState {
@@ -88,8 +89,14 @@ export interface UserState {
           state.error = payload as string;
         })
   
+        .addCase(userLogout.fulfilled, (state, { payload }) => {
+          console.log("Removing the token from local storage", payload);
+          state.loading = false;
+          state.error = null;
+          state.isLoggedUser = false;
+          state.isLoggedUserWithSeller=false  
+        })
        
-  
        
   
     },

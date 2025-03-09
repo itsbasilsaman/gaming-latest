@@ -17,7 +17,7 @@ export const FeaturedGiftCards: React.FC = React.memo(() => {
       
     {
       bg: CardOne,
-      title: 'ITunes',
+      title: 'ITunes', 
       offer: '150 offers',
     },
     {

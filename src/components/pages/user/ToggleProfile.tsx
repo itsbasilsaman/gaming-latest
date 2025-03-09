@@ -7,6 +7,8 @@ import { AppDispatch, RootState } from '../../../reduxKit/store';
 import { useSelector } from 'react-redux';
 import { getUserProfile } from '../../../reduxKit/actions/user/userProfile';
 import { userLogout } from '../../../reduxKit/actions/auth/authAction';
+import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
 
 const ToggleProfile: React.FC = React.memo(() => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -21,7 +23,7 @@ const ToggleProfile: React.FC = React.memo(() => {
     month:'long',
     day: 'numeric'
   }) : ' ';
-
+ 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -46,21 +48,38 @@ const ToggleProfile: React.FC = React.memo(() => {
     setIsProfileOpen((prev) => !prev);
   };
 
-  useEffect(() => {
-    console.log("this is my profiles of in page *****************", formData);
-  }, [formData]);
-
 
   const handleLogout = async () => {
     try {
-      console.log('before going to logout ');
-      
-      const data=  await dispatch(userLogout()).unwrap();
-      console.log("my logout the data : in the page : ",data);
-      
-      navigate('/'); // Redirect to login page after logout
+      const response=  await dispatch(userLogout()).unwrap();
+      console.log("Toggle Logout response data ", response);
+        toast.success(response.message);
+         navigate('/'); // Redirect to login page after logout
     } catch (error) {
       console.error("Logout failed: ", error);
+       const errorMessage = (error instanceof Error) ? error.message : String(error);
+            Swal.fire({
+              icon: "error",
+              title: "Error!",
+              text: errorMessage,
+              timer: 3000,
+              toast: true,
+              showConfirmButton: false,
+              timerProgressBar: true,
+              background: '#fff',
+              color: '#721c24',
+              iconColor: '#f44336',
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
+              },
+              showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+              },
+              hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+              }
+            });
     }
   };
 
@@ -143,8 +162,8 @@ const ToggleProfile: React.FC = React.memo(() => {
                     <ul className="space-y-2">
                        
                       <li className='my-4'>
-                        <button onClick={handleLogout} className="w-full text-left text-[16px] font-semibold affiliate-section text-white py-[10px] rounded-full flex justify-center items-center gap-[6px] px-4"   style={{ fontFamily: 'Unbounded' }}>
-                          <MdLogout className="text-[22px]" /> Log Out
+                        <button onClick={()=>handleLogout} className="w-full text-left text-[16px] font-semibold affiliate-section text-white py-[10px] rounded-full flex justify-center items-center gap-[6px] px-4"   style={{ fontFamily: 'Unbounded' }}>
+                          <MdLogout className="text-[22px]" /> Log Out  
                         </button>
                       </li>
                     </ul>

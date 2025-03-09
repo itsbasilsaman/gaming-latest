@@ -122,9 +122,7 @@ const UserLogin: React.FC = React.memo(() => {
       .catch((error) => console.error("Error fetching countries:", error));
   }, []);
  
-  if(countries){
-    console.log('country value',countries);
-  }
+
   return (
     <div className="md:h-[100vh] h-full grid grid-rows-5 bg-white">
       <div className="lg:row-span-2 primary-background relative h-[80px] px-2 lg:h-auto flex items-center">
