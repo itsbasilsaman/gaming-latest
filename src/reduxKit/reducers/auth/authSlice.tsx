@@ -156,8 +156,12 @@ export const authSlice = createSlice({
         state.isLogged = false;
         state.error = null;
         state.userData = null;
-        state.accessToken=null;
+        state.accessToken=null; 
         state.refreshToken=null
+        localStorage.removeItem("isLoggedUser")
+        localStorage.removeItem("accessToken")
+        localStorage.removeItem("refreshToken")
+        localStorage.removeItem("isLoggedUserWithSeller")
         localStorage.clear()
         console.log("The user Logouted Successfull ");
       })

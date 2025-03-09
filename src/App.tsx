@@ -8,10 +8,7 @@ import { Loading } from "./Loading";
 import { AppDispatch, RootState } from "./reduxKit/store";
 import { getUserProfile } from "./reduxKit/actions/user/userProfile";
 import { getATKWithRTKUser } from "./reduxKit/actions/auth/authAction";
-import {
-  userLoggedAction,
-  userLoggedWithSellerAction,
-} from "./reduxKit/actions/auth/user-seller-main-auth";
+import {userLoggedAction, userLoggedWithSellerAction} from "./reduxKit/actions/auth/user-seller-main-auth";
 import NotFound404 from "./notFound404";
 import NotFound401 from "./notFound401";
 import ToggleProfile from "./components/pages/user/ToggleProfile";
@@ -48,6 +45,7 @@ export const App: React.FC = React.memo(() => {
   const { isLoggedUser, isLoggedUserWithSeller } = useSelector(  (state: RootState) => state.logAuth);
   const { userCurrency } = useSelector(  (state: RootState) => state.userCurrency);
   const { userLanguage } = useSelector(  (state: RootState) => state.userLanguage);
+  const  {GetProfileloading}=useSelector((state:RootState)=>state.profile)
   const [formData, setProfiles] = useState<any>(null);
 
 
@@ -114,6 +112,9 @@ export const App: React.FC = React.memo(() => {
     );
   }
 
+  if(GetProfileloading){
+<Loading/>
+  }
 
   return (
     <Fragment>

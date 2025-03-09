@@ -11,10 +11,10 @@ import TopUpSection from "./topupSection"
      <TopUpSection/> 
      <div className="py-3 mt-12">
       <GamingExperiencePage/> 
-     </div>
+     </div>  
      <Footer/>
     </>
   )
 }
-
+  
 export default TopUp

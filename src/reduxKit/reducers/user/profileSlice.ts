@@ -34,7 +34,6 @@ const initialStateForProfileLoading:ProfileLoadingStatus = {
     })
     .addCase(getUserProfile.fulfilled, (state , {payload}) => {
       console.log("Payload after language change:", payload);
-      
       state.GetProfileloading = false;
       state.error = null;
     })

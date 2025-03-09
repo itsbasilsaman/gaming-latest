@@ -7,7 +7,7 @@ import { FaLinkedinIn } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import Logo from '../../../assets/gaminggate-logo.png'
 
-
+ 
 
 const Footer: React.FC = memo(() => {
   return (
