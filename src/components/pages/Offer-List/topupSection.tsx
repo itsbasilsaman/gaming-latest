@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from "react";
 import { IoSearchSharp } from "react-icons/io5";
 import { GetBrandsWithService } from "../../../reduxKit/actions/user/userOfferListing";
@@ -5,6 +6,7 @@ import { IoArrowBackCircleSharp, IoArrowForwardCircleSharp } from "react-icons/i
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../reduxKit/store";
+import { GetServicesWithSubservices } from "../../../reduxKit/actions/offer/serviceSubServiceBrandSelection";
 
 interface nestedGameBrands {
   description: string;
@@ -20,6 +22,13 @@ interface GameBrands {
   brand: nestedGameBrands;
 }
 
+interface subserviceArray {
+  name : string;
+  id: string;
+}
+
+
+
 const ITEMS_PER_PAGE_BIG_SCREEN = 12;
 const ITEMS_PER_PAGE_SMALL_SCREEN = 8;
 
@@ -31,21 +40,18 @@ const TopUpSection: React.FC = () => {
   // const nameAr = queryParams.get("nameAr") || "";
   const iconUrl = queryParams.get("iconUrl") || "";
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedItem,setSelectedItem] = useState<number>(1)
+  const [selectedItem,setSelectedItem] = useState<string>('1')
   const [filteredGames, setFilteredGames] = useState<GameBrands[]>([]);
   const [itemsPerPage, setItemsPerPage] = useState(ITEMS_PER_PAGE_BIG_SCREEN);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [allGames, setAllGames] = useState<GameBrands[]>([]);
+  const [subserviceNames, setSubserviceNames] = useState<subserviceArray[]>([]);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
 
-  const buttons = [
-    { id: 1, label: "All" },
-    { id: 2, label: "TopUp" },
-    { id: 3, label: "Offer Menu" },
-  ];
+ 
 
 
 
@@ -74,6 +80,43 @@ const TopUpSection: React.FC = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
+  useEffect(() => {
+    const getServiceWithSubservices = async () => {
+      try {
+        const response = await dispatch(GetServicesWithSubservices());
+        const services = response.payload;
+  
+        // Filter services with more than one subservice
+        const servicesWithMultipleSubservices = services.filter(
+          (service: { subservices: any[] }) => service.subservices && service.subservices.length > 1
+        );
+  
+        // Extract subservices
+        const subservices = servicesWithMultipleSubservices.flatMap((service: { subservices: { id: string; name: string; }[]; }) =>
+          service.subservices.map((subservice: { id: string; name: string }) => subservice)
+        );
+  
+        // Remove duplicates based on 'id'
+        const uniqueSubservices = Array.from(
+          new Map(subservices.map((item: { id: any; }) => [item.id, item])).values()
+        );
+
+        const finalSubservices = [{ id: 1, name: "All" }, ...uniqueSubservices];
+  
+        // Set state with unique subservice objects
+        setSubserviceNames(finalSubservices as subserviceArray[]);
+  
+        console.log(uniqueSubservices);
+      } catch (error) {
+        console.log("getServiceWithSubservices error", error);
+      }
+    };
+  
+    getServiceWithSubservices();
+  }, [dispatch]);
+  
+
+  
   useEffect(() => {
     const GetProductsWithServiceOrSubService = async () => {
       try {
@@ -134,6 +177,10 @@ const TopUpSection: React.FC = () => {
     }
   };
 
+
+ 
+  
+
   return (
     <div className="pt-[100px]">
       <div className="flex items-center py-2 px-6 pb-8">
@@ -144,15 +191,15 @@ const TopUpSection: React.FC = () => {
       </div>
       <div className="max-w-screen-xl mx-auto common-background lg:px-6 px-4 pb-8 rounded-[15px]">
         <div>
-          <div className="flex lg:justify-between items-center lg:flex-row flex-col gap-[20px] lg:gap-[0px] py-[25px]">
-           {buttons.map((item, index)=> (
+          <div className="flex lg:justify-between items-center lg:flex-row flex-col gap-[20px] lg:gap-[10px] py-[25px]">
+           {subserviceNames.map((item, index)=> (
              <div className="flex lg:gap-[15px] w-[100%] lg:w-auto justify-between lg:justify-normal">
              <span className="relative" key={index}>
                <button
-                 onClick={() =>{ handleFilter(item.label); setSelectedItem(item.id)}}
-                 className={`${selectedItem === item.id ? 'selected-button': 'blur-button' }  lg:px-[29px] px-[15px] py-[9px] lg:text-[17px] text-white rounded-[1000px]`}
+                 onClick={() =>{ handleFilter(item.name); setSelectedItem(item.id)}}
+                 className={`${selectedItem === item.id ? 'selected-button': 'blur-button' }  space-x-3 overflow-x-auto whitespace-nowrap  lg:px-[29px] px-[15px] py-[9px] lg:text-[17px] text-white rounded-[1000px]`}
                >
-                {item.label}  
+                {item.name}  
                </button>
              </span>
            </div>
@@ -161,7 +208,7 @@ const TopUpSection: React.FC = () => {
             <div className="relative extralg:w-[912px] lg:w-[492px] h-[48px] w-[100%]">
               <input
                 type="text"
-                className="extralg:w-[912px] lg:w-[492px] h-[48px] about-inputbox rounded-[1000px] w-[100%] text-white"
+                className="extralg:w-full lg:w-full h-[48px] about-inputbox rounded-[1000px] w-[100%] text-white"
                 placeholder="Search for"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
