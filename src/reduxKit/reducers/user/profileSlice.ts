@@ -1,3 +1,4 @@
+import { UserProfileData } from './../../../interfaces/user/profile';
  
 import { getUserProfile } from "../../actions/user/userProfile";
 
@@ -11,11 +12,13 @@ import { createSlice,  } from "@reduxjs/toolkit";
 export interface ProfileLoadingStatus {
   error: string | null;
   GetProfileloading: boolean
+  UserProfileData: UserProfileData | null;
 }
 
 const initialStateForProfileLoading:ProfileLoadingStatus = {
   error: null,
   GetProfileloading: false,
+  UserProfileData: null,
 }
  
  export const ProfileSlice = createSlice({
@@ -24,7 +27,7 @@ const initialStateForProfileLoading:ProfileLoadingStatus = {
    reducers : {
     updateError : (state, {payload})=> {
       state.error = payload;
-    }
+    } 
    },
    extraReducers : (builder) => {
     builder 
@@ -33,10 +36,10 @@ const initialStateForProfileLoading:ProfileLoadingStatus = {
       state.error = null;
     })
     .addCase(getUserProfile.fulfilled, (state , {payload}) => {
-      console.log("Payload after language change:", payload);
-      
+      console.log("Payload after language change ONE:", payload);
       state.GetProfileloading = false;
       state.error = null;
+      state.UserProfileData = payload.data.data as UserProfileData;
     })
     .addCase(getUserProfile.rejected, (state , {payload}) => {
       state.GetProfileloading= false;

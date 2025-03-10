@@ -7,11 +7,8 @@ import ScrollToTop from "./ScrollToTop";
 import { Loading } from "./Loading";
 import { AppDispatch, RootState } from "./reduxKit/store";
 import { getUserProfile } from "./reduxKit/actions/user/userProfile";
-import { getATKWithRTKUser } from "./reduxKit/actions/auth/authAction";
-import {
-  userLoggedAction,
-  userLoggedWithSellerAction,
-} from "./reduxKit/actions/auth/user-seller-main-auth";
+// import { getATKWithRTKUser } from "./reduxKit/actions/auth/authAction";
+import {userLoggedAction, userLoggedWithSellerAction} from "./reduxKit/actions/auth/user-seller-main-auth";
 import NotFound404 from "./notFound404";
 import NotFound401 from "./notFound401";
 import ToggleProfile from "./components/pages/user/ToggleProfile";
@@ -48,23 +45,20 @@ export const App: React.FC = React.memo(() => {
   const { isLoggedUser, isLoggedUserWithSeller } = useSelector(  (state: RootState) => state.logAuth);
   const { userCurrency } = useSelector(  (state: RootState) => state.userCurrency);
   const { userLanguage } = useSelector(  (state: RootState) => state.userLanguage);
+  const  {GetProfileloading}=useSelector((state:RootState)=>state.profile)
   const [formData, setProfiles] = useState<any>(null);
 
 
   useEffect(()=>{
-
     console.log("The current UserLanguage ",userLanguage," Current Currency : ",userCurrency);
     console.log("The current isLoggedUser ",isLoggedUser," Current isLoggedUserWithSeller : ",isLoggedUserWithSeller,"Current user Verification Status: ",verificationStatus);
 
     },[userCurrency,userLanguage])
-
-
     useEffect(() => {
       const fetchProfile = async () => {
         try {
           const resultAction = await dispatch(getUserProfile());
-  
-          console.log("<>,><>",resultAction.payload); 
+   
           if (getUserProfile.fulfilled.match(resultAction)) {
             const { data, status } = resultAction.payload;
             if (status === 200 ) {
@@ -76,25 +70,28 @@ export const App: React.FC = React.memo(() => {
                 setVerificationStatus(data.data.sellerProfile.verificationStatus);
               }
   
-              if (
-                formData?.data?.sellerProfile?.verificationStatus === "APPROVED"
-              ) {
+              if (    formData?.data?.sellerProfile?.verificationStatus === "APPROVED"  ) {
+
                 await dispatch(userLoggedWithSellerAction());
+              }else{
+               console.log("the Status of the seller is ",formData);
+                
               }
             }
-          } else {
-            const response = await dispatch(getATKWithRTKUser());
-            if (getATKWithRTKUser.fulfilled.match(response)) {
-              console.log("Access token refreshed.");
-              const retryProfile = await dispatch(getUserProfile());
-              if (getUserProfile.fulfilled.match(retryProfile)) {
-                setProfiles(retryProfile.payload.data);
-              }
-            } else {
-              console.log("Token refresh failed. Redirecting to login.");
-              navigate("/");
             }
-          }
+          // } else  {
+          //   const response = await dispatch(getATKWithRTKUser());
+          //   if (getATKWithRTKUser.fulfilled.match(response)) {
+          //     console.log("Access token refreshed.");
+          //     const retryProfile = await dispatch(getUserProfile());
+          //     if (getUserProfile.fulfilled.match(retryProfile)) {
+          //       setProfiles(retryProfile.payload.data);
+          //     }
+          //   } else {
+          //     console.log("Token refresh failed. Redirecting to login.");
+          //     navigate("/");
+          //   }
+          // }
         } catch (error) {
           console.error("Error fetching profile:", error);
         }
@@ -103,7 +100,6 @@ export const App: React.FC = React.memo(() => {
     }, [dispatch, navigate,isLoggedUser]);
   
 
- 
 
   if (formData) {
     console.log(
@@ -114,6 +110,9 @@ export const App: React.FC = React.memo(() => {
     );
   }
 
+  if(GetProfileloading){
+<Loading/>
+  }
 
   return (
     <Fragment>

@@ -114,17 +114,16 @@ export const axiosIn = axios.create({
 
 
 
+
+
     
 export const userLogout = createAsyncThunk(
   "user/logout",
   async (__, { rejectWithValue }) => {
     try {
-      console.log('data deleted');
-      console.log('token check',configWithToken);
-      console.log("Token before logout request:", localStorage.getItem("accessToken"));
-
-        const response= await axiosIn.post(`/user/logout`, configWithToken() )
-        return response
+        const response= await axiosIn.post(`/user/logout`,{}, configWithToken() )
+        console.log("the LLLLOOOGGOUT response data 1 ", response.data );
+          return response.data
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.response && error.response.data) {

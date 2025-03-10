@@ -19,7 +19,7 @@ export const Profile: React.FC = () => {
   const [isEditing, setIsEditing] = useState<string | null>(null);
   const [dots, setDots] = useState("");
   const [profileLoading, setProfileLoading] = useState(false)
-  const [formData, setProfiles] = useState<UserProfileData>();
+  const [formData, setProfiles] = useState<UserProfileData|null>();
   const [languages, setLanguages] = useState([]);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -28,9 +28,6 @@ export const Profile: React.FC = () => {
   const openFollowersModal = () => setIsFollowersModalOpen(true);
   const closeFollowersModal = () => setIsFollowersModalOpen(false);
   const dispatch = useDispatch<AppDispatch>();
-  // const { GetProfileloading } = useSelector(
-  //   (state: RootState) => state.profile
-  // );
   const [coverUploadLoad, setCoverUploadLoad] = useState<boolean>(false)
   const [profileUploadLoad, setProfileUploadLoad] = useState<boolean>(false)
 
@@ -97,10 +94,6 @@ export const Profile: React.FC = () => {
       const formData = new FormData();
       formData.append('file', file);
 
-      for(const [key,value] of formData){
-       console.log('1111111111111111111111111ww',key,value);
-
-      }
       try {
         
         const resultAction = await dispatch(action(formData));
@@ -124,12 +117,6 @@ export const Profile: React.FC = () => {
     }
   };
 
-
- 
-
-
- 
-
   
 
   const getImageSrc = () => {
@@ -138,7 +125,7 @@ export const Profile: React.FC = () => {
     }
     return profileImage || ""
   };
-
+ 
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -147,14 +134,11 @@ export const Profile: React.FC = () => {
         const resultAction = await dispatch(getUserProfile());
         if (getUserProfile.fulfilled.match(resultAction)) {
           const { data } = resultAction.payload;
-          console.log("kidu profile $#$#$#$#$", data);
+          console.log("User profile data: in the market place ", data);
        
           setProfiles(data.data);
           setLanguages(data.data.languages);
-          console.log(
-            "Profile data fetched successfully: ",
-            resultAction.payload
-          );
+          setProfileLoading(false)
         } else {
           console.log(
             "Failed to fetch profile: ",
@@ -163,9 +147,7 @@ export const Profile: React.FC = () => {
         }
       } catch (error) {
         console.error("Unexpected error while fetching the profile: ", error);
-      } finally {
-        // setProfileLoading(false)
-      }
+      } 
     };
     fetchProfile();
   }, [dispatch]);
@@ -416,7 +398,7 @@ export const Profile: React.FC = () => {
     </div>
   </div>
 </div>
-
+ 
         <div className="text-center mb-4">
           <h2
             className="text-[16px] primary-color"
@@ -441,7 +423,7 @@ export const Profile: React.FC = () => {
           </div>
         </div>
 
-       
+        
 
         <div className="w-full space-y-3">
           <div className="flex justify-between items-center w-full">

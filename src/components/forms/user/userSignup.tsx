@@ -77,8 +77,10 @@ const UserRegister: React.FC = () => {
   
       const response = await dispatch(SignupUser(payload)).unwrap();
       console.log("the signup response", response);
-      toast.success(response.message);
-      navigate("/");
+      if(response.success){
+        toast.success(response.message);
+      await  navigate("/");
+        }
     } catch (error: any) {
       Swal.fire({
         icon: "error",

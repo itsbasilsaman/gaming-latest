@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../reduxKit/store';
 
-
+ 
 
  export const AffiliateProgramSection: React.FC = React.memo(() => {
 
