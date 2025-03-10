@@ -120,17 +120,17 @@ const CategorySectionTwo: React.FC<CategorySectionTwoProps> = React.memo(({ offe
         </div>
       </div>
 
-      <div className="category-slider py-[28px] pt-[60px] gap-[45px] lg:gap-[0px]">
-        <TransitionGroup>
+      <div className=" py-[28px] pt-[60px] gap-[45px] lg:gap-[0px]">
+        <TransitionGroup className={'category-slider'}>
           {otherSeller.length > 0 &&
             otherSeller.map((item, index) => (
               <CSSTransition
-                key={index} // Use a unique key for each item
-                timeout={300} // Animation duration
-                classNames="seller-item" // CSS class prefix
-                unmountOnExit // Remove the item from the DOM after exit
+                key={index}  
+                timeout={300}  
+                classNames="seller-item "  
+                unmountOnExit  
               >
-                <div className="flex gap-[12px]">
+                <div className="flex gap-[12px] pb-[12px]">
                   <img
                     src={item.profileImage}
                     alt=""

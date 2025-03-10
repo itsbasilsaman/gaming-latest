@@ -1,7 +1,7 @@
 
 import GameSectionOne from './about/GameSectionOne'
-import GameSectionThree from './about/GameSectionThree'
-import GameSectionFour from './about/GameSectionfour'
+import GameSectionThree from './about/GameSectionTwo'
+import GameSectionFour from './about/GameSectionThree'
 import { Navbar } from './user/Navbar'
 import Footer from './user/Footer'
 import { useLocation } from 'react-router-dom'

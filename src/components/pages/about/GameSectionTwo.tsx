@@ -1,82 +1,57 @@
-// import React, { useState } from 'react';
-// import { IoSearchSharp } from "react-icons/io5";
-// import Icon from '../../../assets/Images/chevron-down.png';
-// import { CiHeart } from "react-icons/ci";
-// import { Link } from 'react-router-dom';
-
-// const GameSectionTwo: React.FC = React.memo(() => {
-//   const [selectedOption, setSelectedOption] = useState<string>("");
-
-//   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-//     setSelectedOption(event.target.value);
-//   };
+import React from 'react';
  
-//   return (
-//     <main className='md:px-[80px] px-[20px] w-full   h-auto  text-white  '>
-//     <div className='flex lg:justify-between items-center lg:flex-row flex-col gap-[20px] lg:gap-[0px]'>
-//    <div className='relative extralg:w-[912px] lg:w-[492px] h-[48px] w-[100%]'>
-//        <input type="text" className='extralg:w-[912px] lg:w-[492px] h-[48px] about-inputbox rounded-[1000px] w-[100%]' placeholder='Search for' />
-//        <IoSearchSharp className='absolute right-[14px] text-[22px] top-[13px]' />
-//    </div>
-//     <div  className='flex lg:gap-[20px] w-[100%] lg:w-auto justify-between  lg:justify-normal '>
-//        <span className='relative'>
-//          <button className='blur-button px-[19px] py-[9px] pr-[59px] lg:text-[17px] rounded-[1000px]'>Region</button>
-//          <img src={Icon} alt="" className='absolute right-[8px] top-[12px]' />
-//        </span>
-//        <span className='relative'>
-//          <button className='blur-button px-[19px] py-[9px]  pr-[35px] lg:text-[17px] rounded-[1000px]'>Delivery Method</button>
-//          <img src={Icon} alt="" className='absolute right-[8px] top-[12px]' />
-//        </span>
-//     </div>
-//     </div>
-//     <div className='lg:flex lg:justify-between lg:pt-[55px] pt-[40px]'>
-//         <h1 style={{fontFamily:'Unbounded'}} className='text-[20px] py-2 lg:py-0'>15 Top Ups</h1>
-//         <div className='flex lg:gap-[50px] lg:flex-row justify-between lg:justify-normal py-[11px] py-[6px]'>
-//          <p className='lg:text-[18px]'>Sort by</p>
-//          <div className='flex lg:gap-[20px] gap-[9px]'>
-//          <label className='lg:text-[18px]'>
-//      <input
-//        type="radio"
-//        value="Option 1"
-//        checked={selectedOption === "Option 1"}
-//        onChange={handleChange}
-//        className='mr-[5px]'
-//      />
-//      Lowest Price
-//    </label>
-   
-//    <label  className='lg:text-[18px]'>
-//      <input
-//        type="radio"
-//        value="Option 2"
-//        checked={selectedOption === "Option 2"}
-//        onChange={handleChange}
-//        className='mr-[5px]'
-//      />
-//      Trending
-//    </label>
-   
-//          </div>
-//         </div>
-//     </div>
-//     <Link to={'/user/Category'}>
-//       <div className='top-up-section lg:gap-[19px] lg:pt-[25px]  pt-[5px] pb-[25px]'  >
-       
-        
-//          <section className='lg:h-[125px] rounded-[16px]  top-up-box p-[19px] flex flex-col justify-between'>
-//            <div className='flex justify-between'>
-//              <h1 className='text-[20px] font-medium'>Gold Pass</h1>
-//              <CiHeart className='text-[44px]' />
-//            </div>
-//            <div className='flex justify-between items-center'>
-//              <p className='game-offer-button py-[6px] px-[8px] rounded-[8px]'>12 Offer</p>
-//              <p className='font-semibold text-[18px]' style={{color:'rgba(0, 255, 121, 1)'}}>115 USD</p>
-//            </div>
-//          </section>
-//       </div>
-//     </Link>
-//  </main>
-//   );
-// });
+interface GameSectionOneProps {
+  description: string | null;
 
-// export default GameSectionTwo;
+}
+
+
+
+const GameSectionThree: React.FC<GameSectionOneProps> = React.memo(({description}) => {
+  return (
+    <main className='w-full h-auto   md:px-[80px] px-[20px] lg:mt-[20px]'>
+       <div className='about-coc w-full  lg:py-[42px] py-[36px] rounded-[16px] text-white lg:px-[35px] px-[25px]' >
+          <h1 style={{fontFamily:'Unbounded'}} className='text-[22px] pb-[17px]'>Description</h1>
+          <p>{description}</p>
+          <h1 style={{fontFamily:'Unbounded'}} className='text-[22px] pb-[17px]'>
+            {/* About COC */}
+            </h1>
+          <p className='pb-[17px]'>
+            {/* COC is a mobile strategy game that is free to play. The game was released in 2012 for iOS and in 2013 for the Android platform. */}
+            </p>
+          <p className='pb-[17px]'>
+            {/* It combines strategy with fast-paced combat. COC players can join or set up a clan and build an army of Barbarians, War Wizards, Dragons, and more to defeat the Goblin King and other clans. */}
+            </p>
+          <p className='pb-[17px]'>
+            {/* COC has often been regarded as one of the best mobile games, winning many awards, such as Best Social Game by IMGA. This is also proven by the number of gamers, around 120 million of them, who still play the game although it was released almost a decade ago. */}
+            </p>
+          <h1 style={{fontFamily:'Unbounded'}} className='text-[22px] pb-[17px]' >
+            {/* How to Top Up your COC Gems on Brand */}
+            </h1>
+          <p className='lg:pb-[17px]'>
+            {/* Here is how to top up your COC gems on Brand: */}
+            </p>
+          <p className='lg:pb-[4px]'>
+            {/* 1. Sign in to your Brand account or register a new account if you don't have one. */}
+            </p>
+          <p className='lg:pb-[4px]'>
+            {/* 2. Choose from the various COC gems denomination that you need, then click "Buy Now". */}
+            </p>
+          <p className='lg:pb-[4px]'>
+            {/* 3. Don't forget to contact the seller to discuss the purchasing details. */}
+            </p>
+          <p className='lg:pb-[4px]'>
+            {/* 4. Provide your COC username and server to the seller to proceed the top up. */}
+            </p>
+          <p className='lg:pb-[4px]'>
+            {/* 5. Select a payment method you prefer. */}
+            </p>
+          <p>
+            {/* 6. Finally, complete the transaction. */}
+            </p>
+       </div> 
+    </main>
+  );
+});
+
+export default GameSectionThree;

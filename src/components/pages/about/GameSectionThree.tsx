@@ -1,57 +1,77 @@
 import React from 'react';
- 
-interface GameSectionOneProps {
-  description: string | null;
+import CardOne from '../../../assets/Card/1.png';
+import ImgOne from '../../../assets/Card/imgOneone.png';
+import CardTwo from '../../../assets/Card/2.png';
+import ImgTwo from '../../../assets/Card/imgTwotwo2.png';
+import CardThree from '../../../assets/Card/3.png';
+import ImgThree from '../../../assets/Card/imgThreethree.png';
+import CardFour from '../../../assets/Card/4.png';
+import ImgFour from '../../../assets/Card/imgFour.png';
 
-}
+type CardItem = {
+  img: string;
+  bg: string;
+  title: string;
+  offer: string;
+};
 
+const GameSectionFour: React.FC = React.memo(() => {
+  const cardItems: CardItem[] = [
+    {
+      img: ImgOne,
+      bg: CardOne,
+      title: 'Brawl Stars',
+      offer: '150 offers',
+    },
+    {
+      img: ImgTwo,
+      bg: CardTwo,
+      title: 'Clash of Clans',
+      offer: '148 offers',
+    },
+    {
+      img: ImgThree,
+      bg: CardThree,
+      title: 'Lords Mobile',
+      offer: '136 offers',
+    },
+    {
+      img: ImgFour,
+      bg: CardFour,
+      title: 'Star Rail',
+      offer: '150 offers',
+    },
+  ];
 
-
-const GameSectionThree: React.FC<GameSectionOneProps> = React.memo(({description}) => {
   return (
-    <main className='w-full h-auto   md:px-[80px] px-[20px] lg:mt-[20px]'>
-       <div className='about-coc w-full  lg:py-[42px] py-[36px] rounded-[16px] text-white lg:px-[35px] px-[25px]' >
-          <h1 style={{fontFamily:'Unbounded'}} className='text-[22px] pb-[17px]'>Description</h1>
-          <p>{description}</p>
-          <h1 style={{fontFamily:'Unbounded'}} className='text-[22px] pb-[17px]'>
-            {/* About COC */}
-            </h1>
-          <p className='pb-[17px]'>
-            {/* COC is a mobile strategy game that is free to play. The game was released in 2012 for iOS and in 2013 for the Android platform. */}
-            </p>
-          <p className='pb-[17px]'>
-            {/* It combines strategy with fast-paced combat. COC players can join or set up a clan and build an army of Barbarians, War Wizards, Dragons, and more to defeat the Goblin King and other clans. */}
-            </p>
-          <p className='pb-[17px]'>
-            {/* COC has often been regarded as one of the best mobile games, winning many awards, such as Best Social Game by IMGA. This is also proven by the number of gamers, around 120 million of them, who still play the game although it was released almost a decade ago. */}
-            </p>
-          <h1 style={{fontFamily:'Unbounded'}} className='text-[22px] pb-[17px]' >
-            {/* How to Top Up your COC Gems on Brand */}
-            </h1>
-          <p className='lg:pb-[17px]'>
-            {/* Here is how to top up your COC gems on Brand: */}
-            </p>
-          <p className='lg:pb-[4px]'>
-            {/* 1. Sign in to your Brand account or register a new account if you don't have one. */}
-            </p>
-          <p className='lg:pb-[4px]'>
-            {/* 2. Choose from the various COC gems denomination that you need, then click "Buy Now". */}
-            </p>
-          <p className='lg:pb-[4px]'>
-            {/* 3. Don't forget to contact the seller to discuss the purchasing details. */}
-            </p>
-          <p className='lg:pb-[4px]'>
-            {/* 4. Provide your COC username and server to the seller to proceed the top up. */}
-            </p>
-          <p className='lg:pb-[4px]'>
-            {/* 5. Select a payment method you prefer. */}
-            </p>
-          <p>
-            {/* 6. Finally, complete the transaction. */}
-            </p>
-       </div> 
-    </main>
+    <main className='w-full h-auto card-section text-white pb-[50px] md:px-[80px] px-[20px] lg:pt-[60px] pt-[50px]'> 
+    <div className='lg:flex lg:justify-between lg:items-center lg:mb-[49px]'>
+      <h1 className='lg:text-[40px] text-[26px] font-bold pb-[6px] lg:pb-[0px]' style={{fontFamily:'Unbounded'}}>Related Games</h1>
+      <p className='lg:text-[20px] text-[17px]  pb-[23px] lg:pb-[0px]'>Explore All</p>
+    </div> 
+    <div className='lg:flex lg:justify-between grid grid-cols-2 gap-[14px]'>
+    {cardItems.map((item, index) => (
+      <section
+        key={index}
+        className="lg:w-[326px] lg:h-[228px] h-[150px] game-card one relative cursor-pointer "
+      >
+        <img
+          src={item.bg}
+          alt=""
+          className="absolute top-0 left-0 w-full h-full object-cover rounded-[12px]"
+          style={{ zIndex: '-10' }}
+        />
+        <img src={item.img} alt={item.title} className='h-[80px] lg:h-[auto] pt-[20px] lg:pt-[0px] ' />
+        <p className="text-center lg:text-[20px] font-bold mt-[10px]">{item.title}</p>
+        <span className="lg:px-[8px] px-[11px] lg:pl-[16px] py-[3px] lg:py-[8px] lg:w-[126px] lg:h-[45px] offer-menu lg:text-[18px] font-medium rounded-full">
+          {item.offer}
+        </span>
+      </section>
+    ))}
+      
+    </div>
+  </main>
   );
 });
 
-export default GameSectionThree;
+export default GameSectionFour;
