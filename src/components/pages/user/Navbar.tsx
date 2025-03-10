@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { HiMiniBars3 } from "react-icons/hi2";
 import { IoClose } from "react-icons/io5";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-import Flag from "./Images/hd-saudi-arabia-national-flag-transparent-png-735811695823224m41k7rcsl7.png";
+import Flag from "../../../assets/Images/saudiaround.webp";
 
 import { IoMdClose } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
@@ -95,7 +95,7 @@ export const Navbar: React.FC = React.memo(() => {
   const toggleDropdown = (): void => {
     if (!dropdownOpen) {
       setDropdownOpen(true);
-      setShowCategories(false); // Initially show "Popular Searches"
+      setShowCategories(false);  
     } else {
       setShowCategories(!showCategories); // Toggle between views
       setDropdownOpen(!dropdownOpen);
@@ -105,7 +105,6 @@ export const Navbar: React.FC = React.memo(() => {
 useEffect(() => {
   if (UserProfileData) {
     console.log("navbar profile data", UserProfileData);
-    
     setProfile(UserProfileData);
   }
 }, [UserProfileData]);
@@ -182,7 +181,7 @@ if(profile){console.log("mimmimimimim profile data", profile.sellerProfile?.veri
       } 
     };
     getServices();
-  }, [dispatch]);
+  }, [dispatch, profile]);
 
   return (
     <>
@@ -256,10 +255,10 @@ if(profile){console.log("mimmimimimim profile data", profile.sellerProfile?.veri
 
         <div className="flex justify-center items-center lg:gap-[20px] hidden lg:flex">
           <button
-            className="w-[92px] pr-[4px] lg:h-[56px] country-button modal-country-button flex justify-center items-center gap-[10px] rounded-[1000px] lg:text-[19px]"
+            className="w-[99px] pl-2 pr-[10px] lg:h-[56px] country-button modal-country-button flex justify-center items-center gap-[10px] rounded-[1000px] lg:text-[19px]"
             onClick={toggleModal}
           >
-            <img src={Flag} alt=""  className="w-[18px]" /> SAU
+            <img src={Flag} alt=""  className="w-[38px]" /> SAU
           </button>
           {(profile?.sellerProfile )?.verificationStatus==="APPROVED" ? (
             <div className="flex gap-[12px]">

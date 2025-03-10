@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { MdLogout } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../../reduxKit/store";
@@ -18,7 +18,7 @@ const ToggleProfile: React.FC = React.memo(() => {
   const { GetProfileloading, UserProfileData } = useSelector(
     (state: RootState) => state.profile
   );
-  const navigate = useNavigate();
+ 
 
   const formattedDate = UserProfileData?.memberSince
     ? new Date(UserProfileData.memberSince).toLocaleDateString("en-US", {
@@ -28,18 +28,7 @@ const ToggleProfile: React.FC = React.memo(() => {
       })
     : " ";
 
-  // useEffect(() => {
-  //   const fetchProfile = async () => {
-  //     try {
-  //       console.log("TOGGLE PROFILE LOADING  and DATA :", UserProfileData);
-  //       await setUserProfileData(UserProfileData);
-  //     } catch (error) {
-  //       console.error("Unexpected error while fetching the profile: ", error);
-  //     }
-  //   };
-
-  //   fetchProfile();
-  // }, [ UserProfileData]);
+ 
 
   const toggleProfile = () => {
     setIsProfileOpen((prev) => !prev);
@@ -50,7 +39,7 @@ const ToggleProfile: React.FC = React.memo(() => {
       const response = await dispatch(userLogout()).unwrap();
       console.log("Toggle Logout response data ", response);
       toast.success(response.message);
-      navigate("/"); // Redirect to login page after logout
+      window.location.reload()
     } catch (error) {
       console.error("Logout failed: ", error);
       const errorMessage =
@@ -82,6 +71,8 @@ const ToggleProfile: React.FC = React.memo(() => {
   if (GetProfileloading) {
     <Loading />;
   }
+
+ 
 
   return (
     <>
